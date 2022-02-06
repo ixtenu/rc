@@ -1,0 +1,44 @@
+! To apply changes made to this file:
+! xrdb -merge ~/.Xresources
+
+! colors
+xterm*background: black
+xterm*foreground: white
+
+! font
+xterm*faceName: Hack
+xterm*faceSize: 12
+xterm*renderFont: true
+
+! C-+ bigger font
+! C-- smaller font
+! C-0 default font size
+! C-S-c and C-S-v for copy-paste
+xterm*VT100.Translations: #override \
+    Ctrl <Key> minus: smaller-vt-font() \n\
+    Ctrl <Key> plus: larger-vt-font() \n\
+    Ctrl <Key> 0: set-vt-font(d) \n\
+    Shift <KeyPress> Insert: insert-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>C: copy-selection(CLIPBOARD)
+
+! Only select text
+xterm*highlightSelection: true
+! Remove trailing spaces
+xterm*trimSelection: true
+
+! Lines of output that you can scroll back over
+xterm*saveLines: 32768
+! Turn the scrollbar on, and put it on the right
+xterm*scrollBar: true
+xterm*rightScrollBar: true
+
+! Do not scroll when there is new input e.g. tail -f /var/syslog
+xterm*scrollTtyOutput: false
+
+! Fix Alt key
+xterm*metaSendsEscape: true
+xterm*eightBitInput: false
+! Fix Backspace key
+xterm*backarrowKey: false
+xterm.ttyModes: erase ^?
