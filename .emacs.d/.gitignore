@@ -1,4 +1,5 @@
-auto-save-list/
+.lsp-session-v1
+auto-save-list
 local-init.el
 places
 projectile-bookmarks.eld

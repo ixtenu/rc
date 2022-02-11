@@ -111,6 +111,16 @@
 ;; Force EasyPG to prompt for password within Emacs.
 (setq epg-pinentry-mode 'loopback)
 
+(defun my-add-to-path (newpath)
+  "Add NEWPATH as a search path for executables, if it exists."
+  (when (file-directory-p newpath)
+    (let ((PATH (getenv "PATH")))
+      (unless (string-match newpath PATH)
+        (setenv "PATH" (concat PATH ":" newpath))))
+    (add-to-list 'exec-path newpath)))
+
+(my-add-to-path (concat (getenv "HOME") "/bin"))
+
 ;;
 ;; Appearance
 ;;
@@ -359,6 +369,15 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (use-package rainbow-delimiters
   :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
+(use-package company) ; completion
+
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+(use-package lsp-ui :commands lsp-ui-mode)
+
 ;;
 ;; Emacs Lisp
 ;;
@@ -458,6 +477,31 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 ;;
 
 (setq sh-basic-offset 8)
+
+;;
+;; Go
+;;
+
+(when (executable-find "go")
+  ;; Ensure that $GOPATH/bin is in the path.  If $GOPATH is undefined, $HOME/go
+  ;; is the default.
+  (let* ((GOPATH (getenv "GOPATH"))
+         (gopath (if GOPATH GOPATH
+                   (concat (getenv "HOME") "/go")))
+         (gobin (concat gopath "/bin")))
+    (my-add-to-path gobin))
+
+  (use-package go-mode
+    :mode "\\.go\\'")
+
+  ;; Go LSP integration
+  ;; go install golang.org/x/tools/gopls@latest
+  (when (executable-find "gopls")
+    (add-hook 'go-mode-hook #'lsp-deferred)
+    (defun lsp-go-install-save-hooks ()
+      (add-hook 'before-save-hook #'lsp-format-buffer t t)
+      (add-hook 'before-save-hook #'lsp-organize-imports t t))
+    (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)))
 
 ;;
 ;; Local Changes
