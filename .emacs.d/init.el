@@ -1,6 +1,6 @@
 ;;; init.el --- GNU Emacs initialization -*- lexical-binding: t; -*-
 
-(let ((minver "27"))
+(let ((minver "26"))
   (if (version< emacs-version minver)
       (error "GNU Emacs v%s or later required for this init.el" minver)))
 
