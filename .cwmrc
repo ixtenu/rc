@@ -16,10 +16,9 @@ moveamount 20
 gap 0 32 0 0
 
 # Menu commands
-command xterm xterm
 command emacs emacs
-command brave brave
 command firefox firefox
+command xterm xterm
 command xcalc xcalc
 
 # Default locker is xlock with no options.  By default, xlock picks a random
