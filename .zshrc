@@ -103,7 +103,7 @@ if [ -d "/usr/share/zsh/plugins/" ]; then
 elif [ -d "/usr/share/zsh-autosuggestions" ]; then
 	zshplugdir="/usr/share"
 elif [ -d "/usr/local/share/zsh-autosuggestions" ]; then
-	zshplugdir="/user/local/share"
+	zshplugdir="/usr/local/share"
 fi
 
 # Source plugins
