@@ -358,9 +358,12 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace 1)))
 
-(use-package auto-highlight-symbol
-  :config
-  (add-hook 'prog-mode-hook (lambda () (auto-highlight-symbol-mode 1))))
+;; Disabled: causing "Match data clobbered by buffer modification hooks" errors
+;; with M-x replace-string and similar commands
+(when nil
+  (use-package auto-highlight-symbol
+    :config
+    (add-hook 'prog-mode-hook (lambda () (auto-highlight-symbol-mode 1)))))
 
 (use-package highlight-numbers
   :config
