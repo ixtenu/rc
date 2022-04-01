@@ -126,9 +126,14 @@
 ;;
 
 (setq custom-safe-themes t)
-(use-package grayscale-theme
-  :config
-  (load-theme 'grayscale))
+
+(if (display-graphic-p)
+    (use-package constant-theme
+      :config
+      (load-theme 'constant))
+  (use-package grayscale-theme
+    :config
+    (load-theme 'grayscale)))
 
 (when *is-bsd*
   (ignore-errors (set-frame-font "DejaVu Sans Mono 11" nil t)))
