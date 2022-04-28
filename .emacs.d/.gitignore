@@ -1,5 +1,6 @@
 .lsp-session-v1
 auto-save-list
+history
 local-init.el
 places
 projectile-bookmarks.eld
