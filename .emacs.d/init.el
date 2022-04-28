@@ -442,6 +442,14 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 
 (setq-default c-tab-always-indent nil)
 
+;; If supported, use Doxygen style for C/C++ rather than the GtkDoc.
+(if (not (version< emacs-version "28"))
+    (setq-default c-doc-comment-style
+                  '((java-mode . javadoc)
+                    (pike-mode . autodoc)
+                    (c-mode    . doxygen)
+                    (c++-mode  . doxygen))))
+
 (setq c-default-style "linux")
 
 ;; C styles based on path patterns.  The value can either by a string (e.g.,
