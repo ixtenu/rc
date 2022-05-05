@@ -1,7 +1,10 @@
 ;;; init.el --- GNU Emacs initialization -*- lexical-binding: t; -*-
 
+(defun my-emacs-version< (version) (version< emacs-version version))
+(defun my-emacs-version>= (version) (not (my-emacs-version< version)))
+
 (let ((minver "26"))
-  (if (version< emacs-version minver)
+  (if (my-emacs-version< minver)
       (error "GNU Emacs v%s or later required for this init.el" minver)))
 
 ;; Disable garbage collection during initialization for faster startup.
@@ -78,6 +81,10 @@
 ;; Run `clean-buffer-list' at midnight.
 (require 'midnight)
 (midnight-delay-set 'midnight-delay 0)
+
+;; Reduce buffer list clutter from dired.
+(if (my-emacs-version>= "28")
+    (setq dired-kill-when-opening-new-dired-buffer t))
 
 (delete-selection-mode 1) ; Typing replaces selection.
 
@@ -239,7 +246,7 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 
   ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
   ;; Vertico commands are hidden in normal buffers.
-  (if (not (version< emacs-version "28"))
+  (if (my-emacs-version>= "28")
       (setq read-extended-command-predicate
             #'command-completion-default-include-p))
 
@@ -484,7 +491,7 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (setq-default c-tab-always-indent nil)
 
 ;; If supported, use Doxygen style for C/C++ rather than the GtkDoc.
-(if (not (version< emacs-version "28"))
+(if (my-emacs-version>= "28")
     (setq-default c-doc-comment-style
                   '((java-mode . javadoc)
                     (pike-mode . autodoc)
