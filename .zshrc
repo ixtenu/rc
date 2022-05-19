@@ -96,6 +96,18 @@ if command -v emacs >/dev/null; then
 	alias gec='emacsclient -n'
 fi
 
+# On Ubuntu, zsh doesn't source the necessary files for snap applications, and
+# manual sourcing from here doesn't seem to solve the issue.  As a workaround,
+# create symlinks for the *.desktop files.
+if [ -d /var/lib/snapd/desktop/applications ]; then
+	for i in /var/lib/snapd/desktop/applications/*.desktop; do
+		if [ ! -f ~/.local/share/applications/${i##*/} ]; then
+			mkdir -p ~/.local/share/applications
+			ln -s /var/lib/snapd/desktop/applications/${i##*/} ~/.local/share/applications/${i##*/}
+		fi
+	done
+fi
+
 # zsh plugin directory varies by system
 zshplugdir=""
 if [ -d "/usr/share/zsh/plugins/" ]; then
