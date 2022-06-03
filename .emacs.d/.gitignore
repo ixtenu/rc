@@ -4,6 +4,7 @@ history
 local-init.el
 places
 projectile-bookmarks.eld
+projects
 recentf
 straight
 tramp
