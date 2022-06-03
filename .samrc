@@ -1,0 +1,121 @@
+# configuration for deadpixi's variant of the sam text editor
+# https://github.com/deadpixi/sam
+
+# appearance
+font hack
+foreground white
+background block
+border gray
+
+# hard tabs by default
+# export TABS=-4 to override this and expand tabs to four spaces
+tabs 8
+expandtabs false
+
+# don't automatically indent lines
+autoindent false
+
+#
+# key bindings
+#
+
+# start with a clean slate: unbind all the default key bindings
+unbind * Escape
+unbind * Up
+unbind * Down
+unbind * Left
+unbind * Right
+unbind * Prior
+unbind * Next
+unbind C k
+unbind C d
+unbind C s
+unbind C e
+unbind C x
+unbind C u
+unbind C w
+unbind * BackSpace
+unbind * Delete
+unbind C y
+unbind C c
+unbind C v
+unbind C q
+unbind * Tab
+
+# bind standard navigation keys: arrows, pgup/pgdn, home, end
+bind * Up command lineup
+bind * Down command linedown
+bind * Left command charleft
+bind * Right command charright
+bind * Prior command scrollup
+bind * Next command scrolldown
+bind * Home command bol
+bind * End command eol
+bind C Home command send 0
+bind C End command send $
+
+# bind standard editing keys: tab, delete, backspace
+bind * Tab command tab
+bind * Delete command del
+bind * BackSpace command delbs
+
+# emacs-style cursor movement
+bind C b command charleft
+bind C f command charright
+bind C n command linedown
+bind C p command lineup
+bind C a command bol
+bind C e command eol
+bind C v command scrolldown
+bind A v command scrollup
+
+# scroll window
+bind A n command scrolldownline
+bind A p command scrollupline
+
+# deletion
+bind C d command del
+bind C h command delbs
+bind A BackSpace command delword
+bind CA H command delword
+bind C u command delbol
+bind CS BackSpace command delbol
+
+# emacs-style cut/copy/paste
+bind C w command cut
+bind A w command snarf
+bind C y command paste
+
+# easier copy/paste from system clipboard
+bind CS c command send > xclip -i -selection c
+bind CS v command send < xclip -o -selection c
+
+# find literal string
+bind C l command look
+
+# highlight recent text
+bind C space command escape
+
+# send an undo command
+bind C z command send u
+
+# write the file
+bind C s command write
+# write all files
+bind CS s command send X w
+
+# show position
+bind C k command send =
+
+# close current buffer
+bind C w command send D
+# quit the editor
+bind C q command send q
+
+# jump between command window and current file
+bind * Escape command jump
+
+# find length of current line
+bind C m command send -+ > expand | wc -m
+# find length of selection
+bind A m command send > expand | wc -m
