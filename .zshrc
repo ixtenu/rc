@@ -23,6 +23,11 @@ unsetopt beep
 export PATH=$PATH:$HOME/bin
 export PATH=$PATH:$HOME/go/bin
 
+if [ -d /usr/local/plan9 ]; then
+	export PLAN9=/usr/local/plan9
+	export PATH=$PATH:$PLAN9/bin
+fi
+
 if command -v godit >/dev/null; then
 	alias em='godit'
 elif command -v joe >/dev/null; then
