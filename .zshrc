@@ -29,15 +29,15 @@ if [ -d /usr/local/plan9 ]; then
 fi
 
 if command -v godit >/dev/null; then
-	alias em='godit'
+	export EDITOR=godit
 elif command -v joe >/dev/null; then
-	alias em='jmacs'
+	export EDITOR=jmacs
 elif command -v mg >/dev/null; then
-	alias em='mg'
+	export EDITOR=mg
 fi
 
-export EDITOR=em
 export VISUAL=$EDITOR
+alias em=$EDITOR
 
 # Modified commands
 if [ "$(uname)" != "OpenBSD" ]; then
