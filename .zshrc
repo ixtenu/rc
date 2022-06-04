@@ -40,7 +40,9 @@ export EDITOR=em
 export VISUAL=$EDITOR
 
 # Modified commands
-alias grep='grep --color=auto'
+if [ "$(uname)" != "OpenBSD" ]; then
+	alias grep='grep --color=auto'
+fi
 alias df='df -h'
 alias du='du -h'
 
@@ -57,7 +59,11 @@ if (( UID != 0 )); then
 fi
 
 # ls
-alias ls='ls -hF --color=auto'
+if [ "$(uname)" = "OpenBSD" ]; then
+	alias ls='ls -hF'
+else
+	alias ls='ls -hF --color=auto'
+fi
 alias lr='ls -R' # recursive ls
 alias ll='ls -l'
 alias la='ll -A'
@@ -70,8 +76,14 @@ alias lt='ll -rt' # sort by date
 # Safety features
 alias cp='cp -i'
 alias mv='mv -i'
-alias rm='rm -I'
-alias ln='ln -i'
+if [ "$(uname)" = "OpenBSD" ]; then
+	alias rm='rm -i'
+else
+	alias rm='rm -I'
+fi
+if [ "$(uname)" != "OpenBSD" ]; then
+	alias ln='ln -i'
+fi
 if [ "$(uname)" = "Linux" ]; then
 	alias chown='chown --preserve-root'
 	alias chmod='chmod --preserve-root'
