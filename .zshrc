@@ -39,6 +39,12 @@ fi
 export VISUAL=$EDITOR
 alias em=$EDITOR
 
+# If running in WSL...
+if [ -d /mnt/c/Windows ]; then
+	# Set DISPLAY for VcXsrv
+	export DISPLAY=$(/sbin/ip route | awk '/default/ { print $3 }'):0
+fi
+
 # Modified commands
 if [ "$(uname)" != "OpenBSD" ]; then
 	alias grep='grep --color=auto'
@@ -117,7 +123,7 @@ fi
 # manual sourcing from here doesn't seem to solve the issue.  As a workaround,
 # create symlinks for the *.desktop files.
 if [ -d /var/lib/snapd/desktop/applications ]; then
-	for i in /var/lib/snapd/desktop/applications/*.desktop; do
+	for i in $(find /var/lib/snapd/desktop/applications -name "*.desktop"); do
 		if [ ! -f ~/.local/share/applications/${i##*/} ]; then
 			mkdir -p ~/.local/share/applications
 			ln -s /var/lib/snapd/desktop/applications/${i##*/} ~/.local/share/applications/${i##*/}
