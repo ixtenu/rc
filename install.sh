@@ -1,11 +1,12 @@
 #!/usr/bin/env sh
+set -eu
 
 scriptdir="$(cd -- "$(dirname "$0")" 2>&1 >/dev/null && pwd -P)"
 cd "$scriptdir"
 
 installfile() {
 	fn="$1"
-	fp="$(realpath $fn)"
+	fp="$(readlink -f $fn)"
 	od="$2"
 	lp="$od"/"$fn"
 	mkdir -p "$od"
