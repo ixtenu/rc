@@ -55,6 +55,26 @@ alias du='du -h'
 # New commands
 alias hist='cat ~/.histfile | grep' # requires an argument
 
+mkcd() {
+	if [ $# -eq 0 ]; then
+		echo "$0: missing operand" 1>&2
+		echo "usage: $0 directory" 1>&2
+		echo "mkdir and chdir into the given directory." 1>&2
+		return 1
+	fi
+	mkdir -p "$1"
+	cd "$1"
+}
+
+upcd() {
+	dir=""
+	for i in $(seq 1 $1); do
+		dir="../$dir"
+	done
+	[ -z "$dir" ] && dir="$PWD"
+	cd "$dir"
+}
+
 # Privileged access
 if (( UID != 0 )); then
 	alias root='sudo -i'
