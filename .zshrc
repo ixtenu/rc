@@ -41,8 +41,13 @@ alias em=$EDITOR
 
 # If running in WSL...
 if [ -d /mnt/c/Windows ]; then
-	# Set DISPLAY for VcXsrv
-	export DISPLAY=$(/sbin/ip route | awk '/default/ { print $3 }'):0
+	# Only do this if VcXsrv is installed (assuming its default location)
+	# because, if WSLg is being used instead, it needs the default value
+	# of DISPLAY
+	if [ -e '/mnt/c/Program Files/VcXsrv/vcxsrv.exe' ]; then
+		# Set DISPLAY for VcXsrv
+		export DISPLAY=$(/sbin/ip route | awk '/default/ { print $3 }'):0
+	fi
 fi
 
 # Modified commands
