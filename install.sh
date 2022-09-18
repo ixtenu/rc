@@ -5,6 +5,9 @@ scriptdir="$(cd -- "$(dirname "$0")" 2>&1 >/dev/null && pwd -P)"
 cd "$scriptdir"
 
 installfile() {
+	lnvopt='-v'
+	[ "$(uname)" = "OpenBSD" ] && lnvopt=''
+
 	fn="$1"
 	fp="$(readlink -f $fn)"
 	od="$2"
@@ -12,12 +15,12 @@ installfile() {
 	mkdir -p "$od"
 	if [ -e "$lp" ]; then
 		if [ -L "$lp" ]; then
-			ln -svf "$fp" "$lp"
+			ln -sf $lnvopt "$fp" "$lp"
 		else
 			echo "warning: $lp exists and is not a symbolic link, leaving it" 2>&1
 		fi
 	else
-		ln -sv "$fp" "$lp"
+		ln -s $lnvopt "$fp" "$lp"
 	fi
 }
 
