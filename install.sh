@@ -13,8 +13,8 @@ installfile() {
 	src="$(basename "$dst")"
 	[ $# -gt 1 ] && src="$2"
 	src="$scriptdir"/"$src"
-	if [ ! -f "$src" -o ! -r "$src" ]; then
-		echo "error: $src not an existing readable regular file" 2>&1
+	if [ ! -r "$src" ]; then
+		echo "error: $src not an existing readable file" 2>&1
 		exit 1
 	fi
 	mkdir -p "$dir"
@@ -35,6 +35,9 @@ fi
 if command -v cwm 2>&1 >/dev/null; then
 	installfile "$HOME/.cwmrc"
 fi
+if command -v emacs 2>&1 >/dev/null; then
+	installfile "$HOME/.emacs.d"
+fi
 if command -v joe 2>&1 >/dev/null; then
 	installfile "$HOME/.joerc"
 	installfile "$HOME/.jmacsrc"
@@ -47,6 +50,9 @@ if command -v sam 2>&1 >/dev/null; then
 	if [ -x /usr/local/bin/sam ]; then
 		installfile "$HOME/.samrc"
 	fi
+fi
+if command -v tmux 2>&1 >/dev/null; then
+	installfile "$HOME/.tmux.conf"
 fi
 if command -v zsh 2>&1 >/dev/null; then
 	installfile "$HOME/.zshrc"
