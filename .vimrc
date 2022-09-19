@@ -131,11 +131,11 @@ func! s:Tab(t, global)
 endfunc
 " update local tab settings
 func! Tab(t)
-    call s:Tab(a:t, 0)
+	call s:Tab(a:t, 0)
 endfunc
 " update global tab settings
 func! TAB(t)
-    call s:Tab(a:t, 1)
+	call s:Tab(a:t, 1)
 endfunc
 " defaults
 call TAB(8)
