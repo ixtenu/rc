@@ -20,7 +20,7 @@ installfile() {
 	mkdir -p "$dir"
 	if [ -e "$dst" ]; then
 		if [ -L "$dst" ]; then
-			ln -sf $lnvopt "$src" "$dst"
+			ln -snf $lnvopt "$src" "$dst"
 		else
 			echo "warning: $dst exists and is not a symbolic link, leaving it" 2>&1
 		fi
