@@ -51,6 +51,9 @@ if command -v sam 2>&1 >/dev/null; then
 		installfile "$HOME/.samrc"
 	fi
 fi
+if command -v vis 2>&1 >/dev/null; then
+	installfile "$HOME/.config/vis/visrc.lua" visrc.lua
+fi
 if command -v tmux 2>&1 >/dev/null; then
 	installfile "$HOME/.tmux.conf"
 fi
