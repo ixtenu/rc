@@ -144,6 +144,11 @@ if command -v emacs >/dev/null; then
 	alias gec='emacsclient -n'
 fi
 
+# Debian/Ubuntu renamed fd to fdfind due to a naming conflict.
+if command -v fdfind >/dev/null; then
+	alias fd='fdfind'
+fi
+
 # On Ubuntu, zsh doesn't source the necessary files for snap applications, and
 # manual sourcing from here doesn't seem to solve the issue.  As a workaround,
 # create symlinks for the *.desktop files.
