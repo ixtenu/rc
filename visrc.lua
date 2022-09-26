@@ -17,6 +17,8 @@ local plugins = {
 	{ 'erf/vis-cursors' },
 	-- per file type settings in visrc.lua
 	{ 'jocap/vis-filetype-settings', file = 'vis-filetype-settings' },
+	-- :fzfmru fuzzy open recently used files
+	{ 'peaceant/vis-fzf-mru', file = 'fzf-mru', alias = 'fzf_mru' },
 	-- :fzf fuzzy file open, C-s open in split, C-v open in vertical split
 	{ 'https://git.sr.ht/~mcepl/vis-fzf-open' },
 	-- open a URL with gx
@@ -68,6 +70,10 @@ shebangs = {
 vis.events.subscribe(vis.events.INIT, function()
 	-- for Konsole: https://github.com/martanne/vis/issues/930
 	vis:command('set change-256colors off')
+
+	-- vis-fzf-mru
+	plug.plugins.fzf_mru.fzfmru_history = 64
+	vis:map(vis.modes.NORMAL, " b", ":fzfmru<Enter>")
 
 	-- vis-fzf-open shortcut
 	vis:command('map! normal <C-p> :fzf<Enter>')
