@@ -20,11 +20,21 @@ setopt interactivecomments
 setopt autocd notify
 unsetopt beep
 
-export PATH=$PATH:$HOME/bin
-export PATH=$PATH:$HOME/go/bin
-
+if [ -d $HOME/bin ]; then
+	export PATH=$PATH:$HOME/bin
+fi
+if [ -d $HOME/go/bin ]; then
+	export PATH=$PATH:$HOME/go/bin
+fi
+if [ -d $HOME/.cargo/bin ]; then
+	export PATH=$PATH:$HOME/.cargo/bin
+fi
 if [ -d /usr/local/plan9 ]; then
 	export PLAN9=/usr/local/plan9
+elif [ -d $HOME/plan9 ]; then
+	export PLAN9=$HOME/plan9
+fi
+if [ ! -z "$PLAN9" ]; then
 	export PATH=$PATH:$PLAN9/bin
 fi
 
