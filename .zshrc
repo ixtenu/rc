@@ -154,8 +154,13 @@ if command -v emacs >/dev/null; then
 	alias gec='emacsclient -n'
 fi
 
+# Alias helix to hx on systems which install it as helix
+if command -v helix >/dev/null && ! command -v hx >/dev/null; then
+	alias hx='helix'
+fi
+
 # Debian/Ubuntu renamed fd to fdfind due to a naming conflict.
-if command -v fdfind >/dev/null; then
+if command -v fdfind >/dev/null && ! comand -v fd >/dev/null; then
 	alias fd='fdfind'
 fi
 
