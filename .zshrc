@@ -160,7 +160,7 @@ if command -v helix >/dev/null && ! command -v hx >/dev/null; then
 fi
 
 # Debian/Ubuntu renamed fd to fdfind due to a naming conflict.
-if command -v fdfind >/dev/null && ! comand -v fd >/dev/null; then
+if command -v fdfind >/dev/null && ! command -v fd >/dev/null; then
 	alias fd='fdfind'
 fi
 
