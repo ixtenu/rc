@@ -51,8 +51,11 @@ if command -v sam 2>&1 >/dev/null; then
 		installfile "$HOME/.samrc"
 	fi
 fi
-if command -v vis 2>&1 >/dev/null; then
-	installfile "$HOME/.config/vis/visrc.lua" visrc.lua
+if command -v vis 2>&1 >/dev/null || command -v vise 2>&1 >/dev/null; then
+	# vis on *BSD is an unrelated program
+	if [ "$(uname)" = "Linux" -o "$(which vis)" != "/usr/bin/vis" ]; then
+		installfile "$HOME/.config/vis/visrc.lua" visrc.lua
+	fi
 fi
 if command -v tmux 2>&1 >/dev/null; then
 	installfile "$HOME/.tmux.conf"
