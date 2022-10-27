@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-scriptdir="$(cd -- "$(dirname "$0")" 2>&1 >/dev/null && pwd -P)"
+scriptdir="$(cd -- "$(dirname "$0")" >/dev/null 2>&1 && pwd -P)"
 cd "$scriptdir"
 
 installfile() {
@@ -29,45 +29,45 @@ installfile() {
 	fi
 }
 
-if command -v X 2>&1 >/dev/null; then
+if command -v X >/dev/null 2>&1; then
 	installfile "$HOME/.Xresources"
 fi
-if command -v cwm 2>&1 >/dev/null; then
+if command -v cwm >/dev/null 2>&1; then
 	installfile "$HOME/.cwmrc"
 fi
-if command -v emacs 2>&1 >/dev/null; then
+if command -v emacs >/dev/null 2>&1; then
 	installfile "$HOME/.emacs.d"
 fi
-if command -v joe 2>&1 >/dev/null; then
+if command -v joe >/dev/null 2>&1; then
 	installfile "$HOME/.joerc"
 	installfile "$HOME/.jmacsrc"
 fi
-if command -v mg 2>&1 >/dev/null; then
+if command -v mg >/dev/null 2>&1; then
 	installfile "$HOME/.mg"
 fi
-if command -v sam 2>&1 >/dev/null; then
+if command -v sam >/dev/null 2>&1; then
 	# .samrc is for deadpixi/sam; don't install it for 9fans/plan9port sam
 	if [ -x /usr/local/bin/sam ]; then
 		installfile "$HOME/.samrc"
 	fi
 fi
-if command -v vis 2>&1 >/dev/null || command -v vise 2>&1 >/dev/null; then
+if command -v vis >/dev/null 2>&1 || command -v vise >/dev/null 2>&1; then
 	# vis on *BSD is an unrelated program
 	if [ "$(uname)" = "Linux" -o "$(which vis)" != "/usr/bin/vis" ]; then
 		installfile "$HOME/.config/vis/visrc.lua" visrc.lua
 	fi
 fi
-if command -v tmux 2>&1 >/dev/null; then
+if command -v tmux >/dev/null 2>&1; then
 	installfile "$HOME/.tmux.conf"
 fi
-if command -v zsh 2>&1 >/dev/null; then
+if command -v zsh >/dev/null 2>&1; then
 	installfile "$HOME/.zshrc"
 fi
 
-if command -v vim 2>&1 >/dev/null; then
+if command -v vim >/dev/null 2>&1; then
 	installfile "$HOME/.vimrc"
 fi
-if command -v nvim 2>&1 >/dev/null; then
+if command -v nvim >/dev/null 2>&1; then
 	installfile "$HOME/.config/nvim/init.vim" .vimrc
 fi
 
