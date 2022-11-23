@@ -197,6 +197,13 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 ;; Project Management
 ;;
 
+;; For projectile-ag and projectile-ripgrep
+(when (executable-find "ag")
+  (use-package ag))
+(when (executable-find "rg")
+  (use-package rg
+    :init (rg-enable-default-bindings)))
+
 (use-package projectile
   :init
   (projectile-mode 1)
