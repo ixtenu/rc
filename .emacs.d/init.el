@@ -576,6 +576,14 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
     (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)))
 
 ;;
+;; Nix
+;;
+
+(when (executable-find "nix")
+  (use-package nix-mode
+    :mode "\\.nix\\'"))
+
+;;
 ;; Local Changes
 ;;
 
