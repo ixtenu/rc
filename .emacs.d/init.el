@@ -128,6 +128,11 @@
 
 (my-add-to-path (concat (getenv "HOME") "/bin"))
 
+;; native-compilation causes warnings with some packages: by default, this opens
+;; the *Warnings* window, which is annoying, so suppress it.
+(if (my-emacs-version>= "28")
+    (setq native-comp-async-report-warnings-errors nil))
+
 ;;
 ;; Appearance
 ;;
