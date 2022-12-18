@@ -1,5 +1,6 @@
 .lsp-session-v1
 auto-save-list
+eln-cache
 history
 local-init.el
 places
