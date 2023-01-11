@@ -394,7 +394,9 @@ region."
         (setq indent-tabs-mode nil)
         (setq tab-width 4))
     (setq indent-tabs-mode t)
-    (setq tab-width 8)))
+    (setq tab-width 8))
+  (if (string-equal major-mode "sh-mode")
+      (setq sh-basic-offset tab-width)))
 
 ;;
 ;; Markdown
@@ -580,7 +582,27 @@ region."
 ;; Shell
 ;;
 
-(setq sh-basic-offset 8)
+(setq sh-styles-alist
+      '(("my-sh"
+         (sh-basic-offset . 8)
+         (sh-first-lines-indent . 0)
+         (sh-indent-after-case . +)
+         (sh-indent-after-do . +)
+         (sh-indent-after-done . 0)
+         (sh-indent-after-else . +)
+         (sh-indent-after-if . +)
+         (sh-indent-after-loop-construct . +)
+         (sh-indent-after-open . +)
+         (sh-indent-comment . t)
+         (sh-indent-for-case-alt . +)
+         (sh-indent-for-case-label . 0)
+         (sh-indent-for-continuation . +)
+         (sh-indent-for-do . 0)
+         (sh-indent-for-done . 0)
+         (sh-indent-for-else . 0)
+         (sh-indent-for-fi . 0)
+         (sh-indent-for-then . 0))))
+(add-hook 'sh-set-shell-hook (lambda () (sh-load-style "my-sh")))
 
 ;;
 ;; Go
