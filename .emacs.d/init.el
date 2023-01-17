@@ -143,9 +143,9 @@
     (use-package constant-theme
       :config
       (load-theme 'constant))
-  (use-package grayscale-theme
+  (use-package almost-mono-themes
     :config
-    (load-theme 'grayscale)))
+    (load-theme 'almost-mono-black)))
 
 (when *is-bsd*
   (ignore-errors (set-frame-font "DejaVu Sans Mono 11" nil t)))
