@@ -180,6 +180,7 @@
 
 (column-number-mode t)
 
+;; Redefine `display-line-numbers--turn-on' to exempt certain major modes.
 ;; https://www.emacswiki.org/emacs/LineNumbers#h5o-1
 (require 'display-line-numbers)
 (defcustom display-line-numbers-exempt-modes
@@ -194,9 +195,13 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   (unless (or (minibufferp)
               (member major-mode display-line-numbers-exempt-modes))
     (display-line-numbers-mode)))
-(global-display-line-numbers-mode)
 
-;; Cusor is a vertical bar, or an underbar in overwrite mode.
+;; Turn on line numbers by default only in GUI mode.  In the terminal, there are
+;; typically fewer columns, so don't waste them.
+(if (display-graphic-p)
+    (global-display-line-numbers-mode))
+
+;; Cursor is a vertical bar, or an underbar in overwrite mode.
 (blink-cursor-mode 1)
 (setq-default cursor-type 'bar)
 (add-hook 'overwrite-mode-hook
