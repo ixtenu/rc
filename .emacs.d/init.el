@@ -133,6 +133,11 @@
 (if (my-emacs-version>= "28")
     (setq native-comp-async-report-warnings-errors nil))
 
+;; In a Linux or BSD terminal, start with the mouse enabled.
+(unless (display-graphic-p)
+  (when (or *is-bsd* *is-linux*)
+    (xterm-mouse-mode 1)))
+
 ;;
 ;; Appearance
 ;;
