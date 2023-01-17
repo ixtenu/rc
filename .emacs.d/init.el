@@ -550,7 +550,17 @@ region."
                     (c-mode    . doxygen)
                     (c++-mode  . doxygen))))
 
-(setq c-default-style "linux")
+;; My preferred indentation style for C.
+(defconst my-preferred-c-style
+  '("linux"
+    (c-offsets-alist . ((arglist-intro . +)
+                        (arglist-cont . 0)
+                        (arglist-cont-nonempty . +)
+                        (arglist-close . 0)
+                        (inextern-lang . 0)))))
+
+(c-add-style "preferred" my-preferred-c-style nil)
+(setq c-default-style "preferred")
 
 ;; C styles based on path patterns.  The value can either by a string (e.g.,
 ;; "linux") or a function.  The path patterns are tested from first to last, and
