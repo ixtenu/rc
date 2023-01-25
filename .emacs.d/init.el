@@ -302,6 +302,12 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
    ("C-c t" . #'crux-visit-term-buffer) ; Open ansi-term
    ("C-c d" . #'crux-duplicate-current-line-or-region)))
 
+(defun my-close-all-buffers ()
+  "Close all buffers."
+  (interactive)
+  (mapc 'kill-buffer (buffer-list)))
+(global-set-key (kbd "C-c W") #'my-close-all-buffers)
+
 ;;
 ;; Git
 ;;
