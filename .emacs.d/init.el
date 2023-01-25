@@ -98,6 +98,8 @@
 ;; files are just clutter.
 (setq make-backup-files nil)
 
+(setq large-file-warning-threshold nil) ; Open big files without prompting.
+
 ;; Disable garbage collection when minibuffer is active.
 ;; https://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
 (defun my-gc-minibuffer-setup-hook ()
