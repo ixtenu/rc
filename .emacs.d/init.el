@@ -177,6 +177,8 @@
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message "")
 
+(setq frame-resize-pixelwise t) ; No gaps around "maximized" window.
+
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 
