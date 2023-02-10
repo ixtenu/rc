@@ -341,7 +341,11 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 
 (setq-default require-final-newline t)
 (setq-default fill-column 80)
-(add-hook 'text-mode-hook 'auto-fill-mode)
+(use-package adaptive-wrap) ; Virtual indentation/prefixes for wrapped lines
+(add-hook 'text-mode-hook (lambda ()
+                            (auto-fill-mode 1)
+                            (visual-line-mode 1)
+                            (adaptive-wrap-prefix-mode 1)))
 
 ;; https://stackoverflow.com/a/207067
 (defun my-generalized-shell-command (command arg)
