@@ -217,7 +217,16 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   :bind
   (("S-<f11>" . #'writeroom-mode)
    ("C-M-<" . #'writeroom-decrease-width)
-   ("C-M->" . #'writeroom-increase-width)))
+   ("C-M->" . #'writeroom-increase-width))
+  :config
+  (setq writeroom-local-effects
+        '((lambda (writeroom-enabled)
+            (if (> writeroom-enabled 0)
+                ;; Disable line numbers when writeroom-mode is enabled
+                (display-line-numbers-mode -1)
+              ;; Restore line number defaults when writeroom-mode is disabled
+              (when (display-graphic-p)
+                (display-line-numbers--turn-on)))))))
 
 ;;
 ;; Project Management
