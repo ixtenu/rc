@@ -212,6 +212,13 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
           (lambda ()
             (setq cursor-type (if overwrite-mode 'hbar 'bar))))
 
+;; Distraction-free writing mode.
+(use-package writeroom-mode
+  :bind
+  (("S-<f11>" . #'writeroom-mode)
+   ("C-M-<" . #'writeroom-decrease-width)
+   ("C-M->" . #'writeroom-increase-width)))
+
 ;;
 ;; Project Management
 ;;
