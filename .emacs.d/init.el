@@ -439,6 +439,15 @@ region."
       (setq sh-basic-offset tab-width)))
 
 ;;
+;; HTML
+;;
+
+(add-hook 'html-mode-hook
+          (lambda ()
+            ;; Disable HTML indentation by default.
+            (set (make-local-variable 'sgml-basic-offset) 0)))
+
+;;
 ;; Markdown
 ;;
 
