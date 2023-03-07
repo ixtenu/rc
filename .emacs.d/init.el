@@ -473,9 +473,12 @@ region."
 (setq org-startup-folded 'showeverything)
 (setq org-use-sub-superscripts '{})
 (setq org-pretty-entities t)
+(setq org-log-done t)
+
+(setq org-agenda-files (list "~/Sync/todo/todo.org"))
 
 (setq org-todo-keywords
-      '((sequence "TODO" "WAITING" "|" "DONE" "CANCELED")))
+      '((sequence "TODO" "WAIT" "|" "DONE" "AXED")))
 
 ;; https://emacs.stackexchange.com/a/60555
 (defun my-org-link-copy (&optional arg)
