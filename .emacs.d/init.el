@@ -73,7 +73,16 @@
 
 ;; Run Emacs as a server so that emacsclient will work.
 (require 'server)
-(unless (server-running-p) (server-start))
+(unless (server-running-p)
+  (server-start)
+
+  ;; Save and restore session state.  If the server was already running, then a
+  ;; prior instance of Emacs is already running: don't enable desktop-save-mode
+  ;; in that case, since the desktop file will be locked by the prior instance.
+  (desktop-save-mode 1))
+
+(setq desktop-save t) ; Save session state without prompting
+(setq desktop-dirname user-emacs-directory) ; Save session state in ~/.emacs.d
 
 (save-place-mode 1) ; Remember position in files.
 (recentf-mode 1) ; Remember recently edited files.
