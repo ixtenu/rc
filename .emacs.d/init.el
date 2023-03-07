@@ -109,6 +109,9 @@
 
 (setq large-file-warning-threshold nil) ; Open big files without prompting.
 
+(when (my-emacs-version>= "28")
+  (setq tramp-allow-unsafe-temporary-files t)) ; Open as root without prompting.
+
 ;; Disable garbage collection when minibuffer is active.
 ;; https://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
 (defun my-gc-minibuffer-setup-hook ()
