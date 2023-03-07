@@ -163,15 +163,16 @@
     :config
     (load-theme 'almost-mono-black)))
 
-(when *is-bsd*
+(cond
+ (*is-bsd*
   (ignore-errors (set-frame-font "DejaVu Sans Mono 11" nil t)))
-(when *is-linux*
+ (*is-linux*
   (ignore-errors (set-frame-font "Inconsolata 12" nil t))
   (ignore-errors (set-frame-font "Hack 11" nil t)))
-(when *is-macos*
+ (*is-macos*
   (ignore-errors (set-frame-font "Menlo 13" nil t)))
-(when *is-windows*
-  (ignore-errors (set-frame-font "Consolas 12" nil t)))
+ (*is-windows*
+  (ignore-errors (set-frame-font "Consolas 12" nil t))))
 
 ;; all-the-icons is required by doom-modeline.
 ;; Must run M-x all-the-icons-install-fonts after installation.
