@@ -183,7 +183,10 @@
 
 ;; Modeline eye candy.
 (use-package doom-modeline
-  :init (doom-modeline-mode 1))
+  :init (doom-modeline-mode 1)
+  ;; Fix issue with "../../.." (etc.) shown in modeline for paths visited via
+  ;; symlink.  See the doom-modeline README for details.
+  :config (setq doom-modeline-project-detection 'project))
 
 (tool-bar-mode -1)
 
