@@ -512,6 +512,9 @@ region."
   :config
   (define-key org-mode-map (kbd "C-c L") #'org-cliplink))
 
+(setq org-html-doctype "html5") ; Export as HTML5 (default is XHTML)
+(setq org-html-postamble nil) ; No postamble
+
 ;;
 ;; Programming
 ;;
