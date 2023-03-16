@@ -515,6 +515,10 @@ region."
 (setq org-html-doctype "html5") ; Export as HTML5 (default is XHTML)
 (setq org-html-postamble nil) ; No postamble
 
+;; As a side effect, this eliminates the two-space indentation in source code
+;; blocks.
+(setq org-src-preserve-indentation t)
+
 ;;
 ;; Programming
 ;;

@@ -2,5 +2,5 @@
 
 * org-mode
 
-** TODO Eliminate two-space indentation in source code blocks
+** DONE Eliminate two-space indentation in source code blocks
 [[https://emacs.stackexchange.com/questions/18877/how-to-indent-without-the-two-extra-spaces-at-the-beginning-of-code-blocks-in-or][Relevant StackOverflow]].
