@@ -106,10 +106,10 @@ else
 	alias ls='ls -hF --color=auto'
 fi
 alias lr='ls -R' # recursive ls
-alias ll='ls -l'
-alias la='ll -A'
+alias ll='ls -l' # detailed ls
+alias la='ll -A' # detailed ls, including dotfiles
 if [ "$(uname)" = "Linux" ]; then
-	alias lx='ll -BX'
+	alias lx='ll -BX' # sort by extension
 fi
 alias lz='ll -rS' # sort by size
 alias lt='ll -rt' # sort by date
