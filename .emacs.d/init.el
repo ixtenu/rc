@@ -496,6 +496,9 @@ region."
 (setq org-todo-keywords
       '((sequence "TODO" "WAIT" "|" "DONE" "AXED")))
 
+;; Sufficient unto the day is the evil thereof.
+(setq org-deadline-warning-days 0)
+
 ;; https://emacs.stackexchange.com/a/60555
 (defun my-org-link-copy (&optional arg)
   "Extract URL from org-mode link and add it to kill ring."
