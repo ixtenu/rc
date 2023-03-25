@@ -7,6 +7,7 @@ history
 local-init.el
 places
 projectile-bookmarks.eld
+projectile.cache
 projects
 recentf
 straight
