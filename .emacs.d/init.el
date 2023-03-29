@@ -250,6 +250,21 @@
 
 (tool-bar-mode -1)
 
+;; Disable the menu bar by default but make it easy to enable it.
+(menu-bar-mode -1)
+(defun my-menu-bar-toggle ()
+  "Toggle the menu bar on or off."
+  (interactive)
+  (if menu-bar-mode
+      (progn
+        (menu-bar-mode -1)
+        ;; N A N O has weird artifacts when the menu bar is suddenly removed.
+        ;; Seems to be fixed by refreshing the theme.
+        (when my-nano-config-enabled
+          (call-interactively 'nano-refresh-theme)))
+    (menu-bar-mode 1)))
+(global-set-key (kbd "C-c m") 'my-menu-bar-toggle)
+
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
 
