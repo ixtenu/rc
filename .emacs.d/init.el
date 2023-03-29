@@ -64,6 +64,61 @@
   (exec-path-from-shell-initialize))
 
 ;;
+;; GNU Emacs / N A N O
+;; TODO: This is experimental
+;;
+
+;; Make it easy to manually turn off everything from N A N O
+(setq my-nano-config-force-disable nil)
+
+(setq my-nano-config-enabled
+      (and (not my-nano-config-force-disable)
+           ;; N A N O seems to work badly on terminals with limited color
+           ;; palettes.  Only try to use it on GUIs or color-rich terminals
+           ;; (such as Konsole or Kitty).
+           (or (display-graphic-p)
+               (>= (tty-display-color-cells) 16777216))))
+
+(when my-nano-config-enabled
+  (straight-use-package
+   '(nano-emacs :host github :repo "rougier/nano-emacs"))
+
+  (setq nano-font-size 13) ; Default is 14
+  ;; Roboto Mono, the default monospaced font, doesn't look good on my machine.
+  (let ((font (if *is-windows* "Consolas" "Hack")))
+    (setq nano-font-family-monospaced font))
+
+  ;; Fringes, margin, etc.
+  (require 'nano-layout)
+  (setq org-hide-emphasis-markers nil) ; Revert undesired org-mode change.
+
+  ;; Theming.
+  (require 'nano-base-colors)
+  (require 'nano-faces)
+  (require 'nano-theme)
+  (require 'nano-theme-dark)
+  (nano-theme-set-dark)
+  (call-interactively 'nano-refresh-theme)
+
+  ;; Modeline (at top).
+  (require 'nano-modeline)
+
+  ;; "Sane" default settings.
+  (require 'nano-defaults)
+  ;; Revert changes made to the tab settings.
+  (setq-default indent-tabs-mode t)
+  (setq-default tab-width 8)
+
+  ;; New keybindings:
+  ;; - "M-n" new frame
+  ;; - "M-enter" maximization toggle
+  ;; - "C-x C-c" Close frame or, if only one frame, exit Emacs
+  (require 'nano-bindings)
+  ;; nano-bindings uses C-c r for this; switch to using an uppercase R to avoid
+  ;; a conflict with the below C-c r binding for crux-rename-file-and-buffer
+  (global-set-key (kbd "C-c R") 'recentf-open-files))
+
+;;
 ;; General Settings
 ;;
 
@@ -162,35 +217,36 @@
 
 (setq custom-safe-themes t)
 
-(if (display-graphic-p)
-    (use-package constant-theme
+(unless my-nano-config-enabled ; N A N O has its own theme, fonts, and modeline
+  (if (display-graphic-p)
+      (use-package constant-theme
+        :config
+        (load-theme 'constant))
+    (use-package almost-mono-themes
       :config
-      (load-theme 'constant))
-  (use-package almost-mono-themes
-    :config
-    (load-theme 'almost-mono-black)))
+      (load-theme 'almost-mono-black)))
 
-(cond
- (*is-bsd*
-  (ignore-errors (set-frame-font "DejaVu Sans Mono 11" nil t)))
- (*is-linux*
-  (ignore-errors (set-frame-font "Inconsolata 12" nil t))
-  (ignore-errors (set-frame-font "Hack 11" nil t)))
- (*is-macos*
-  (ignore-errors (set-frame-font "Menlo 13" nil t)))
- (*is-windows*
-  (ignore-errors (set-frame-font "Consolas 12" nil t))))
+  (cond
+   (*is-bsd*
+    (ignore-errors (set-frame-font "DejaVu Sans Mono 11" nil t)))
+   (*is-linux*
+    (ignore-errors (set-frame-font "Inconsolata 12" nil t))
+    (ignore-errors (set-frame-font "Hack 11" nil t)))
+   (*is-macos*
+    (ignore-errors (set-frame-font "Menlo 13" nil t)))
+   (*is-windows*
+    (ignore-errors (set-frame-font "Consolas 12" nil t))))
 
-;; all-the-icons is required by doom-modeline.
-;; Must run M-x all-the-icons-install-fonts after installation.
-(use-package all-the-icons)
+  ;; all-the-icons is required by doom-modeline.
+  ;; Must run M-x all-the-icons-install-fonts after installation.
+  (use-package all-the-icons)
 
-;; Modeline eye candy.
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  ;; Fix issue with "../../.." (etc.) shown in modeline for paths visited via
-  ;; symlink.  See the doom-modeline README for details.
-  :config (setq doom-modeline-project-detection 'project))
+  ;; Modeline eye candy.
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
+    ;; Fix issue with "../../.." (etc.) shown in modeline for paths visited via
+    ;; symlink.  See the doom-modeline README for details.
+    :config (setq doom-modeline-project-detection 'project)))
 
 (tool-bar-mode -1)
 
