@@ -224,12 +224,11 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (if (display-graphic-p)
     (global-display-line-numbers-mode))
 
-;; Cursor is a vertical bar, or an underbar in overwrite mode.
-(blink-cursor-mode 1)
-(setq-default cursor-type 'bar)
+(blink-cursor-mode 0) ;; The blinking cursor is distracting.
+;; Switch to an underbar cusor while in overwrite mode.
 (add-hook 'overwrite-mode-hook
           (lambda ()
-            (setq cursor-type (if overwrite-mode 'hbar 'bar))))
+            (setq cursor-type (if overwrite-mode 'hbar 'box))))
 
 ;; Distraction-free writing mode.
 (use-package writeroom-mode
