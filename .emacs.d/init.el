@@ -194,7 +194,7 @@
 (tool-bar-mode -1)
 
 (setq inhibit-startup-screen t)
-(setq initial-scratch-message "")
+(setq initial-scratch-message nil)
 
 (setq frame-resize-pixelwise t) ; No gaps around "maximized" window.
 
