@@ -164,6 +164,11 @@ if command -v fdfind >/dev/null && ! command -v fd >/dev/null; then
 	alias fd='fdfind'
 fi
 
+# kitty's SSH wrapper.
+if command -v kitty >/dev/null; then
+	alias kssh='kitty +kitten ssh'
+fi
+
 # On Ubuntu, zsh doesn't source the necessary files for snap applications, and
 # manual sourcing from here doesn't seem to solve the issue.  As a workaround,
 # create symlinks for the *.desktop files.
