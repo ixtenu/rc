@@ -111,9 +111,16 @@
 
   ;; New keybindings:
   ;; - "M-n" new frame
-  ;; - "M-enter" maximization toggle
   ;; - "C-x C-c" Close frame or, if only one frame, exit Emacs
+  ;; Altered keybindings: "C-x k" always kills current buffer
   (require 'nano-bindings)
+  (let ((Mret (kbd "M-<return>")))
+    ;; nano-bindings sets M-<return> to 'toggle-frame-maximized in the global
+    ;; keymap and org-mode keymap.  Revert both bindings.  If M-<return> is
+    ;; mapped, it takes precedence over M-RET; and M-RET is an essential key
+    ;; binding for org-mode and markdown-mode.
+    (global-set-key Mret nil)
+    (with-eval-after-load 'org (define-key org-mode-map Mret nil)))
   ;; nano-bindings uses C-c r for this; switch to using an uppercase R to avoid
   ;; a conflict with the below C-c r binding for crux-rename-file-and-buffer
   (global-set-key (kbd "C-c R") 'recentf-open-files))
