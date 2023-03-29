@@ -628,6 +628,9 @@ region."
   :commands lsp)
 (use-package lsp-ui :commands lsp-ui-mode)
 
+;; Suppress "Keep current list of tags tables also?" prompts
+(setq tags-add-tables nil)
+
 ;;
 ;; Emacs Lisp
 ;;
