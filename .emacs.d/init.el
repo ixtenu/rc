@@ -86,6 +86,7 @@
 
 (save-place-mode 1) ; Remember position in files.
 (recentf-mode 1) ; Remember recently edited files.
+(setq recentf-max-menu-items 32) ; Default is 10.
 
 ;; Run `clean-buffer-list' at midnight.
 (require 'midnight)
