@@ -83,7 +83,7 @@
   (straight-use-package
    '(nano-emacs :host github :repo "rougier/nano-emacs"))
 
-  (setq nano-font-size 13) ; Default is 14
+  (setq nano-font-size 12) ; Default is 14
   ;; Roboto Mono, the default monospaced font, doesn't look good on my machine.
   (let ((font (if *is-windows* "Consolas" "Hack")))
     (setq nano-font-family-monospaced font))
