@@ -42,6 +42,9 @@ if command -v joe >/dev/null 2>&1; then
 	installfile "$HOME/.joerc"
 	installfile "$HOME/.jmacsrc"
 fi
+if command -v nano >/dev/null 2>&1; then
+	installfile "$HOME/.config/nano/nanorc"
+fi
 if command -v mg >/dev/null 2>&1; then
 	installfile "$HOME/.mg"
 fi

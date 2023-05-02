@@ -1,0 +1,18 @@
+# see nanorc(5) for documentation of these options
+set atblanks
+set cutfromcursor
+set fill 80
+set mouse
+set quickblank
+set smarthome
+set speller "aspell -x -c"
+set trimblanks
+set zero
+
+# Remove trailing whitespace and save.  Note this has a mildly disruptive side
+# effect: it moves the cursor to column 1.  Thus, it's given a new key binding
+# here, rather than rebinding ^S like the sample nanorc does.
+bind M-' "{execute}| sed 's/\s\+$//' {enter}{savefile}" main
+
+# Override tabstospaces in makefiles: always use hard tabs
+extendsyntax makefile tabgives "	"
