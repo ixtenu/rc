@@ -12,7 +12,7 @@ set zero
 # Remove trailing whitespace and save.  Note this has a mildly disruptive side
 # effect: it moves the cursor to column 1.  Thus, it's given a new key binding
 # here, rather than rebinding ^S like the sample nanorc does.
-bind M-' "{execute}| sed 's/\s\+$//' {enter}{savefile}" main
+bind M-' "{execute}| sed 's/[[:space:]]*$//' {enter}{savefile}" main
 
 # Override tabstospaces in makefiles: always use hard tabs
 extendsyntax makefile tabgives "	"
