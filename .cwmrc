@@ -12,9 +12,6 @@ snapdist 15
 # Move/resize faster (default is 1)
 moveamount 20
 
-# Leave a 32-pixel gap at the bottom of the screen for a task bar
-gap 0 32 0 0
-
 # Menu commands
 command emacs emacs
 command firefox firefox
