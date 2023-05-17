@@ -2,7 +2,6 @@
 set atblanks
 set cutfromcursor
 set fill 80
-set mouse
 set quickblank
 set smarthome
 set speller "aspell -x -c"
