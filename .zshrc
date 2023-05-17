@@ -38,16 +38,16 @@ if [ ! -z "$PLAN9" ]; then
 	export PATH=$PATH:$PLAN9/bin
 fi
 
-if command -v godit >/dev/null; then
+if command -v nano >/dev/null; then
+	export EDITOR=nano
+elif command -v godit >/dev/null; then
 	export EDITOR=godit
 elif command -v joe >/dev/null; then
 	export EDITOR=jmacs
 elif command -v mg >/dev/null; then
 	export EDITOR=mg
 fi
-
 export VISUAL=$EDITOR
-alias em=$EDITOR
 
 # If running in WSL...
 if [ -d /mnt/c/Windows ]; then
