@@ -38,12 +38,12 @@ if [ ! -z "$PLAN9" ]; then
 	export PATH=$PATH:$PLAN9/bin
 fi
 
-if command -v nano >/dev/null; then
+if command -v nvim >/dev/null; then
+	export EDITOR=nvim
+elif command -v vim >/dev/null; then
+	export EDITOR=vim
+elif command -v nano >/dev/null; then
 	export EDITOR=nano
-elif command -v godit >/dev/null; then
-	export EDITOR=godit
-elif command -v joe >/dev/null; then
-	export EDITOR=jmacs
 elif command -v mg >/dev/null; then
 	export EDITOR=mg
 fi
@@ -152,6 +152,13 @@ fi
 if command -v emacs >/dev/null; then
 	alias ge='emacs -nw'
 	alias gec='emacsclient -n'
+fi
+
+if command -v nvim >/dev/null; then
+	alias vi='nvim'
+	alias vim='nvim'
+elif command -v vim >/dev/null; then
+	alias vi='vim'
 fi
 
 # Alias helix to hx on systems which install it as helix
