@@ -44,8 +44,6 @@ if !has('nvim')
 	filetype plugin indent on
 endif
 
-syntax off
-
 set nowrap
 set mouse=a
 set smartindent
@@ -141,3 +139,43 @@ endfunc
 call TAB(8)
 autocmd FileType make call Tab(8)
 autocmd Filetype lisp,scheme Tab(-2)
+
+" has junegunn/vim-plug been installed?
+func! s:VimPlugIsInstalled()
+	" plug.vim path differs between neovim and vim
+	" TODO: these paths aren't correct for MS-Windows
+	if has("nvim")
+		let l:plug_vim_path = '~/.local/share/nvim/site/autoload/plug.vim'
+	else
+		let l:plug_vim_path = '~/.vim/autoload/plug.vim'
+	endif
+	return filereadable(expand(l:plug_vim_path))
+endfunc
+
+" skip the plugin initialization if the plugin manager hasn't been installed
+if s:VimPlugIsInstalled()
+	call plug#begin()
+	Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
+		nmap <C-P> :CtrlP<CR>
+		let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+	Plug 'editorconfig/editorconfig-vim'
+	Plug 'fatih/vim-go', { 'for': 'go' }
+	Plug 'jamessan/vim-gnupg'
+	Plug 'ludovicchabant/vim-gutentags'
+	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+		let g:tagbar_sort = 0
+		nmap <F6> :TagbarToggle<CR>
+	Plug 'moll/vim-bbye'
+		nnoremap <Leader>q :Bdelete<CR>
+	Plug 'rhysd/git-messenger.vim', { 'on': 'GitMessenger' }
+		let g:git_messenger_no_default_mappings = v:true
+		let g:git_messenger_always_into_popup = v:true
+		nmap <F8> :GitMessenger<CR>
+	Plug 'tpope/vim-commentary'
+	Plug 'tpope/vim-eunuch'
+	Plug 'tpope/vim-fugitive'
+	call plug#end()
+endif
+
+" must be last: plug#end() executes `syntax on`
+syntax off
