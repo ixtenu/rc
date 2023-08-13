@@ -140,16 +140,28 @@ call TAB(8)
 autocmd FileType make call Tab(8)
 autocmd Filetype lisp,scheme Tab(-2)
 
+" path to plug.vim (junegunn/vim-plug)
+func! s:VimPlugPath()
+	" plug.vim path differs between neovim and vim
+	if has('nvim')
+		if has('win32')
+			let l:plug_vim_path = '~/AppData/Local/nvim-data/site/autoload/plug.vim'
+		else
+			let l:plug_vim_path = '~/.local/share/nvim/site/autoload/plug.vim'
+		endif
+	else
+		if has('win32')
+			let l:plug_vim_path = '~/vimfiles/autoload/plug.vim'
+		else
+			let l:plug_vim_path = '~/.vim/autoload/plug.vim'
+		endif
+	endif
+	return expand(l:plug_vim_path)
+endfunc
+
 " has junegunn/vim-plug been installed?
 func! s:VimPlugIsInstalled()
-	" plug.vim path differs between neovim and vim
-	" TODO: these paths aren't correct for MS-Windows
-	if has("nvim")
-		let l:plug_vim_path = '~/.local/share/nvim/site/autoload/plug.vim'
-	else
-		let l:plug_vim_path = '~/.vim/autoload/plug.vim'
-	endif
-	return filereadable(expand(l:plug_vim_path))
+	return filereadable(s:VimPlugPath())
 endfunc
 
 " skip the plugin initialization if the plugin manager hasn't been installed
