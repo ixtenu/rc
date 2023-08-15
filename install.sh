@@ -69,9 +69,11 @@ fi
 
 if command -v vim >/dev/null 2>&1; then
 	installfile "$HOME/.vimrc"
+	installfile "$HOME/.gvimrc"
 fi
 if command -v nvim >/dev/null 2>&1; then
 	installfile "$HOME/.config/nvim/init.vim" .vimrc
+	installfile "$HOME/.config/nvim/ginit.vim" .gvimrc
 fi
 
 # If running from within the Windows Subsystem for Linux...
@@ -83,10 +85,12 @@ if [ -d /mnt/c/Windows/System32 ]; then
 	# Windows Neovim
 	if [ -d "$WINHOME/AppData/Local/nvim" ]; then
 		cp -v .vimrc "$WINHOME/AppData/Local/nvim/init.vim"
+		cp -v .gvimrc "$WINHOME/AppData/Local/nvim/ginit.vim"
 	fi
 	# Windows Vim
 	if [ -f "$WINHOME/_vimrc" ]; then
 		cp -v .vimrc "$WINHOME/_vimrc"
+		cp -v .gvimrc "$WINHOME/_gvimrc"
 	fi
 	# Git Bash Vim
 	if [ -f "$WINHOME/.vimrc" ]; then
