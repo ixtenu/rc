@@ -45,7 +45,7 @@ if !has('nvim')
 endif
 
 set nowrap
-set mouse=a
+set mouse=
 set smartindent
 set scrolloff=8
 set ignorecase
