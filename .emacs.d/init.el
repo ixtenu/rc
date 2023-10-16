@@ -195,6 +195,7 @@
   :config (setq doom-modeline-project-detection 'project))
 
 (tool-bar-mode -1)
+(if (fboundp 'scroll-bar-mode) (set-scroll-bar-mode nil))
 
 ;; Disable the menu bar by default but make it easy to enable it.
 (menu-bar-mode -1)
