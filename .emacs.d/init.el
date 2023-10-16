@@ -98,6 +98,9 @@
 (if (my-emacs-version>= "28")
     (setq dired-kill-when-opening-new-dired-buffer t))
 
+;; Always kill the current buffer instead of prompting.
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
+
 (delete-selection-mode 1) ; Typing replaces selection.
 
 (global-auto-revert-mode 1) ; Revert externally edited files.
