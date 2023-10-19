@@ -186,9 +186,9 @@
  (*is-windows*
   (ignore-errors (set-frame-font "Consolas 12" nil t))))
 
-;; all-the-icons is required by doom-modeline.
-;; Must run M-x all-the-icons-install-fonts after installation.
-(use-package all-the-icons)
+;; nerd-icons is required by doom-modeline.
+;; Must run M-x nerd-icons-install-fonts after installation.
+(use-package nerd-icons)
 
 ;; Modeline eye candy.
 (use-package doom-modeline
