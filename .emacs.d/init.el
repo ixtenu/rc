@@ -365,6 +365,13 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 ;; Git
 ;;
 
+;; Work around an issue in magit and/or straight.  See:
+;; https://github.com/magit/magit/issues/5011
+;; https://github.com/radian-software/straight.el/issues/964
+(defun seq-keep (function sequence)
+  "Apply FUNCTION to SEQUENCE and return the list of all the non-nil results."
+  (delq nil (seq-map function sequence)))
+
 (use-package magit
   :bind
   ("C-c g" . 'magit-file-dispatch))
