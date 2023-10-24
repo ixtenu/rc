@@ -175,6 +175,11 @@
     :config
     (load-theme 'almost-mono-black)))
 
+;; Make sure the mouse pointer can be seen when drawn atop the nearly black
+;; background color.
+(when (display-graphic-p)
+  (set-mouse-color "white"))
+
 (cond
  (*is-bsd*
   (ignore-errors (set-frame-font "DejaVu Sans Mono 11" nil t)))
