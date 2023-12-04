@@ -38,16 +38,14 @@ if [ ! -z "$PLAN9" ]; then
 	export PATH=$PATH:$PLAN9/bin
 fi
 
-if command -v nvim >/dev/null; then
-	export EDITOR=nvim
-elif command -v vim >/dev/null; then
-	export EDITOR=vim
-elif command -v nano >/dev/null; then
-	export EDITOR=nano
-elif command -v mg >/dev/null; then
-	export EDITOR=mg
-fi
-export VISUAL=$EDITOR
+editors=(nano mg jmacs godit nvim vim vi)
+for e in $editors; do
+	if command -v $e >/dev/null 2>&1; then
+		export EDITOR=$e
+		export VISUAL=$e
+		break
+	fi
+done
 
 # If running in WSL...
 if [ -d /mnt/c/Windows ]; then
