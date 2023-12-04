@@ -29,25 +29,28 @@ installfile() {
 	fi
 }
 
-if command -v X >/dev/null 2>&1; then
-	installfile "$HOME/.Xresources"
-fi
-if command -v cwm >/dev/null 2>&1; then
-	installfile "$HOME/.cwmrc"
-fi
-if command -v emacs >/dev/null 2>&1; then
-	installfile "$HOME/.emacs.d"
-fi
-if command -v joe >/dev/null 2>&1; then
-	installfile "$HOME/.joerc"
-	installfile "$HOME/.jmacsrc"
-fi
-if command -v nano >/dev/null 2>&1; then
-	installfile "$HOME/.config/nano/nanorc"
-fi
-if command -v mg >/dev/null 2>&1; then
-	installfile "$HOME/.mg"
-fi
+installcmd() {
+	if command -v "$1" >/dev/null 2>&1; then
+		shift
+		installfile $@
+	fi
+}
+
+installcmd X "$HOME/.Xresources"
+installcmd alacritty "$HOME/.config/alacritty/alacritty.yml"
+installcmd cwm "$HOME/.cwmrc"
+installcmd emacs "$HOME/.emacs.d"
+installcmd jmacs "$HOME/.jmacsrc"
+installcmd joe "$HOME/.joerc"
+installcmd mg "$HOME/.mg"
+installcmd nano "$HOME/.config/nano/nanorc"
+installcmd nvim "$HOME/.config/nvim/ginit.vim" .gvimrc
+installcmd nvim "$HOME/.config/nvim/init.vim" .vimrc
+installcmd tmux "$HOME/.tmux.conf"
+installcmd vim "$HOME/.gvimrc"
+installcmd vim "$HOME/.vimrc"
+installcmd zsh "$HOME/.zshrc"
+
 if command -v sam >/dev/null 2>&1; then
 	# .samrc is for deadpixi/sam; don't install it for 9fans/plan9port sam
 	if [ -x /usr/local/bin/sam ]; then
@@ -57,26 +60,8 @@ fi
 if command -v vis >/dev/null 2>&1 || command -v vise >/dev/null 2>&1; then
 	# vis on *BSD is an unrelated program
 	if [ "$(uname)" = "Linux" -o "$(which vis)" != "/usr/bin/vis" ]; then
-		installfile "$HOME/.config/vis/visrc.lua" visrc.lua
+		installfile "$HOME/.config/vis/visrc.lua"
 	fi
-fi
-if command -v tmux >/dev/null 2>&1; then
-	installfile "$HOME/.tmux.conf"
-fi
-if command -v alacritty >/dev/null 2>&1; then
-	installfile "$HOME/.config/alacritty/alacritty.yml"
-fi
-if command -v zsh >/dev/null 2>&1; then
-	installfile "$HOME/.zshrc"
-fi
-
-if command -v vim >/dev/null 2>&1; then
-	installfile "$HOME/.vimrc"
-	installfile "$HOME/.gvimrc"
-fi
-if command -v nvim >/dev/null 2>&1; then
-	installfile "$HOME/.config/nvim/init.vim" .vimrc
-	installfile "$HOME/.config/nvim/ginit.vim" .gvimrc
 fi
 
 # If running from within the Windows Subsystem for Linux...
