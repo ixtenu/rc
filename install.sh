@@ -63,6 +63,9 @@ fi
 if command -v tmux >/dev/null 2>&1; then
 	installfile "$HOME/.tmux.conf"
 fi
+if command -v alacritty >/dev/null 2>&1; then
+	installfile "$HOME/.config/alacritty/alacritty.yml"
+fi
 if command -v zsh >/dev/null 2>&1; then
 	installfile "$HOME/.zshrc"
 fi
