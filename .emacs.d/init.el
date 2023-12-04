@@ -766,3 +766,12 @@ region."
 (let ((local-init (my-emacs-d-path "local-init.el")))
   (when (file-exists-p local-init)
     (load-file local-init)))
+
+;;
+;; (Hopefully) Temporary Workarounds
+;;
+
+;; GnuPG 2.4.1 broke EasyPG
+;; https://dev.gnupg.org/T6481
+;; https://old.reddit.com/r/emacs/comments/137r7j7/gnupg_241_encryption_issues_with_emacs_orgmode/
+(fset #'epg-wait-for-status 'ignore)
