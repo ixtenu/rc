@@ -20,23 +20,24 @@ setopt interactivecomments
 setopt autocd notify
 unsetopt beep
 
-if [ -d $HOME/bin ]; then
-	export PATH=$PATH:$HOME/bin
-fi
-if [ -d $HOME/go/bin ]; then
-	export PATH=$PATH:$HOME/go/bin
-fi
-if [ -d $HOME/.cargo/bin ]; then
-	export PATH=$PATH:$HOME/.cargo/bin
-fi
+# Add directory to PATH if it exists and isn't already in PATH.
+addtopath() {
+	[ ! -d $1 ] && return
+	echo "$PATH" | grep ":$1$" >/dev/null && return
+	echo "$PATH" | grep ":$1:" >/dev/null && return
+	export PATH=$PATH:$1
+}
+
+addtopath $HOME/bin
+addtopath $HOME/go/bin
+addtopath $HOME/.cargo/bin
+
 if [ -d /usr/local/plan9 ]; then
 	export PLAN9=/usr/local/plan9
 elif [ -d $HOME/plan9 ]; then
 	export PLAN9=$HOME/plan9
 fi
-if [ ! -z "$PLAN9" ]; then
-	export PATH=$PATH:$PLAN9/bin
-fi
+[ ! -z "$PLAN9" ] && addtopath $PLAN9/bin
 
 editors=(nano mg jmacs godit nvim vim vi)
 for e in $editors; do
