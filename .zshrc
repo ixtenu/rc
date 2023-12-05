@@ -198,7 +198,7 @@ elif [ -d "/usr/local/share/zsh-autosuggestions" ]; then
 fi
 
 # Source plugins
-if [ "$zshplugdir" != "" ]; then
+if [ ! -z "$zshplugdir" ]; then
 	if [ -f "$zshplugdir"/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
 		source "$zshplugdir"/zsh-autosuggestions/zsh-autosuggestions.zsh
 	fi
