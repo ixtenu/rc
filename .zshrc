@@ -164,6 +164,10 @@ elif iscmd vim; then
 	alias vi='vim'
 fi
 
+if iscmd nano && ! iscmd na; then
+	alias na='nano'
+fi
+
 # Alias helix to hx on systems which install it as helix
 if iscmd helix && ! iscmd hx; then
 	alias hx='helix'
