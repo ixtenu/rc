@@ -20,6 +20,10 @@ setopt interactivecomments
 setopt autocd notify
 unsetopt beep
 
+iscmd() {
+	command -v "$1" >/dev/null 2>&1
+}
+
 # Add directory to PATH if it exists and isn't already in PATH.
 addtopath() {
 	[ ! -d $1 ] && return
@@ -41,7 +45,7 @@ fi
 
 editors=(nano mg jmacs godit nvim vim vi)
 for e in $editors; do
-	if command -v $e >/dev/null 2>&1; then
+	if iscmd $e; then
 		export EDITOR=$e
 		export VISUAL=$e
 		break
@@ -131,47 +135,47 @@ if [ "$(uname)" = "Linux" ]; then
 fi
 
 # Image viewing
-if command -v nsxiv >/dev/null; then
+if iscmd nsxiv; then
 	alias img='nsxiv'
-elif command -v sxiv >/dev/null; then
+elif iscmd sxiv; then
 	alias img='sxiv'
 fi
 
 # Screen capturing from terminal.
-if command -v maim >/dev/null; then
+if iscmd maim; then
 	alias screencap_desktop='maim'
 	alias screencap_window='maim -st 9999999'
 	alias screencap_select='maim -s'
-	if command -v xclip >/dev/null; then
+	if iscmd xclip; then
 		alias clip_png='xclip -selection clipboard -t image/png'
 	fi
 fi
 
 # GNU Emacs
-if command -v emacs >/dev/null; then
+if iscmd emacs; then
 	alias ge='emacs -nw'
 	alias gec='emacsclient -n'
 fi
 
-if command -v nvim >/dev/null; then
+if iscmd nvim; then
 	alias vi='nvim'
 	alias vim='nvim'
-elif command -v vim >/dev/null; then
+elif iscmd vim; then
 	alias vi='vim'
 fi
 
 # Alias helix to hx on systems which install it as helix
-if command -v helix >/dev/null && ! command -v hx >/dev/null; then
+if iscmd helix && ! iscmd hx; then
 	alias hx='helix'
 fi
 
 # Debian/Ubuntu renamed fd to fdfind due to a naming conflict.
-if command -v fdfind >/dev/null && ! command -v fd >/dev/null; then
+if iscmd fdfind && ! iscmd fd; then
 	alias fd='fdfind'
 fi
 
 # kitty's SSH wrapper.
-if command -v kitty >/dev/null; then
+if iscmd kitty; then
 	alias kssh='kitty +kitten ssh'
 fi
 
