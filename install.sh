@@ -18,14 +18,16 @@ installfile() {
 		exit 1
 	fi
 	mkdir -p "$dir"
-	if [ -e "$dst" ]; then
-		if [ -L "$dst" ]; then
+	if [ -L "$dst" ]; then
+		# Don't rewrite the symbolic link unless it's changed.
+		[ -e "$dst" ] && target="$(readlink -f "$dst")" || target=
+		if [ "$target" != "$src" ]; then
 			ln -snf $lnvopt "$src" "$dst"
-		else
-			echo "warning: $dst exists and is not a symbolic link, leaving it" 2>&1
 		fi
-	else
+	elif [ ! -e "$dst" ]; then
 		ln -s $lnvopt "$src" "$dst"
+	else
+		echo "warning: $dst exists and is not a symbolic link, leaving it" 2>&1
 	fi
 }
 
