@@ -43,7 +43,7 @@ elif [ -d $HOME/plan9 ]; then
 fi
 [ ! -z "$PLAN9" ] && addtopath $PLAN9/bin
 
-editors=(nano mg jmacs godit nvim vim vi)
+editors=(naw nano mg jmacs godit nvim vim vi)
 for e in $editors; do
 	if iscmd $e; then
 		export EDITOR=$e
@@ -164,8 +164,12 @@ elif iscmd vim; then
 	alias vi='vim'
 fi
 
-if iscmd nano && ! iscmd na; then
-	alias na='nano'
+if iscmd nano; then
+	# invoke nano via a wrapper script
+	# <https://github.com/ixtenu/script/blob/master/naw>
+	iscmd naw && alias nano='naw'
+	# four letters is too many
+	! iscmd na && alias na='nano'
 fi
 
 # Alias helix to hx on systems which install it as helix
