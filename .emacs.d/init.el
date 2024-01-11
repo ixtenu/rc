@@ -581,6 +581,11 @@ region."
 ;; Suppress "Keep current list of tags tables also?" prompts
 (setq tags-add-tables nil)
 
+(use-package editorconfig
+  :config
+  (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
+  (editorconfig-mode 1))
+
 ;;
 ;; Emacs Lisp
 ;;
