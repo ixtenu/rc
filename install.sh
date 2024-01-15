@@ -66,6 +66,12 @@ if command -v vis >/dev/null 2>&1 || command -v vise >/dev/null 2>&1; then
 	fi
 fi
 
+cp_if_needed() {
+	if ! cmp -s "$1" "$2"; then
+		cp -v "$1" "$2"
+	fi
+}
+
 # If running from within the Windows Subsystem for Linux...
 if [ -d /mnt/c/Windows/System32 ]; then
 	# Windows username might differ from WSL username
@@ -74,23 +80,23 @@ if [ -d /mnt/c/Windows/System32 ]; then
 
 	# Windows Neovim
 	if [ -d "$WINHOME/AppData/Local/nvim" ]; then
-		cp -v .vimrc "$WINHOME/AppData/Local/nvim/init.vim"
-		cp -v .gvimrc "$WINHOME/AppData/Local/nvim/ginit.vim"
+		cp_if_needed .vimrc "$WINHOME/AppData/Local/nvim/init.vim"
+		cp_if_needed .gvimrc "$WINHOME/AppData/Local/nvim/ginit.vim"
 	fi
 	# Windows Vim
 	if [ -f "$WINHOME/_vimrc" ]; then
-		cp -v .vimrc "$WINHOME/_vimrc"
-		cp -v .gvimrc "$WINHOME/_gvimrc"
+		cp_if_needed .vimrc "$WINHOME/_vimrc"
+		cp_if_needed .gvimrc "$WINHOME/_gvimrc"
 	fi
 	# Git Bash Vim
 	if [ -f "$WINHOME/.vimrc" ]; then
-		cp -v .vimrc "$WINHOME/.vimrc"
+		cp_if_needed .vimrc "$WINHOME/.vimrc"
 	fi
 	# GNU Emacs
 	if [ -d "$WINHOME/.emacs.d" ]; then
 		find .emacs.d -type f |
 		while IFS= read -r fn; do
-			cp -v "$fn" "$WINHOME/.emacs.d"
+			cp_if_needed "$fn" "$WINHOME/$fn"
 		done
 	fi
 fi
