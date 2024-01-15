@@ -86,4 +86,11 @@ if [ -d /mnt/c/Windows/System32 ]; then
 	if [ -f "$WINHOME/.vimrc" ]; then
 		cp -v .vimrc "$WINHOME/.vimrc"
 	fi
+	# GNU Emacs
+	if [ -d "$WINHOME/.emacs.d" ]; then
+		find .emacs.d -type f |
+		while IFS= read -r fn; do
+			cp -v "$fn" "$WINHOME/.emacs.d"
+		done
+	fi
 fi
