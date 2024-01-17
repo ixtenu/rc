@@ -15,3 +15,18 @@ bind M-' "{execute}| sed 's/[[:space:]]*$//' {enter}{savefile}" main
 
 # Override tabstospaces in makefiles: always use hard tabs
 extendsyntax makefile tabgives "	"
+
+# Some nano packages don't install a system-wide nanorc, leading to a rather
+# impoverished experience.  Here's how to fix this:
+#
+# *BSD:
+# On FreeBSD, create: /usr/local/etc/nanorc
+# On OpenBSD, create: /etc/nanorc
+# With contents: include "/usr/local/share/nano/*.nanorc"
+#
+# MS-Windows (Chocolatey nano-win package):
+# Create: C:\ProgramData\nanorc
+# With contents:
+# include "C:/ProgramData/chocolatey/lib/nano-win/tools/pkg_x86_64-w64-mingw32/share/nano/*.nanorc"
+# Note that nano-win disables the spellchecker, so the "set speller" line above
+# will need to be commented out.
