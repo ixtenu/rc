@@ -53,6 +53,7 @@ installcmd vim "$HOME/.gvimrc"
 installcmd vim "$HOME/.vimrc"
 installcmd sh "$HOME/.shrc"
 installcmd zsh "$HOME/.zshrc"
+installcmd ksh "$HOME/.kshrc"
 
 if command -v sam >/dev/null 2>&1; then
 	# .samrc is for deadpixi/sam; don't install it for 9fans/plan9port sam
