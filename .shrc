@@ -1,0 +1,145 @@
+# Generic shell initialization
+# Can be sourced from .zshrc, .bashrc, .kshrc, etc.
+
+iscmd() {
+	command -v "$1" >/dev/null 2>&1
+}
+
+# Add directory to PATH if it exists and isn't already in PATH.
+addtopath() {
+	[ ! -d $1 ] && return
+	echo "$PATH" | grep ":$1$" >/dev/null && return
+	echo "$PATH" | grep ":$1:" >/dev/null && return
+	export PATH=$PATH:$1
+}
+
+addtopath $HOME/bin
+addtopath $HOME/go/bin
+addtopath $HOME/.cargo/bin
+
+if [ -d /usr/local/plan9 ]; then
+	export PLAN9=/usr/local/plan9
+elif [ -d $HOME/plan9 ]; then
+	export PLAN9=$HOME/plan9
+fi
+[ ! -z "$PLAN9" ] && addtopath $PLAN9/bin
+
+for e in naw nano mg jmacs godit nvim vim vi; do
+	if iscmd $e; then
+		export EDITOR=$e
+		export VISUAL=$e
+		break
+	fi
+done
+
+# Modified commands
+if [ "$(uname)" != "OpenBSD" ]; then
+	alias grep='grep --color=auto'
+fi
+alias df='df -h'
+alias du='du -h'
+
+mkcd() {
+	if [ $# -eq 0 ]; then
+		echo "$0: missing operand" 1>&2
+		echo "usage: $0 directory" 1>&2
+		echo "mkdir and chdir into the given directory." 1>&2
+		return 1
+	fi
+	mkdir -p "$1"
+	cd "$1"
+}
+
+upcd() {
+	dir=""
+	for i in $(seq 1 $1); do
+		dir="../$dir"
+	done
+	[ -z "$dir" ] && dir="$PWD"
+	cd "$dir"
+}
+
+# ls
+if [ "$(uname)" = "OpenBSD" ]; then
+	alias ls='ls -hF'
+else
+	alias ls='ls -hF --color=auto'
+fi
+alias lr='ls -R' # recursive ls
+alias ll='ls -l' # detailed ls
+alias la='ll -A' # detailed ls, including dotfiles
+if [ "$(uname)" = "Linux" ]; then
+	alias lx='ll -BX' # sort by extension
+fi
+alias lz='ll -rS' # sort by size
+alias lt='ll -rt' # sort by date
+
+# Safety features
+alias cp='cp -i'
+alias mv='mv -i'
+if [ "$(uname)" = "OpenBSD" ]; then
+	alias rm='rm -i'
+else
+	alias rm='rm -I'
+fi
+if [ "$(uname)" != "OpenBSD" ]; then
+	alias ln='ln -i'
+fi
+if [ "$(uname)" = "Linux" ]; then
+	alias chown='chown --preserve-root'
+	alias chmod='chmod --preserve-root'
+	alias chgrp='chgrp --preserve-root'
+fi
+
+# Image viewing
+if iscmd nsxiv; then
+	alias img='nsxiv'
+elif iscmd sxiv; then
+	alias img='sxiv'
+fi
+
+# Screen capturing from terminal.
+if iscmd maim; then
+	alias screencap_desktop='maim'
+	alias screencap_window='maim -st 9999999'
+	alias screencap_select='maim -s'
+	if iscmd xclip; then
+		alias clip_png='xclip -selection clipboard -t image/png'
+	fi
+fi
+
+# GNU Emacs
+if iscmd emacs; then
+	alias ge='emacs -nw'
+	alias gec='emacsclient -n'
+fi
+
+if iscmd nvim; then
+	alias vi='nvim'
+	alias vim='nvim'
+elif iscmd vim; then
+	alias vi='vim'
+fi
+
+if iscmd nano; then
+	# invoke nano via a wrapper script
+	# <https://github.com/ixtenu/script/blob/master/naw>
+	iscmd naw && alias nano='naw'
+	# four letters is too many
+	! iscmd na && alias na='nano'
+fi
+
+# Alias helix to hx on systems which install it as helix
+if iscmd helix && ! iscmd hx; then
+	alias hx='helix'
+fi
+
+# Debian/Ubuntu renamed fd to fdfind due to a naming conflict.
+if iscmd fdfind && ! iscmd fd; then
+	alias fd='fdfind'
+fi
+
+# kitty's SSH wrapper.
+if iscmd kitty; then
+	alias kssh='kitty +kitten ssh'
+fi

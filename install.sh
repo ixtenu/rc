@@ -51,6 +51,7 @@ installcmd nvim "$HOME/.config/nvim/init.vim" .vimrc
 installcmd tmux "$HOME/.tmux.conf"
 installcmd vim "$HOME/.gvimrc"
 installcmd vim "$HOME/.vimrc"
+installcmd sh "$HOME/.shrc"
 installcmd zsh "$HOME/.zshrc"
 
 if command -v sam >/dev/null 2>&1; then
