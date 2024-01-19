@@ -161,6 +161,9 @@
   (use-package clipetty
     :bind ("M-w" . clipetty-kill-ring-save)))
 
+;; Open a URL in a web browser
+(global-set-key (kbd "C-c u") #'browse-url)
+
 ;;
 ;; Appearance
 ;;
