@@ -194,16 +194,19 @@
  (*is-windows*
   (ignore-errors (set-frame-font "Consolas 12" nil t))))
 
-;; nerd-icons is required by doom-modeline.
-;; Must run M-x nerd-icons-install-fonts after installation.
-(use-package nerd-icons)
+;; TODO: doom-modeline seem to be causing problems in Emacs 27.1.  Errors are
+;; being thrown when opening Python files in a Git project.
+(when (my-emacs-version>= "28")
+  ;; nerd-icons is required by doom-modeline.
+  ;; Must run M-x nerd-icons-install-fonts after installation.
+  (use-package nerd-icons)
 
-;; Modeline eye candy.
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  ;; Fix issue with "../../.." (etc.) shown in modeline for paths visited via
-  ;; symlink.  See the doom-modeline README for details.
-  :config (setq doom-modeline-project-detection 'project))
+  ;; Modeline eye candy.
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
+    ;; Fix issue with "../../.." (etc.) shown in modeline for paths visited via
+    ;; symlink.  See the doom-modeline README for details.
+    :config (setq doom-modeline-project-detection 'project)))
 
 (tool-bar-mode -1)
 (if (fboundp 'scroll-bar-mode) (set-scroll-bar-mode nil))
