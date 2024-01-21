@@ -154,7 +154,7 @@ https://joewing.net/projects/jwm/
   <Key mask="CA4" key="q">exit</Key>
 
   <!-- Screen locking -->
-  <Key mask="4" key="l">exec:xlock -mode blank</Key>
+  <Key mask="4A" key="q">exec:xlock -mode blank</Key>
   <Key mask="CA" key="Delete">exec:xlock -mode blank</Key>
 
   <!-- Open terminal -->
