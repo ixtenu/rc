@@ -161,7 +161,9 @@ https://joewing.net/projects/jwm/
   <Key mask="4" key="Return">exec:alacritty</Key>
 
   <!-- Application launcher -->
-  <Key mask="4" key="space">exec:bemenu-run</Key>
+  <Key mask="4" key="space">
+    exec:bemenu-run -p 'Run:' --tf '#FFFFFF' --hf '#0077CC'
+  </Key>
 
   <!-- Window closing -->
   <Key mask="4" key="q">close</Key>
