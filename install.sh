@@ -41,6 +41,7 @@ installcmd() {
 installcmd X "$HOME/.Xresources"
 installcmd alacritty "$HOME/.config/alacritty/alacritty.yml"
 installcmd cwm "$HOME/.cwmrc"
+installcmd jwm "$HOME/.jwmrc"
 installcmd emacs "$HOME/.emacs.d"
 installcmd jmacs "$HOME/.jmacsrc"
 installcmd joe "$HOME/.joerc"

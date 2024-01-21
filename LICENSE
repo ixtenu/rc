@@ -14,6 +14,9 @@ under CC BY-SA 4.0 terms.
 included in the JOE source distribution and typically installed to /etc/joe.
 See the COPYING file in the JOE source code for license terms.
 
+.jwmrc was derived from the example.jwmrc file that can be found in the JWM
+repository.  See the LICENSE file in the JWM source code for license terms.
+
 All work in this repository which is original to me (not copied or derived from
 others' works) is made available under the following license ("BSD Zero Clause
 License", a public domain equivalent license):
