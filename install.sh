@@ -14,7 +14,7 @@ installfile() {
 	[ $# -gt 1 ] && src="$2"
 	src="$scriptdir"/"$src"
 	if [ ! -r "$src" ]; then
-		echo "error: $src not an existing readable file" 2>&1
+		echo "error: $src not an existing readable file" 1>&2
 		exit 1
 	fi
 	mkdir -p "$dir"
@@ -27,7 +27,7 @@ installfile() {
 	elif [ ! -e "$dst" ]; then
 		ln -s $lnvopt "$src" "$dst"
 	else
-		echo "warning: $dst exists and is not a symbolic link, leaving it" 2>&1
+		echo "warning: $dst exists and is not a symbolic link, leaving it" 1>&2
 	fi
 }
 
