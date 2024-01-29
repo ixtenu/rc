@@ -19,6 +19,9 @@ extendsyntax makefile tabgives "	"
 # Some nano packages don't install a system-wide nanorc, leading to a rather
 # impoverished experience.  Here's how to fix this:
 #
+# Linux: create /etc/nanorc with contents:
+# include "/usr/share/nano/*.nanorc"
+#
 # *BSD:
 # On FreeBSD, create: /usr/local/etc/nanorc
 # On OpenBSD, create: /etc/nanorc
