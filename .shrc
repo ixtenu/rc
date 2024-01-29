@@ -143,3 +143,21 @@ fi
 if iscmd kitty; then
 	alias kssh='kitty +kitten ssh'
 fi
+
+# Consistent names for Sublime Text and Sublime Merge
+if ! iscmd subl; then
+	if iscmd sublime_text; then
+		alias subl='sublime_text'
+	elif iscmd subl-text; then
+		alias subl='subl-text'
+	elif iscmd subl4; then
+		alias subl='subl4'
+	fi
+fi
+if ! iscmd subm; then
+	if iscmd sublime_merge; then
+		alias subm='sublime_merge'
+	elif iscmd subl-merge; then
+		alias subm='subl-merge'
+	fi
+fi
