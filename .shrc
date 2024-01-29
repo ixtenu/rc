@@ -161,3 +161,6 @@ if ! iscmd subm; then
 		alias subm='subl-merge'
 	fi
 fi
+
+# Alternate name for vscode
+! iscmd code && iscmd code-oss && alias code='code-oss'
