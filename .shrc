@@ -164,3 +164,13 @@ fi
 
 # Alternate name for vscode
 ! iscmd code && iscmd code-oss && alias code='code-oss'
+
+# Alias sudo to doas and vice versa if one is available and the other isn't.
+if ! iscmd sudo && iscmd doas; then
+	if [ -f /etc/doas.conf ] || [ -f /usr/local/etc/doas.conf ]; then
+		alias sudo='doas'
+	fi
+fi
+if ! iscmd doas && iscmd sudo && [ -f /etc/sudoers ]; then
+	alias doas='sudo'
+fi
