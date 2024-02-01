@@ -212,6 +212,20 @@ https://joewing.net/projects/jwm/
   <Key mask="4A" key="Page_Up">sendl</Key>
   <Key mask="4A" key="Page_Down">sendr</Key>
 
+  <!--
+  Simulate volume, microphone, and backlight keys.  F[1-6] were deliberately
+  chosen to correspond with the function keys on ThinkPad keyboards.
+
+  vol/mic/bl are shell scripts that abstract the underlying commands, which
+  differ by system.  See <https://github.com/ixtenu/script> for those scripts.
+  -->
+  <Key mask="4" key="F1">exec:vol mute</Key>
+  <Key mask="4" key="F2">exec:vol down</Key>
+  <Key mask="4" key="F3">exec:vol up</Key>
+  <Key mask="4" key="F4">exec:mic toggle</Key>
+  <Key mask="4" key="F5">exec:bl dec</Key>
+  <Key mask="4" key="F6">exec:bl inc</Key>
+
   <!-- ************** -->
   <!-- Mouse Bindings -->
   <!-- ************** -->
