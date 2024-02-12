@@ -2,6 +2,7 @@
 ! xrdb -merge ~/.Xresources
 
 ! colors
+xterm*termName: xterm-256color
 xterm*background: black
 xterm*foreground: white
 
