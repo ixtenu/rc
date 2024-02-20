@@ -393,6 +393,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 
 (use-package git-modes)
 
+(use-package git-timemachine)
+
 ;;
 ;; Text Editing
 ;;
