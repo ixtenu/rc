@@ -108,7 +108,7 @@ bind CS s command send X w
 bind C k command send =
 
 # close current buffer
-bind C w command send D
+bind C x command send D
 # quit the editor
 bind C q command send q
 
