@@ -4,7 +4,7 @@
 # appearance
 font hack
 foreground white
-background block
+background black
 border gray
 
 # hard tabs by default
