@@ -164,6 +164,9 @@
 ;; Open a URL in a web browser
 (global-set-key (kbd "C-c u") #'browse-url)
 
+;; Prefer vertical window splitting.
+(setq split-height-threshold nil)
+
 ;;
 ;; Appearance
 ;;
