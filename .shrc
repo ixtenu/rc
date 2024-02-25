@@ -130,6 +130,15 @@ if iscmd nano; then
 	! iscmd na && alias na='nano'
 fi
 
+if iscmd sam; then
+	# sam-wrapper isn't meant for plan9port sam.
+	if [ -z "$PLAN9" ] || [ "$(which sam)" != "$PLAN9/bin/sam" ]; then
+		# invoke sam via a wrapper script
+		# <https://github.com/ixtenu/script/blob/master/sam-wrapper>
+		iscmd sam-wrapper && alias sam='sam-wrapper'
+	fi
+fi
+
 # Alias helix to hx on systems which install it as helix
 if iscmd helix && ! iscmd hx; then
 	alias hx='helix'
