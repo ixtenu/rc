@@ -175,6 +175,8 @@ if ! iscmd subm; then
 		alias subm='sublime_merge'
 	elif iscmd subl-merge; then
 		alias subm='subl-merge'
+	elif iscmd smerge; then
+		alias subm='smerge'
 	fi
 fi
 
