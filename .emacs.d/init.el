@@ -739,6 +739,15 @@ region."
 (add-hook 'sh-set-shell-hook (lambda () (sh-load-style "my-sh")))
 
 ;;
+;; Python
+;;
+
+(when (executable-find "black")
+  (use-package python-black
+    :after python
+    :hook (python-mode . python-black-on-save-mode-enable-dwim)))
+
+;;
 ;; Go
 ;;
 
