@@ -147,6 +147,9 @@
     (add-to-list 'exec-path newpath)))
 
 (my-add-to-path (concat (getenv "HOME") "/bin"))
+(my-add-to-path (concat (getenv "HOME") "/.local/bin"))
+(my-add-to-path (concat (getenv "HOME") "/go/bin"))
+(my-add-to-path (concat (getenv "HOME") "/.cargo/bin"))
 
 ;; native-compilation causes warnings with some packages: by default, this opens
 ;; the *Warnings* window, which is annoying, so suppress it.
