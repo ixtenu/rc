@@ -115,6 +115,17 @@ if iscmd emacs; then
 	alias gec='emacsclient -n'
 fi
 
+# Shorter name for JOE's Emacs emulation
+iscmd jmacs && alias jm='jmacs'
+
+# Alias for lightweight Emacs-like editor
+for e in godit-wrapper godit mg jmacs jed zile qemacs; do
+	if iscmd $e; then
+		alias em="$e"
+		break
+	fi
+done
+
 if iscmd nvim; then
 	alias vi='nvim'
 	alias vim='nvim'
