@@ -60,6 +60,14 @@ upcd() {
 	cd "$dir"
 }
 
+lk() {
+	if ! iscmd walk; then
+		echo "lk: walk must be installed" 1>&2
+		return 1
+	fi
+	cd "$(walk "$@")"
+}
+
 # ls
 if [ "$(uname)" = "OpenBSD" ]; then
 	alias ls='ls -hF'
