@@ -190,15 +190,16 @@
   (set-mouse-color "white"))
 
 (cond
- (*is-bsd*
-  (ignore-errors (set-frame-font "DejaVu Sans Mono 11" nil t)))
- (*is-linux*
-  (ignore-errors (set-frame-font "Inconsolata 12" nil t))
-  (ignore-errors (set-frame-font "Hack 11" nil t)))
- (*is-macos*
-  (ignore-errors (set-frame-font "Menlo 13" nil t)))
- (*is-windows*
-  (ignore-errors (set-frame-font "Consolas 12" nil t))))
+  (*is-bsd*
+    (ignore-errors (set-frame-font "DejaVu Sans Mono 11" nil t))
+    (ignore-errors (set-frame-font "Hack 13" nil t)))
+  (*is-linux*
+    (ignore-errors (set-frame-font "Inconsolata 12" nil t))
+    (ignore-errors (set-frame-font "Hack 11" nil t)))
+  (*is-macos*
+    (ignore-errors (set-frame-font "Menlo 13" nil t)))
+  (*is-windows*
+    (ignore-errors (set-frame-font "Consolas 12" nil t))))
 
 ;; TODO: doom-modeline seem to be causing problems in Emacs 27.1.  Errors are
 ;; being thrown when opening Python files in a Git project.
