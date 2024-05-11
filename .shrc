@@ -86,12 +86,8 @@ alias lt='ll -rt' # sort by date
 # Safety features
 alias cp='cp -i'
 alias mv='mv -i'
-if [ "$(uname)" = "OpenBSD" ]; then
-	alias rm='rm -i'
-else
-	alias rm='rm -I'
-fi
 if [ "$(uname)" != "OpenBSD" ]; then
+	alias rm='rm -I'
 	alias ln='ln -i'
 fi
 if [ "$(uname)" = "Linux" ]; then
