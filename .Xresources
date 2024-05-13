@@ -44,9 +44,8 @@ xterm*trimSelection: true
 
 ! lines of output that you can scroll back over
 xterm*saveLines: 32768
-! turn the scrollbar on, and put it on the right
-xterm*scrollBar: true
-xterm*rightScrollBar: true
+! turn the scrollbar off
+xterm*scrollBar: false
 
 ! do not scroll when there is new input e.g. tail -f /var/syslog
 xterm*scrollTtyOutput: false
