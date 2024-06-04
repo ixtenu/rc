@@ -58,8 +58,6 @@ installcmd sh "$HOME/.shrc"
 installcmd zsh "$HOME/.zshrc"
 installcmd ksh "$HOME/.kshrc"
 
-installfile "$HOME/.config/gtk-3.0/settings.ini" gtk3.ini
-
 if command -v sam >/dev/null 2>&1; then
 	# .samrc is for deadpixi/sam; don't install it for 9fans/plan9port sam
 	#
