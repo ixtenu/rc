@@ -418,6 +418,9 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
                             (visual-line-mode 1)
                             (adaptive-wrap-prefix-mode 1)))
 
+(global-set-key (kbd "C-c q") 'auto-fill-mode)
+(global-set-key (kbd "C-c Q") 'refill-mode)
+
 ;; https://stackoverflow.com/a/207067
 (defun my-generalized-shell-command (command arg)
   "Unifies `shell-command' and `shell-command-on-region'.  If no region is
