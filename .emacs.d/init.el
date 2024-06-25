@@ -421,6 +421,12 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (global-set-key (kbd "C-c q") 'auto-fill-mode)
 (global-set-key (kbd "C-c Q") 'refill-mode)
 
+;; refill-mode doesn't play nicely with org-mode, so use an alternative.
+(use-package aggressive-fill-paragraph
+  :config
+  (add-hook 'org-mode-hook
+    (lambda () (local-set-key (kbd "C-c Q") #'aggressive-fill-paragraph-mode))))
+
 ;; https://stackoverflow.com/a/207067
 (defun my-generalized-shell-command (command arg)
   "Unifies `shell-command' and `shell-command-on-region'.  If no region is
