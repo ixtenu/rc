@@ -91,6 +91,7 @@
 ;; Run `clean-buffer-list' at midnight.
 (require 'midnight)
 (midnight-delay-set 'midnight-delay 0)
+(midnight-mode 1)
 
 (global-set-key (kbd "C-c R") 'recentf-open-files)
 
