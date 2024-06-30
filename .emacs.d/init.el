@@ -195,7 +195,7 @@
     (ignore-errors (set-frame-font "Hack 13" nil t)))
   (*is-linux*
     (ignore-errors (set-frame-font "Inconsolata 12" nil t))
-    (ignore-errors (set-frame-font "Hack 11" nil t)))
+    (ignore-errors (set-frame-font "Hack 13" nil t)))
   (*is-macos*
     (ignore-errors (set-frame-font "Menlo 13" nil t)))
   (*is-windows*
