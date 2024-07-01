@@ -314,6 +314,13 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (use-package zygospore
   :bind (("C-x 1" . zygospore-toggle-delete-other-windows)))
 
+(use-package multiple-cursors
+  :init
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click))
+
 ;;
 ;; Completion
 ;;
