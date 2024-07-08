@@ -620,10 +620,33 @@ region."
   (editorconfig-mode 1))
 
 ;;
+;; Lisp
+;;
+
+(use-package paredit)
+
+;;
 ;; Emacs Lisp
 ;;
 
 (add-hook #'emacs-lisp-mode-hook (lambda () (setq indent-tabs-mode nil)))
+
+;;
+;; Common Lisp
+;;
+
+;; Add extensions
+(add-to-list #'auto-mode-alist '("\\.sbclrc\\'" . lisp-mode)) ; SBLC config file
+(add-to-list #'auto-mode-alist '("\\.cl\\'" . lisp-mode)) ; *.cl files
+
+(when (executable-find "sbcl")
+  (use-package slime)
+  (add-hook #'lisp-mode-hook (lambda ()
+                               (setq indent-tabs-mode nil)
+                               (unless (featurep 'slime)
+                                 (require 'slime)
+                                 (normal-mode))))
+  (setq inferior-lisp-program "sbcl"))
 
 ;;
 ;; C-family Programming Languages
