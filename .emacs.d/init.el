@@ -216,11 +216,13 @@
     ;; symlink.  See the doom-modeline README for details.
     :config (setq doom-modeline-project-detection 'project)))
 
-(tool-bar-mode -1)
-(if (fboundp 'scroll-bar-mode) (set-scroll-bar-mode nil))
+(tool-bar-mode -1) ; Disable the tool bar (it's large and not that useful).
 
-;; Disable the menu bar by default but make it easy to enable it.
-(menu-bar-mode -1)
+(when (fboundp 'scroll-bar-mode)
+  (set-scroll-bar-mode 1)) ; Enable scroll bars.
+
+;; Enable the menu bar by default but make it easy to disable.
+(menu-bar-mode 1)
 (defun my-menu-bar-toggle ()
   "Toggle the menu bar on or off."
   (interactive)
@@ -228,6 +230,9 @@
       (menu-bar-mode -1)
     (menu-bar-mode 1)))
 (global-set-key (kbd "C-c m") 'my-menu-bar-toggle)
+
+(when (my-emacs-version>= "28")
+  (context-menu-mode 1)) ; Make right-click more useful.
 
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
