@@ -171,6 +171,8 @@
 ;; Prefer vertical window splitting.
 (setq split-height-threshold nil)
 
+;; *scratch* starts out empty.
+(setq initial-scratch-message nil)
 ;; *scratch* major mode defaults to lisp-interaction-mode, change it to
 ;; fundamental-mode.
 (setq initial-major-mode 'fundamental-mode)
@@ -256,7 +258,6 @@
   (context-menu-mode 1)) ; Make right-click more useful.
 
 (setq inhibit-startup-screen t)
-(setq initial-scratch-message nil)
 
 (setq frame-resize-pixelwise t) ; No gaps around "maximized" window.
 
