@@ -171,6 +171,27 @@
 ;; Prefer vertical window splitting.
 (setq split-height-threshold nil)
 
+;; *scratch* major mode defaults to lisp-interaction-mode, change it to
+;; fundamental-mode.
+(setq initial-major-mode 'fundamental-mode)
+;; Persist *scratch* buffer across sessions.  The major mode is also persisted.
+(use-package persistent-scratch
+  :config
+  (persistent-scratch-setup-default)
+  (setq persistent-scratch-autosave-interval 60)
+  (persistent-scratch-autosave-mode 1))
+;; Don't allow *scratch* to be killed.  Instead, to delete everything in the
+;; buffer, use C-x h C-d.
+;; https://emacs.stackexchange.com/a/19256
+(defun my-dont-kill-named-buffer (name)
+  (if (not (equal (buffer-name) name))
+    t
+    (message "Not allowed to kill %s, burying instead" (buffer-name))
+    (bury-buffer)
+    nil))
+(defun my-dont-kill-scratch () (my-dont-kill-named-buffer "*scratch*"))
+(add-hook 'kill-buffer-query-functions #'my-dont-kill-scratch)
+
 ;;
 ;; Appearance
 ;;

@@ -1,6 +1,7 @@
 .emacs.desktop
 .emacs.desktop.lock
 .lsp-session-v1
+.persistent-scratch
 auto-save-list
 eln-cache
 history
