@@ -656,7 +656,10 @@ region."
 ;; Emacs Lisp
 ;;
 
-(add-hook #'emacs-lisp-mode-hook (lambda () (setq indent-tabs-mode nil)))
+(add-hook #'emacs-lisp-mode-hook
+  (lambda ()
+    (setq indent-tabs-mode nil)
+    (paredit-mode 1)))
 
 ;;
 ;; Common Lisp
@@ -668,11 +671,13 @@ region."
 
 (when (executable-find "sbcl")
   (use-package slime)
-  (add-hook #'lisp-mode-hook (lambda ()
-                               (setq indent-tabs-mode nil)
-                               (unless (featurep 'slime)
-                                 (require 'slime)
-                                 (normal-mode))))
+  (add-hook #'lisp-mode-hook
+    (lambda ()
+      (setq indent-tabs-mode nil)
+      (paredit-mode 1)
+      (unless (featurep 'slime)
+        (require 'slime)
+        (normal-mode))))
   (setq inferior-lisp-program "sbcl"))
 
 ;;
@@ -686,15 +691,15 @@ region."
   "Delete whitespace backwards to the next tab-stop, otherwise delete one character."
   (interactive)
   (if indent-tabs-mode
-      (call-interactively 'backward-delete-char)
+    (call-interactively 'backward-delete-char)
     (let ((movement (% (current-column) tab-width))
-          (p (point)))
+           (p (point)))
       (when (= movement 0) (setq movement tab-width))
       ;; Account for edge case near beginning of buffer
       (setq movement (min (- p 1) movement))
       (save-match-data
         (if (string-match "[^\t ]*\\([\t ]+\\)$" (buffer-substring-no-properties (- p movement) p))
-            (backward-delete-char (- (match-end 1) (match-beginning 1)))
+          (backward-delete-char (- (match-end 1) (match-beginning 1)))
           (call-interactively 'backward-delete-char))))))
 
 (defun my-c-mode-common-hook ()
