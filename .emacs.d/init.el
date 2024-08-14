@@ -198,13 +198,26 @@
 
 (setq custom-safe-themes t)
 
-(if (display-graphic-p)
-    (use-package constant-theme
-      :config
-      (load-theme 'constant))
-  (use-package almost-mono-themes
+(when t
+  (use-package tao-theme
     :config
-    (load-theme 'almost-mono-black)))
+    (setq tao-theme-use-boxes nil)
+    (load-theme 'tao-yin)))
+(when nil
+  ;; Dark theme with minimal green/blue coloring.
+  (use-package kosmos-theme
+    :config
+    (load-theme 'kosmos)))
+(when nil
+  ;; Dark theme with limited gray/green coloring.
+  (use-package constant-theme
+    :config
+    (load-theme 'constant)))
+(when nil
+  ;; Dark almost monochrome theme.
+  (use-package phoenix-dark-mono-theme
+    :config
+    (load-theme 'phoenix-dark-mono)))
 
 ;; Make sure the mouse pointer can be seen when drawn atop the nearly black
 ;; background color.
