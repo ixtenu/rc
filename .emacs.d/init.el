@@ -213,17 +213,27 @@
 (when (display-graphic-p)
   (set-mouse-color "white"))
 
-(cond
-  (*is-bsd*
-    (ignore-errors (set-frame-font "DejaVu Sans Mono 11" nil t))
-    (ignore-errors (set-frame-font "Hack 13" nil t)))
-  (*is-linux*
-    (ignore-errors (set-frame-font "Inconsolata 12" nil t))
-    (ignore-errors (set-frame-font "Hack 13" nil t)))
-  (*is-macos*
-    (ignore-errors (set-frame-font "Menlo 13" nil t)))
-  (*is-windows*
-    (ignore-errors (set-frame-font "Consolas 12" nil t))))
+;; Font customization (GUI only).
+(when (display-graphic-p)
+  (defun my-set-font (font)
+    "Call `set-frame-font' and return t on success and nil on failure."
+    (condition-case nil
+      (progn (set-frame-font font nil t t) t)
+      (error nil)))
+
+  (defun my-set-fonts (font-list)
+    "Call `my-set-font' on a list of fonts, in order, until success."
+    (while (let ((font (pop font-list)))
+             (and font (not (my-set-font font))))))
+
+  (my-set-fonts
+    (append
+      '("Go Mono 12" "Cascadia Code 12")
+      (cond
+        ((or *is-linux* *is-bsd*)
+          '("Hack 12" "DejaVu Sans Mono 11" "Inconsolata 12"))
+        (*is-macos* '("Menlo 13"))
+        (*is-windows* '("Consolas 12"))))))
 
 ;; TODO: doom-modeline seem to be causing problems in Emacs 27.1.  Errors are
 ;; being thrown when opening Python files in a Git project.
