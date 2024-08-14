@@ -1,4 +1,6 @@
-;;; init.el --- GNU Emacs initialization -*- lexical-binding: t; -*-
+;;; init.el --- GNU Emacs initialization  -*- lexical-binding: t; -*-
+
+;;; Code:
 
 (defun my-emacs-version< (version) (version< emacs-version version))
 (defun my-emacs-version>= (version) (not (my-emacs-version< version)))
@@ -21,9 +23,8 @@
   "Add the given function to a list of hooks."
   (mapc (lambda (hook) (add-hook hook function)) hooks))
 
-;;
-;; Package Manager
-;;
+
+;;;; Package Manager:
 
 ;; Bootstrap straight.el
 (defvar bootstrap-version)
@@ -43,9 +44,8 @@
 (setq straight-use-package-by-default t)
 (straight-use-package 'use-package)
 
-;;
-;; Operating Systems
-;;
+
+;;;; Operating Systems:
 
 (defconst *is-bsd* (eq system-type 'berkeley-unix))
 (defconst *is-linux* (eq system-type 'gnu/linux))
@@ -63,9 +63,8 @@
   (use-package exec-path-from-shell)
   (exec-path-from-shell-initialize))
 
-;;
-;; General Settings
-;;
+
+;;;; General Settings:
 
 (setq ring-bell-function 'ignore)
 
@@ -187,16 +186,15 @@
 ;; https://emacs.stackexchange.com/a/19256
 (defun my-dont-kill-named-buffer (name)
   (if (not (equal (buffer-name) name))
-    t
+      t
     (message "Not allowed to kill %s, burying instead" (buffer-name))
     (bury-buffer)
     nil))
 (defun my-dont-kill-scratch () (my-dont-kill-named-buffer "*scratch*"))
 (add-hook 'kill-buffer-query-functions #'my-dont-kill-scratch)
 
-;;
-;; Appearance
-;;
+
+;;;; Appearance:
 
 (setq custom-safe-themes t)
 
@@ -218,7 +216,7 @@
   (defun my-set-font (font)
     "Call `set-frame-font' and return t on success and nil on failure."
     (condition-case nil
-      (progn (set-frame-font font nil t t) t)
+        (progn (set-frame-font font nil t t) t)
       (error nil)))
 
   (defun my-set-fonts (font-list)
@@ -227,13 +225,13 @@
              (and font (not (my-set-font font))))))
 
   (my-set-fonts
-    (append
-      '("Go Mono 12" "Cascadia Code 12")
-      (cond
-        ((or *is-linux* *is-bsd*)
-          '("Hack 12" "DejaVu Sans Mono 11" "Inconsolata 12"))
-        (*is-macos* '("Menlo 13"))
-        (*is-windows* '("Consolas 12"))))))
+   (append
+    '("Go Mono 12" "Cascadia Code 12")
+    (cond
+     ((or *is-linux* *is-bsd*)
+      '("Hack 12" "DejaVu Sans Mono 11" "Inconsolata 12"))
+     (*is-macos* '("Menlo 13"))
+     (*is-windows* '("Consolas 12"))))))
 
 ;; TODO: doom-modeline seem to be causing problems in Emacs 27.1.  Errors are
 ;; being thrown when opening Python files in a Git project.
@@ -320,9 +318,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
               (when (display-graphic-p)
                 (display-line-numbers--turn-on)))))))
 
-;;
-;; Project Management
-;;
+
+;;;; Project Management:
 
 ;; For projectile-ag and projectile-ripgrep
 (when (executable-find "ag")
@@ -336,9 +333,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   (projectile-mode 1)
   :bind (:map projectile-mode-map ("C-c p" . projectile-command-map)))
 
-;;
-;; Input
-;;
+
+;;;; Input:
 
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -359,64 +355,62 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
   (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click))
 
-;;
-;; Completion
-;;
+
+;;;; Completion:
 
 (when (my-emacs-version>= "27") ;; This breaks M-x with Emacs 26
-    (use-package vertico
-      :init
-      (vertico-mode))
+  (use-package vertico
+    :init
+    (vertico-mode))
 
-    ;; Persist history over Emacs restarts.  Vertico sorts by history position.
-    (use-package savehist
-      :init
-      (savehist-mode))
+  ;; Persist history over Emacs restarts.  Vertico sorts by history position.
+  (use-package savehist
+    :init
+    (savehist-mode))
 
-    ;; A few more useful configurations for Vertico...
-    (use-package emacs
-      :init
-      ;; Add prompt indicator to `completing-read-multiple'.
-      (defun crm-indicator (args)
-        (cons (concat "[CRM] " (car args)) (cdr args)))
-      (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  ;; A few more useful configurations for Vertico...
+  (use-package emacs
+    :init
+    ;; Add prompt indicator to `completing-read-multiple'.
+    (defun crm-indicator (args)
+      (cons (concat "[CRM] " (car args)) (cdr args)))
+    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
-      ;; Do not allow the cursor in the minibuffer prompt
-      (setq minibuffer-prompt-properties
-            '(read-only t cursor-intangible t face minibuffer-prompt))
-      (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+    ;; Do not allow the cursor in the minibuffer prompt
+    (setq minibuffer-prompt-properties
+          '(read-only t cursor-intangible t face minibuffer-prompt))
+    (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-      ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-      ;; Vertico commands are hidden in normal buffers.
-      (if (my-emacs-version>= "28")
-          (setq read-extended-command-predicate
-                #'command-completion-default-include-p))
+    ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
+    ;; Vertico commands are hidden in normal buffers.
+    (if (my-emacs-version>= "28")
+        (setq read-extended-command-predicate
+              #'command-completion-default-include-p))
 
-      ;; Enable recursive minibuffers
-      (setq enable-recursive-minibuffers t))
+    ;; Enable recursive minibuffers
+    (setq enable-recursive-minibuffers t))
 
-    (use-package orderless
-      :init
-      (setq completion-styles '(orderless basic)
-            completion-category-defaults nil
-            completion-category-overrides '((file (styles partial-completion))))))
+  (use-package orderless
+    :init
+    (setq completion-styles '(orderless basic)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles partial-completion))))))
 
-;;
-;; User Utilities
-;;
+
+;;;; User Utilities:
 
 (use-package crux
   :bind
   (("C-x 4 t" . #'crux-transpose-windows) ; Swap buffers in current/other window
-   ("C-c o" . #'crux-open-with) ; Open visited file with default application
+   ("C-c o" . #'crux-open-with)     ; Open visited file with default application
    ("C-c D" . #'crux-delete-file-and-buffer) ; Delete visited file and its buffer
    ("C-c r" . #'crux-rename-file-and-buffer) ; Rename visited file and its buffer
    ("C-c c" . #'crux-copy-file-preserve-attributes) ; cp -a
-   ("C-c !" . #'crux-sudo-edit) ; Edit visited file with sudo
-   ("C-c I" . #'crux-find-user-init-file) ; Open init.el
+   ("C-c !" . #'crux-sudo-edit)            ; Edit visited file with sudo
+   ("C-c I" . #'crux-find-user-init-file)  ; Open init.el
    ("C-c P" . #'crux-kill-buffer-truename) ; Copy path to visited file
-   ("C-c k" . #'crux-kill-other-buffers) ; Kill all buffers except current
-   ("C-c t" . #'crux-visit-term-buffer) ; Open ansi-term
+   ("C-c k" . #'crux-kill-other-buffers)   ; Kill all buffers except current
+   ("C-c t" . #'crux-visit-term-buffer)    ; Open ansi-term
    ("C-c d" . #'crux-duplicate-current-line-or-region)))
 
 (defun my-close-all-buffers ()
@@ -425,9 +419,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
   (mapc 'kill-buffer (buffer-list)))
 (global-set-key (kbd "C-c W") #'my-close-all-buffers)
 
-;;
-;; Git
-;;
+
+;;;; Git:
 
 (use-package magit
   :bind
@@ -448,9 +441,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 
 (use-package git-timemachine)
 
-;;
-;; Text Editing
-;;
+
+;;;; Text Editing:
 
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8-unix)
@@ -471,7 +463,7 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
 (use-package aggressive-fill-paragraph
   :config
   (add-hook 'org-mode-hook
-    (lambda () (local-set-key (kbd "C-c Q") #'aggressive-fill-paragraph-mode))))
+            (lambda () (local-set-key (kbd "C-c Q") #'aggressive-fill-paragraph-mode))))
 
 ;; https://stackoverflow.com/a/207067
 (defun my-generalized-shell-command (command arg)
@@ -548,18 +540,16 @@ region."
   (if (string-equal major-mode "sh-mode")
       (setq sh-basic-offset tab-width)))
 
-;;
-;; HTML
-;;
+
+;;;; HTML:
 
 (add-hook 'html-mode-hook
           (lambda ()
             ;; Disable HTML indentation by default.
             (set (make-local-variable 'sgml-basic-offset) 0)))
 
-;;
-;; Markdown
-;;
+
+;;;; Markdown:
 
 (use-package markdown-mode
   :mode "\\.md\\'")
@@ -568,9 +558,8 @@ region."
 ;; that change, restore the default.
 (add-hook 'markdown-mode-hook (lambda () (setq tab-width 8)))
 
-;;
-;; Org
-;;
+
+;;;; Org:
 
 (require 'org)
 
@@ -598,9 +587,9 @@ region."
   "Extract URL from org-mode link and add it to kill ring."
   (interactive "P")
   (let* ((link (org-element-lineage (org-element-context) '(link) t))
-          (type (org-element-property :type link))
-          (url (org-element-property :path link))
-          (url (concat type ":" url)))
+         (type (org-element-property :type link))
+         (url (org-element-property :path link))
+         (url (concat type ":" url)))
     (kill-new url)
     (message (concat "Copied URL: " url))))
 (define-key org-mode-map (kbd "C-c e") #'my-org-link-copy)
@@ -616,9 +605,8 @@ region."
 ;; blocks.
 (setq org-src-preserve-indentation t)
 
-;;
-;; Programming
-;;
+
+;;;; Programming:
 
 (setq gdb-many-windows t)
 (setq gdb-show-main t)
@@ -656,24 +644,21 @@ region."
   (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
   (editorconfig-mode 1))
 
-;;
-;; Lisp
-;;
+
+;;;; Lisp:
 
 (use-package paredit)
 
-;;
-;; Emacs Lisp
-;;
+
+;;;; Emacs Lisp:
 
 (add-hook #'emacs-lisp-mode-hook
-  (lambda ()
-    (setq indent-tabs-mode nil)
-    (paredit-mode 1)))
+          (lambda ()
+            (setq indent-tabs-mode nil)
+            (paredit-mode 1)))
 
-;;
-;; Common Lisp
-;;
+
+;;;; Common Lisp:
 
 ;; Add extensions
 (add-to-list #'auto-mode-alist '("\\.sbclrc\\'" . lisp-mode)) ; SBLC config file
@@ -682,17 +667,16 @@ region."
 (when (executable-find "sbcl")
   (use-package slime)
   (add-hook #'lisp-mode-hook
-    (lambda ()
-      (setq indent-tabs-mode nil)
-      (paredit-mode 1)
-      (unless (featurep 'slime)
-        (require 'slime)
-        (normal-mode))))
+            (lambda ()
+              (setq indent-tabs-mode nil)
+              (paredit-mode 1)
+              (unless (featurep 'slime)
+                (require 'slime)
+                (normal-mode))))
   (setq inferior-lisp-program "sbcl"))
 
-;;
-;; C-family Programming Languages
-;;
+
+;;;; C-family Programming Languages:
 
 ;; Derived from both:
 ;; https://stackoverflow.com/a/1450454
@@ -701,15 +685,15 @@ region."
   "Delete whitespace backwards to the next tab-stop, otherwise delete one character."
   (interactive)
   (if indent-tabs-mode
-    (call-interactively 'backward-delete-char)
+      (call-interactively 'backward-delete-char)
     (let ((movement (% (current-column) tab-width))
-           (p (point)))
+          (p (point)))
       (when (= movement 0) (setq movement tab-width))
       ;; Account for edge case near beginning of buffer
       (setq movement (min (- p 1) movement))
       (save-match-data
         (if (string-match "[^\t ]*\\([\t ]+\\)$" (buffer-substring-no-properties (- p movement) p))
-          (backward-delete-char (- (match-end 1) (match-beginning 1)))
+            (backward-delete-char (- (match-end 1) (match-beginning 1)))
           (call-interactively 'backward-delete-char))))))
 
 (defun my-c-mode-common-hook ()
@@ -734,9 +718,8 @@ region."
 
 (add-hook #'align-load-hook #'my-c-no-align-equals-in-vardecl)
 
-;;
-;; C
-;;
+
+;;;; C:
 
 (setq-default c-tab-always-indent nil)
 
@@ -790,15 +773,13 @@ region."
 
 (add-hook 'c-mode-hook #'my-c-style-from-path)
 
-;;
-;; Makefile
-;;
+
+;;;; Makefile:
 
 (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-gmake-mode))
 
-;;
-;; Shell
-;;
+
+;;;; Shell:
 
 (setq sh-styles-alist
       '(("my-sh"
@@ -822,18 +803,16 @@ region."
          (sh-indent-for-then . 0))))
 (add-hook 'sh-set-shell-hook (lambda () (sh-load-style "my-sh")))
 
-;;
-;; Python
-;;
+
+;;;; Python:
 
 (when (executable-find "black")
   (use-package python-black
     :after python
     :hook (python-mode . python-black-on-save-mode-enable-dwim)))
 
-;;
-;; Go
-;;
+
+;;;; Go:
 
 (when (executable-find "go")
   ;; Ensure that $GOPATH/bin is in the path.  If $GOPATH is undefined, $HOME/go
@@ -856,27 +835,27 @@ region."
       (add-hook 'before-save-hook #'lsp-organize-imports t t))
     (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)))
 
-;;
-;; Nix
-;;
+
+;;;; Nix:
 
 (when (executable-find "nix")
   (use-package nix-mode
     :mode "\\.nix\\'"))
 
-;;
-;; Local Changes
-;;
+
+;;;; Local Changes:
 
 (let ((local-init (my-emacs-d-path "local-init.el")))
   (when (file-exists-p local-init)
     (load-file local-init)))
 
-;;
-;; (Hopefully) Temporary Workarounds
-;;
+
+;;;; (Hopefully) Temporary Workarounds:
 
 ;; GnuPG 2.4.1 broke EasyPG
 ;; https://dev.gnupg.org/T6481
 ;; https://old.reddit.com/r/emacs/comments/137r7j7/gnupg_241_encryption_issues_with_emacs_orgmode/
 (fset #'epg-wait-for-status 'ignore)
+
+
+;;; init.el ends here
