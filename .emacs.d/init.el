@@ -259,6 +259,34 @@
     (menu-bar-mode 1)))
 (global-set-key (kbd "C-c m") 'my-menu-bar-toggle)
 
+;; all-the-icons used for sidebar (GUI only).
+(when (display-graphic-p) (use-package all-the-icons))
+
+(use-package dired-sidebar
+  :commands (dired-sidebar-toggle-sidebar)
+  :init
+  (add-hook 'dired-sidebar-mode-hook
+    (lambda ()
+      (unless (file-remote-p default-directory)
+        (auto-revert-mode))))
+  :config
+  (if (display-graphic-p)
+    (setq dired-sidebar-theme 'icons)
+    (setq dired-sidebar-theme 'ascii))
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-should-follow-file t)
+  (setq dired-sidebar-follow-file-idle-delay 0.01))
+
+(use-package ibuffer-sidebar
+  :commands (ibuffer-sidebar-toggle-sidebar))
+
+(defun my-sidebar-toggle ()
+  "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
+  (interactive)
+  (dired-sidebar-toggle-sidebar)
+  (ibuffer-sidebar-toggle-sidebar))
+(global-set-key (kbd "C-x C-n") 'my-sidebar-toggle)
+
 (when (my-emacs-version>= "28")
   (context-menu-mode 1)) ; Make right-click more useful.
 
