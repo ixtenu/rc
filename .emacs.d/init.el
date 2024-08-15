@@ -849,9 +849,11 @@ region."
 
 ;;;; (Hopefully) Temporary Workarounds:
 
-;; GnuPG 2.4.1 broke EasyPG
+;; GnuPG 2.4.1 broke EasyPG:
 ;; https://dev.gnupg.org/T6481
 ;; https://old.reddit.com/r/emacs/comments/137r7j7/gnupg_241_encryption_issues_with_emacs_orgmode/
+;; Fixed in GnuPG 2.4.4 (note some Linux distros backported the fix to earlier versions).
+;; Leaving this workaround here for a while, until GnuPG 2.4.4 can be assumed.
 (fset #'epg-wait-for-status 'ignore)
 
 
