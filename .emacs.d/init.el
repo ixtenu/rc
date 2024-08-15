@@ -303,6 +303,10 @@
       (dired-sidebar-hide-sidebar))))
 (global-set-key (kbd "C-x C-n") 'my-sidebar-toggle)
 
+(global-set-key (kbd "C-c S") 'speedbar)
+;; Don't sort the speedbar: items should be in order of appearance.
+(setq speedbar-tag-hierarchy-method '(speedbar-trim-words-tag-hierarchy))
+
 (when (my-emacs-version>= "28")
   (context-menu-mode 1)) ; Make right-click more useful.
 
