@@ -259,7 +259,7 @@
     (menu-bar-mode 1)))
 (global-set-key (kbd "C-c m") 'my-menu-bar-toggle)
 
-;; all-the-icons used for sidebar (GUI only).
+;; all-the-icons used for sidebar and dired (GUI only).
 (when (display-graphic-p) (use-package all-the-icons))
 
 (use-package dired-sidebar
@@ -298,6 +298,11 @@
 (setq show-paren-delay 0)
 
 (column-number-mode t)
+
+(when (display-graphic-p)
+  ;; Dired eye candy.
+  (use-package all-the-icons-dired)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (blink-cursor-mode 1)
 (setq-default cursor-type 'bar)
