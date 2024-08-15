@@ -655,12 +655,9 @@ region."
 (if (display-graphic-p)
   (add-hook 'prog-mode-hook #'display-line-numbers-mode))
 
-;; Disabled: causing "Match data clobbered by buffer modification hooks" errors
-;; with M-x replace-string and similar commands
-(when nil
-  (use-package auto-highlight-symbol
-    :config
-    (add-hook 'prog-mode-hook (lambda () (auto-highlight-symbol-mode 1)))))
+(use-package auto-highlight-symbol
+  :config
+  (add-hook 'prog-mode-hook (lambda () (auto-highlight-symbol-mode 1))))
 
 (use-package highlight-numbers
   :config
