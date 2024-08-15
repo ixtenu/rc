@@ -377,6 +377,14 @@
 (use-package zygospore
   :bind (("C-x 1" . zygospore-toggle-delete-other-windows)))
 
+;; Easier window navigation
+(use-package ace-window
+  :bind (("M-o" . ace-window)))
+(global-set-key (kbd "C-c <left>") 'windmove-left)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
+(global-set-key (kbd "C-c <up>") 'windmove-up)
+(global-set-key (kbd "C-c <down>") 'windmove-down)
+
 (use-package multiple-cursors
   :init
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
