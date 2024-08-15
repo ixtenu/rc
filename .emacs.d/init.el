@@ -271,27 +271,6 @@
 
 (column-number-mode t)
 
-;; Redefine `display-line-numbers--turn-on' to exempt certain major modes.
-;; https://www.emacswiki.org/emacs/LineNumbers#h5o-1
-(require 'display-line-numbers)
-(defcustom display-line-numbers-exempt-modes
-  '(vterm-mode eshell-mode shell-mode term-mode ansi-term-mode)
-  "Major modes on which to disable line numbers."
-  :group 'display-line-numbers
-  :type 'list
-  :version "green")
-(defun display-line-numbers--turn-on ()
-  "Turn on line numbers except for certain major modes.
-Exempt major modes are defined in `display-line-numbers-exempt-modes'."
-  (unless (or (minibufferp)
-              (member major-mode display-line-numbers-exempt-modes))
-    (display-line-numbers-mode)))
-
-;; Turn on line numbers by default only in GUI mode.  In the terminal, there are
-;; typically fewer columns, so don't waste them.
-(if (display-graphic-p)
-    (global-display-line-numbers-mode))
-
 (blink-cursor-mode 1)
 (setq-default cursor-type 'bar)
 ;; Switch to an underbar cursor while in overwrite mode.
@@ -312,8 +291,8 @@ Exempt major modes are defined in `display-line-numbers-exempt-modes'."
                 ;; Disable line numbers when writeroom-mode is enabled
                 (display-line-numbers-mode -1)
               ;; Restore line number defaults when writeroom-mode is disabled
-              (when (display-graphic-p)
-                (display-line-numbers--turn-on)))))))
+              (when (and (display-graphic-p) (derived-mode-p 'prog-mode))
+                (display-line-numbers-mode 1)))))))
 
 
 ;;;; Project Management:
@@ -609,6 +588,11 @@ region."
 (setq gdb-show-main t)
 
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace 1)))
+
+;; Turn on line numbers by default only in GUI mode.  In the terminal, there are
+;; typically fewer columns, so don't waste them.
+(if (display-graphic-p)
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode))
 
 ;; Disabled: causing "Match data clobbered by buffer modification hooks" errors
 ;; with M-x replace-string and similar commands
