@@ -273,18 +273,34 @@
   (if (display-graphic-p)
     (setq dired-sidebar-theme 'icons)
     (setq dired-sidebar-theme 'ascii))
+  (setq dired-sidebar-pop-to-sidebar-on-toggle-open nil)
   (setq dired-sidebar-use-term-integration t)
   (setq dired-sidebar-should-follow-file t)
-  (setq dired-sidebar-follow-file-idle-delay 0.01))
+  (setq dired-sidebar-follow-file-idle-delay 0.01)
+  (setq dired-sidebar-no-delete-other-windows t))
 
 (use-package ibuffer-sidebar
-  :commands (ibuffer-sidebar-toggle-sidebar))
+  :commands (ibuffer-sidebar-toggle-sidebar)
+  :config
+  (setq ibuffer-sidebar-pop-to-sidebar-on-toggle-open nil))
 
 (defun my-sidebar-toggle ()
   "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
   (interactive)
-  (dired-sidebar-toggle-sidebar)
-  (ibuffer-sidebar-toggle-sidebar))
+  ;; The showing-sidebar-p functions are internal.
+  (require 'dired-sidebar)
+  (require 'ibuffer-sidebar)
+  (if (eq
+        (not (dired-sidebar-showing-sidebar-p))
+        (not (ibuffer-sidebar-showing-sidebar-p)))
+    ;; Both sidebars hidden or shown.  Toggle both.
+    (progn
+      (dired-sidebar-toggle-sidebar)
+      (ibuffer-sidebar-toggle-sidebar))
+    ;; Sidebars are out-of-sync.  Hide whichever is showing.
+    (if (ibuffer-sidebar-showing-sidebar-p)
+      (ibuffer-sidebar-hide-sidebar)
+      (dired-sidebar-hide-sidebar))))
 (global-set-key (kbd "C-x C-n") 'my-sidebar-toggle)
 
 (when (my-emacs-version>= "28")
