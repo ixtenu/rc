@@ -73,15 +73,7 @@
 ;; Run Emacs as a server so that emacsclient will work.
 (require 'server)
 (unless (server-running-p)
-  (server-start)
-
-  ;; Save and restore session state.  If the server was already running, then a
-  ;; prior instance of Emacs is already running: don't enable desktop-save-mode
-  ;; in that case, since the desktop file will be locked by the prior instance.
-  (desktop-save-mode 1))
-
-(setq desktop-save t) ; Save session state without prompting
-(setq desktop-dirname user-emacs-directory) ; Save session state in ~/.emacs.d
+  (server-start))
 
 (save-place-mode 1) ; Remember position in files.
 (recentf-mode 1) ; Remember recently edited files.
@@ -128,21 +120,6 @@
 (add-hook 'minibuffer-exit-hook #'my-gc-minibuffer-exit-hook)
 
 (use-package restart-emacs)
-(defun my-exit-or-restart-emacs-reset-desktop (restart)
-  "Restart or exit GNU Emacs without `desktop-save-mode'."
-  (desktop-save-mode 0)
-  (delete-file (desktop-full-file-name))
-  (if restart
-    (restart-emacs)
-    (save-buffers-kill-emacs)))
-(defun my-restart-emacs-reset-desktop ()
-  "Restart GNU Emacs without `desktop-save-mode'."
-  (interactive)
-  (my-exit-or-restart-emacs-reset-desktop t))
-(defun my-exit-emacs-reset-desktop ()
-  "Exit GNU Emacs without `desktop-save-mode'."
-  (interactive)
-  (my-exit-or-restart-emacs-reset-desktop nil))
 
 ;; Force EasyPG to prompt for password within Emacs.
 (setq epg-pinentry-mode 'loopback)
