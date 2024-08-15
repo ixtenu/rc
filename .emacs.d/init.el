@@ -128,12 +128,21 @@
 (add-hook 'minibuffer-exit-hook #'my-gc-minibuffer-exit-hook)
 
 (use-package restart-emacs)
+(defun my-exit-or-restart-emacs-reset-desktop (restart)
+  "Restart or exit GNU Emacs without `desktop-save-mode'."
+  (desktop-save-mode 0)
+  (delete-file (desktop-full-file-name))
+  (if restart
+    (restart-emacs)
+    (save-buffers-kill-emacs)))
 (defun my-restart-emacs-reset-desktop ()
   "Restart GNU Emacs without `desktop-save-mode'."
   (interactive)
-  (desktop-save-mode 0)
-  (delete-file (desktop-full-file-name))
-  (restart-emacs))
+  (my-exit-or-restart-emacs-reset-desktop t))
+(defun my-exit-emacs-reset-desktop ()
+  "Exit GNU Emacs without `desktop-save-mode'."
+  (interactive)
+  (my-exit-or-restart-emacs-reset-desktop nil))
 
 ;; Force EasyPG to prompt for password within Emacs.
 (setq epg-pinentry-mode 'loopback)
