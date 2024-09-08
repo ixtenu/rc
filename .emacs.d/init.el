@@ -72,8 +72,8 @@
 
 ;; Run Emacs as a server so that emacsclient will work.
 (require 'server)
-(unless (server-running-p)
-  (server-start))
+(defconst *is-first-instance* (not (server-running-p)))
+(when *is-first-instance* (server-start))
 
 (save-place-mode 1) ; Remember position in files.
 (recentf-mode 1) ; Remember recently edited files.
@@ -162,11 +162,14 @@
 ;; fundamental-mode.
 (setq initial-major-mode 'fundamental-mode)
 ;; Persist *scratch* buffer across sessions.  The major mode is also persisted.
-(use-package persistent-scratch
-  :config
-  (persistent-scratch-setup-default)
-  (setq persistent-scratch-autosave-interval 60)
-  (persistent-scratch-autosave-mode 1))
+;; Skip doing this if another instance of Emacs is already open: don't want
+;; multiple instances writing their scratch buffers to the same file.
+(when *is-first-instance*
+  (use-package persistent-scratch
+    :config
+    (persistent-scratch-setup-default)
+    (setq persistent-scratch-autosave-interval 60)
+    (persistent-scratch-autosave-mode 1)))
 ;; Don't allow *scratch* to be killed.  Instead, to delete everything in the
 ;; buffer, use C-x h C-d.
 ;; https://emacs.stackexchange.com/a/19256
