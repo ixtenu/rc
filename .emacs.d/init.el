@@ -212,7 +212,7 @@
 
   (my-set-fonts
    (append
-    '("Go Mono 12" "Cascadia Code 12")
+    '("GoMono Nerd Font 12" "Go Mono 12" "Cascadia Code 12")
     (cond
      ((or *is-linux* *is-bsd*)
       '("Hack 12" "DejaVu Sans Mono 11" "Inconsolata 12"))
