@@ -154,6 +154,8 @@ if iscmd sam; then
 	fi
 fi
 
+[ -f "$HOME/.qed/env" ] && . "$HOME/.qed/env"
+
 # Alias helix to hx on systems which install it as helix
 if iscmd helix && ! iscmd hx; then
 	alias hx='helix'
