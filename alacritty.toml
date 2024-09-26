@@ -1,4 +1,5 @@
 [font]
+normal = { family = "Go Mono", style = "Regular" }
 size = 12.0
 
 [[keyboard.bindings]]
