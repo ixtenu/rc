@@ -7,16 +7,16 @@ https://joewing.net/projects/jwm/
 
   <!-- The root menu. -->
   <RootMenu onroot="12">
-    <Program icon="utilities-terminal" label="Terminal">xterm</Program>
+    <Program icon="utilities-terminal" label="Terminal">alacritty</Program>
     <Menu icon="folder" label="Applications">
       <Program icon="calc" label="Calculator">xcalc</Program>
       <Program icon="web-browser" label="Firefox">firefox</Program>
       <Program icon="web-browser" label="Tor Browser">tor-browser</Program>
-      <Program icon="web-browser" label="Lynx">xterm -title Lynx -e lynx</Program>
+      <Program icon="web-browser" label="Lynx">alacritty -T Lynx -e lynx</Program>
       <Program label="Emacs">emacs</Program>
     </Menu>
     <Menu icon="folder" label="Utilities">
-      <Program label="Htop">xterm -title Htop -e htop</Program>
+      <Program label="Htop">alacritty -T Htop -e htop</Program>
       <Program label="Display Configuration">arandr</Program>
       <Program icon="font" label="Fonts">xfontsel</Program>
       <Program icon="info" label="Window Properties">xprop | xmessage -file -</Program>
@@ -166,7 +166,7 @@ https://joewing.net/projects/jwm/
   <Key mask="CA" key="Delete">exec:xlock -mode blank</Key>
 
   <!-- Open terminal -->
-  <Key mask="4" key="Return">exec:xterm</Key>
+  <Key mask="4" key="Return">exec:alacritty</Key>
 
   <!-- Application launcher -->
   <Key mask="4" key="space">
