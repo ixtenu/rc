@@ -33,6 +33,18 @@ for e in nano-wrapper nano mg jmacs godit nvim vim vi; do
 	fi
 done
 
+fzp() {
+	if [ $# -lt 1 ]; then
+		echo "fzp: must specify a program name" 1>&2
+		return 1
+	fi
+	program="$1"
+	shift
+	"$program" "$@" $(fzf -m)
+}
+
+[ -n "$VISUAL" ] && fze() { fzp "$VISUAL" "$@" }
+
 # Modified commands
 if [ "$(uname)" != "OpenBSD" ]; then
 	alias grep='grep --color=auto'
