@@ -672,6 +672,16 @@ region."
   (setq editorconfig-trim-whitespaces-mode 'ws-butler-mode)
   (editorconfig-mode 1))
 
+(when (my-emacs-version>= "29")
+  (use-package treesit-auto
+    :custom
+    ;; On NixOS, it's better to install the grammars from nixpkgs.
+    (when (not (executable-find "nixos-version"))
+      (treesit-auto-install 'prompt))
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    :config
+    (global-treesit-auto-mode)))
+
 
 ;;;; Lisp:
 
