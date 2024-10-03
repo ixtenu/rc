@@ -23,6 +23,13 @@
   "Add the given function to a list of hooks."
   (mapc (lambda (hook) (add-hook hook function)) hooks))
 
+(defun my-executables-found (exec-list)
+  "Check whether a list of executables are in PATH."
+  (if (null exec-list)
+    t
+    (if (executable-find (car exec-list))
+      (my-executables-found (cdr exec-list))
+      nil)))
 
 ;;;; Package Manager:
 
@@ -872,6 +879,21 @@ region."
       (add-hook 'before-save-hook #'lsp-format-buffer t t)
       (add-hook 'before-save-hook #'lsp-organize-imports t t))
     (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)))
+
+;;;; Rust:
+
+;; TODO: Consider a more sophisticated setup, e.g.,
+;; https://robert.kra.hn/posts/rust-emacs-setup/
+
+(when (my-executables-found '("rustc" "cargo"))
+  (use-package rust-mode
+    :init
+    (when (my-emacs-version>= "29")
+      (setq rust-mode-treesitter-derive t)))
+  (add-hook 'rust-mode-hook
+    (lambda () (setq indent-tabs-mode nil)))
+  (when (executable-find "rustfmt")
+    (setq rust-format-on-save t)))
 
 
 ;;;; Nix:
