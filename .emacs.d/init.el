@@ -687,6 +687,9 @@ region."
       (treesit-auto-install 'prompt))
     (treesit-auto-add-to-auto-mode-alist 'all)
     :config
+    ;; Without the below line, rust-format-on-save doesn't work.  rust-mode has
+    ;; its own setting to use tree-sitter anyway.
+    (delete 'rust treesit-auto-langs)
     (global-treesit-auto-mode)))
 
 
@@ -888,12 +891,12 @@ region."
 (when (my-executables-found '("rustc" "cargo"))
   (use-package rust-mode
     :init
+    (when (executable-find "rustfmt")
+      (setq rust-format-on-save t))
     (when (my-emacs-version>= "29")
       (setq rust-mode-treesitter-derive t)))
   (add-hook 'rust-mode-hook
-    (lambda () (setq indent-tabs-mode nil)))
-  (when (executable-find "rustfmt")
-    (setq rust-format-on-save t)))
+    (lambda () (setq indent-tabs-mode nil))))
 
 
 ;;;; Nix:
