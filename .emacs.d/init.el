@@ -573,13 +573,44 @@ region."
   (if (string-equal major-mode "sh-mode")
       (setq sh-basic-offset tab-width)))
 
+;; my-open-line functions from: https://stackoverflow.com/a/2173393
+
+;; like vi's "O" command
+(defun my-open-line-above ()
+  "Insert a newline above the current line and put point at beginning."
+  (interactive)
+  (unless (bolp)
+    (beginning-of-line))
+  (newline)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+;; like vi's "o" command
+(defun my-open-line-below ()
+  "Insert a newline below the current line and put point at beginning."
+  (interactive)
+  (unless (eolp)
+    (end-of-line))
+  (newline-and-indent))
+
+(defun my-open-line (&optional abovep)
+  "Insert a newline below the current line and put point at beginning.
+With a prefix argument, insert a newline above the current line."
+  (interactive "P")
+  (if abovep
+    (my-open-line-above)
+    (my-open-line-below)))
+
+(global-set-key (kbd "C-<return>") #'my-open-line)
+(global-set-key (kbd "S-<return>") #'my-open-line-above)
+
 
 ;;;; HTML:
 
 (add-hook 'html-mode-hook
-          (lambda ()
-            ;; Disable HTML indentation by default.
-            (set (make-local-variable 'sgml-basic-offset) 0)))
+  (lambda ()
+    ;; Disable HTML indentation by default.
+    (set (make-local-variable 'sgml-basic-offset) 0)))
 
 
 ;;;; Markdown:
