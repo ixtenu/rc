@@ -721,6 +721,9 @@ With a prefix argument, insert a newline above the current line."
     ;; Without the below line, rust-format-on-save doesn't work.  rust-mode has
     ;; its own setting to use tree-sitter anyway.
     (delete 'rust treesit-auto-langs)
+    ;; My custom C styles don't work with c-ts-mode.
+    ;; TODO: implement custom styles using c-ts-mode-indent-style.
+    (delete 'c treesit-auto-langs)
     (global-treesit-auto-mode)))
 
 
