@@ -138,7 +138,8 @@ endfunc
 " defaults
 call TAB(8)
 autocmd FileType make call Tab(8)
-autocmd Filetype lisp,scheme Tab(-2)
+autocmd FileType lisp,scheme Tab(-2)
+autocmd Filetype html setlocal indentexpr=
 
 " path to plug.vim (junegunn/vim-plug)
 func! s:VimPlugPath()
