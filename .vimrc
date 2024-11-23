@@ -174,6 +174,8 @@ if s:VimPlugIsInstalled()
 	Plug 'editorconfig/editorconfig-vim'
 	Plug 'fatih/vim-go', { 'for': 'go' }
 	Plug 'jamessan/vim-gnupg'
+	Plug 'jceb/vim-orgmode'
+	Plug 'LnL7/vim-nix'
 	Plug 'ludovicchabant/vim-gutentags'
 	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 		let g:tagbar_sort = 0
@@ -187,6 +189,7 @@ if s:VimPlugIsInstalled()
 	Plug 'tpope/vim-commentary'
 	Plug 'tpope/vim-eunuch'
 	Plug 'tpope/vim-fugitive'
+	Plug 'tpope/vim-speeddating'
 	call plug#end()
 endif
 
