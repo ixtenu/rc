@@ -134,13 +134,16 @@ bind-key S4-9 window-movetogroup-9
 # Cycle groups.
 bind-key 4-Right group-cycle # default: M-Right
 bind-key 4-Left group-rcycle # default: M-Left
+# Toggle group membership of window.
+bind-key 4-0 window-group # default: CM-g
+# Show window in all groups (while preserving its group).
+bind-key S4-0 window-stick # default: CM-s
 
 # Default bindings which are unbound
 #bind-key C-slash menu-cmd
 #bind-key CM-w menu-exec-wm
 #bind-key M-Return window-hide
 #bind-key CMS-f window-freeze
-#bind-key CM-s window-stick
 #bind-key CM-0 group-toggle-0
 #bind-key CM-1 group-toggle-1
 #bind-key CM-2 group-toggle-2
@@ -152,7 +155,6 @@ bind-key 4-Left group-rcycle # default: M-Left
 #bind-key CM-8 group-toggle-8
 #bind-key CM-9 group-toggle-9
 #bind-key CM-a group-toggle-all
-#bind-key CM-g window-group
 
 #
 # Mouse Bindings
