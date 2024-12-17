@@ -81,6 +81,10 @@ bind-key 4-m window-maximize # default: CM-m
 bind-key 4-equal window-vmaximize # default: CM-equal
 bind-key S4-equal window-hmaximize # default: CMS-equal
 
+# Window tiling.  No default bindings.
+bind-key 4-b window-htile
+bind-key 4-v window-vtile
+
 # Window movement.  Defaults to M-[hjkl] and MS-[hjkl].
 bind-key 4-h window-move-left
 bind-key 4-j window-move-down
