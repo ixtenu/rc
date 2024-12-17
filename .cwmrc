@@ -171,10 +171,13 @@ unbind-mouse CMS-3
 bind-mouse 4-1 window-move # default: M-1
 bind-mouse 4-3 window-resize # default: M-2
 
-# Shortcut for closing a window.
+# Closing a window.
 bind-mouse 4-2 window-close
+
+# Raising and lowering a window.
+bind-mouse S4-1 window-raise
+bind-mouse S4-3 window-lower
 
 # Default bindings which are unbound
 #bind-mouse CM-1 window-group
-#bind-mouse M-3 window-lower
 #bind-mouse CMS-3 window-hide
