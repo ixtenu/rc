@@ -49,7 +49,7 @@ bind-key CM-Delete lock
 bind-key 4-Return terminal # default: CM-Return
 
 # Open arbitrary program by name.
-bind-key 4-space "bemenu-run -p 'Run:' --tf '#FFFFFF' --hf '#0077CC' --bottom"
+bind-key 4-space dmenu_run
 
 # Menu operations.
 bind-key 4-slash menu-window # default: M-slash
