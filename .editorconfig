@@ -11,10 +11,6 @@ indent_size = 8
 indent_style = space
 indent_size = 2
 
-[alacritty.yml]
-indent_style = space
-indent_size = 2
-
 [.jwmrc]
 indent_style = space
 indent_size = 2
