@@ -169,28 +169,58 @@ endfunc
 " skip the plugin initialization if the plugin manager hasn't been installed
 if s:VimPlugIsInstalled()
 	call plug#begin()
+
+	" general
+	Plug 'tpope/vim-commentary'
+	Plug 'editorconfig/editorconfig-vim'
+
+	" new/extended commands
 	Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
 		nmap <C-P> :CtrlP<CR>
 		let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-	Plug 'editorconfig/editorconfig-vim'
-	Plug 'fatih/vim-go', { 'for': 'go' }
-	Plug 'jamessan/vim-gnupg'
-	Plug 'jceb/vim-orgmode'
-	Plug 'LnL7/vim-nix'
-	Plug 'ludovicchabant/vim-gutentags'
-	Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-		let g:tagbar_sort = 0
-		nmap <F6> :TagbarToggle<CR>
 	Plug 'moll/vim-bbye'
 		nnoremap <Leader>q :Bdelete<CR>
-	Plug 'rhysd/git-messenger.vim', { 'on': 'GitMessenger' }
-		let g:git_messenger_no_default_mappings = v:true
-		let g:git_messenger_always_into_popup = v:true
-		nmap <F8> :GitMessenger<CR>
-	Plug 'tpope/vim-commentary'
-	Plug 'tpope/vim-eunuch'
-	Plug 'tpope/vim-fugitive'
+	Plug 'justinmk/vim-sneak'
+		map <Leader>s <Plug>Sneak_s
+		map <Leader>S <Plug>Sneak_S
+		map f <Plug>Sneak_f
+		map F <Plug>Sneak_F
+		map t <Plug>Sneak_t
+		map T <Plug>Sneak_T
 	Plug 'tpope/vim-speeddating'
+
+	" language support
+	Plug 'jceb/vim-orgmode'
+	if executable('nix')
+		Plug 'LnL7/vim-nix'
+	endif
+	if executable('go')
+		Plug 'fatih/vim-go', { 'for': 'go' }
+	endif
+
+	" revision control
+	if executable('git')
+		Plug 'rhysd/git-messenger.vim', { 'on': 'GitMessenger' }
+			let g:git_messenger_no_default_mappings = v:true
+			let g:git_messenger_always_into_popup = v:true
+			nmap <F8> :GitMessenger<CR>
+		Plug 'tpope/vim-fugitive'
+	endif
+
+	" utility integration
+	if has('unix')
+		Plug 'tpope/vim-eunuch'
+	endif
+	if executable('gpg')
+		Plug 'jamessan/vim-gnupg'
+	endif
+
+	" tags
+	Plug 'ludovicchabant/vim-gutentags'
+	Plug 'preservim/tagbar', { 'on': 'TagbarToggle' }
+		let g:tagbar_sort = 0
+		nmap <F6> :TagbarToggle<CR>
+
 	call plug#end()
 endif
 
