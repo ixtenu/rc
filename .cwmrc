@@ -18,6 +18,9 @@ command firefox firefox
 command xterm xterm
 command xcalc xcalc
 
+# Default terminal is xterm.  Switch to alacritty.
+command term alacritty
+
 # Default locker is xlock with no options.  By default, xlock picks a random
 # screen saver; many of these are ugly or distracting.  Use "blank" so that the
 # lock screen is a blank black screen.
