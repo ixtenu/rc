@@ -25,7 +25,7 @@ elif [ -d $HOME/plan9 ]; then
 fi
 [ ! -z "$PLAN9" ] && addtopath $PLAN9/bin
 
-for e in nano-wrapper nano mg jmacs godit nvim vim vi; do
+for e in nvim vim vi nano-wrapper nano mg jmacs godit; do
 	if iscmd $e; then
 		export EDITOR=$e
 		export VISUAL=$e
