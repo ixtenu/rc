@@ -44,6 +44,7 @@ if !has('nvim')
 	filetype plugin indent on
 endif
 
+set number
 set nowrap
 set mouse=
 set smartindent
