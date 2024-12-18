@@ -2,6 +2,13 @@
 normal = { family = "Go Mono", style = "Regular" }
 size = 12.0
 
+[window]
+dimensions = { columns = 80, lines = 24 }
+resize_increments = true
+
+[mouse]
+hide_when_typing = true
+
 [[keyboard.bindings]]
 action = "ToggleFullscreen"
 key = "F11"
