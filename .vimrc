@@ -191,6 +191,14 @@ if s:VimPlugIsInstalled()
 
 	" language support
 	Plug 'jceb/vim-orgmode'
+		" default path for Emacs is /usr/bin/emacs
+		if filereadable('/usr/local/bin/emacs')
+			" FreeBSD path for Emacs
+			let g:org_export_emacs='/usr/local/bin/emacs'
+		elseif filereadable('/run/current-system/sw/bin/emacs')
+			" NixOS path for Emacs
+			let g:org_export_emacs='/run/current-system/sw/bin/emacs'
+		endif
 	if executable('nix')
 		Plug 'LnL7/vim-nix'
 	endif
