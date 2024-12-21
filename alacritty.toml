@@ -1,5 +1,5 @@
 [font]
-normal = { family = "Go Mono", style = "Regular" }
+normal = { family = "Cascadia Code", style = "Regular" }
 size = 12.0
 
 [window]

@@ -7,7 +7,7 @@ xterm*background: black
 xterm*foreground: white
 
 ! font & appearance
-xterm*faceName: Go Mono
+xterm*faceName: Cascadia Code
 xterm*faceSize: 12
 xterm*renderFont: true
 xterm*boldMode: false
