@@ -139,6 +139,18 @@ bind-key 4-0 window-group # default: CM-g
 # Show window in all groups (while preserving its group).
 bind-key S4-0 window-stick # default: CM-s
 
+# Simulate volume, microphone, and backlight keys.  F[1-6] were deliberately
+# chosen to correspond with the function keys on ThinkPad keyboards.
+#
+# vol/mic/bl are shell scripts that abstract the underlying commands, which
+# differ by system.  See <https://github.com/ixtenu/script> for those scripts.
+bind-key 4-F1 vol mute
+bind-key 4-F2 vol down
+bind-key 4-F3 vol up
+bind-key 4-F4 mic toggle
+bind-key 4-F5 bl dec
+bind-key 4-F6 bl inc
+
 # Default bindings which are unbound
 #bind-key C-slash menu-cmd
 #bind-key CM-w menu-exec-wm
