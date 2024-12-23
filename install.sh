@@ -49,6 +49,7 @@ installcmd mg "$HOME/.mg"
 installcmd nano "$HOME/.config/nano/nanorc"
 installcmd nvim "$HOME/.config/nvim/ginit.vim" .gvimrc
 installcmd nvim "$HOME/.config/nvim/init.vim" .vimrc
+installcmd rofi "$HOME/.config/rofi/config.rasi"
 installcmd textadept "$HOME/.textadept"
 installcmd tmux "$HOME/.tmux.conf"
 installcmd vim "$HOME/.gvimrc"
