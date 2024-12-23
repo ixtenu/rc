@@ -48,13 +48,19 @@ bind-key CM-Delete lock
 # Open terminal.
 bind-key 4-Return terminal # default: CM-Return
 
-# Open arbitrary program by name.
-bind-key 4-space dmenu_run
-
 # Menu operations.
 bind-key 4-slash menu-window # default: M-slash
 bind-key 4-question menu-exec # default: M-question
 bind-key 4-period menu-ssh # default: M-period
+
+# Application launching and window switching via rofi.
+# Functionally redundant with menu-{window,exec,ssh}, but rofi looks nicer.
+bind-key 4-Escape "rofi -show window -modes 'window,drun' -show-icons"
+bind-key 4-r "rofi -show drun -modes 'drun,run' -show-icons"
+bind-key 4-s "rofi -show ssh -modes ssh"
+
+# Open arbitrary program by name.
+bind-key 4-space dmenu_run
 
 # Window closing and visibility.
 bind-key 4-q window-close # default: CM-x
