@@ -151,6 +151,21 @@ elif iscmd vim; then
 	alias vi='vim'
 fi
 
+# new vi (aka nvi aka Berkeley vi) is commonly installed as ex/vi.  Try to
+# provide nex/nvi aliases for it.
+if ! iscmd nex; then
+	# Prefer /usr/bin/ex if it exists since on BSD that's nvi whereas
+	# /usr/local/bin/ex would be vim (if installed).  On Linux, there isn't
+	# a convenient and portable way of distinguishing nvi's ex from other
+	# implementations (e.g., vim's or Ancient Vi's) so don't try.
+	if [ -x '/usr/bin/ex' ]; then
+		alias nex='/usr/bin/ex'
+	elif iscmd ex; then
+		alias nex='ex'
+	fi
+fi
+! iscmd nvi && iscmd nex && alias nvi='nex -v'
+
 if iscmd nano; then
 	# invoke nano via a wrapper script
 	# <https://github.com/ixtenu/script/blob/master/nano-wrapper>
