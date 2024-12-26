@@ -16,8 +16,8 @@ endif
 " customize the GUI font
 if exists(':GuiFont')
 	" default font
-	let s:fontsize = 13
-	let s:fontname = "Go Mono"
+	let s:fontsize = 12
+	let s:fontname = "Cascadia Code"
 	:execute "GuiFont! " . s:fontname . ":h" . s:fontsize
 
 	" resize font with ctrl-scrollwheel
