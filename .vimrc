@@ -142,6 +142,31 @@ autocmd FileType make call Tab(8)
 autocmd FileType lisp,scheme Tab(-2)
 autocmd Filetype html setlocal indentexpr=
 
+" interactive select buffer
+nnoremap <leader>ls :ls<cr>:b<space>
+
+" interactive delete buffer
+" taken from https://vi.stackexchange.com/a/14831
+func! Interactivebufdelete()
+	let l:prompt = "Specify buffers to delete: "
+	ls | let bufnums = input(l:prompt)
+	while strlen(bufnums)
+		echo "\n"
+		let buflist = split(bufnums)
+		for bufitem in buflist
+			if match(bufitem, '^\d\+,\d\+$') >= 0
+				exec ':' . bufitem . 'bd'
+			elseif match(bufitem, '^\d\+$') >= 0
+				exec ':bd ' . bufitem
+			else
+				echohl ErrorMsg | echo 'Not a number or range: ' . bufitem | echohl None
+			endif
+		endfor
+		ls | let bufnums = input(l:prompt)
+	endwhile
+endfunc
+nnoremap <silent> <leader>bd :call Interactivebufdelete()<CR>
+
 " path to plug.vim (junegunn/vim-plug)
 func! s:VimPlugPath()
 	" plug.vim path differs between neovim and vim
