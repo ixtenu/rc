@@ -65,6 +65,7 @@ set joinspaces
 set cpoptions+=J
 
 " text formatting
+set formatoptions-=t
 autocmd FileType asciidoc,doxygen,markdown,rst,text setlocal formatoptions+=tn
 set textwidth=80
 autocmd FileType gitcommit setlocal textwidth=72
