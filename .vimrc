@@ -46,7 +46,6 @@ endif
 
 set number
 set nowrap
-set mouse=
 set smartindent
 set scrolloff=8
 set ignorecase
@@ -99,6 +98,20 @@ noremap <Leader>P "*p
 
 " copy/paste without indentation
 set pastetoggle=<F2>
+
+" disable the mouse by default (so that it can be used with the terminal
+" emulator) but make it easy to toggle
+set mouse=
+func! Togglemouse()
+	if &mouse == ""
+		let &mouse="a"
+		echo "Mouse support enabled"
+	else
+		let &mouse=""
+		echo "Mouse support disabled"
+	endif
+endfunc
+noremap <Leader>m :call Togglemouse()<CR>
 
 " delete trailing white space on save
 func! Trimwhite()
