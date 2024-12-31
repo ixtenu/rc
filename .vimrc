@@ -173,6 +173,9 @@ if s:VimPlugIsInstalled()
 	" general
 	Plug 'tpope/vim-commentary'
 	Plug 'editorconfig/editorconfig-vim'
+	Plug 'preservim/nerdtree'
+		nnoremap <F7> :NERDTreeToggle<CR>
+		let NERDTreeNodeDelimiter="\u00a0" " non-breaking space
 
 	" new/extended commands
 	Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
