@@ -209,6 +209,13 @@ if s:VimPlugIsInstalled()
 	Plug 'preservim/nerdtree', { 'on': ['NERDTree', 'NERDTreeVCS', 'NERDTreeToggle', 'NERDTreeToggleVCS'] }
 		nnoremap <F7> :NERDTreeToggle<CR>
 		let NERDTreeNodeDelimiter="\u00a0" " non-breaking space
+	Plug 'mhinz/vim-grepper', { 'on': 'Grepper' }
+		nnoremap <leader>g :Grepper<CR>
+		nnoremap <leader>G :Grepper -cword -noprompt<CR>
+		command! Todo :Grepper -noprompt -query '\(TODO\|ToDo\|FIXME\|FixMe\)'
+		let g:grepper = {}
+		let g:grepper.dir = 'repo,file'
+		let g:grepper.tools = ['git', 'rg', 'grep', 'findstr']
 
 	" new/extended commands
 	Plug 'moll/vim-bbye', { 'on': ['Bdelete', 'Bwipeout'] }
