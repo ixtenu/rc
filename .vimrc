@@ -201,17 +201,19 @@ if s:VimPlugIsInstalled()
 	" general
 	Plug 'tpope/vim-commentary'
 	Plug 'editorconfig/editorconfig-vim'
-	Plug 'preservim/nerdtree'
+
+	" project navigation
+	Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
+		nmap <C-P> :CtrlP<CR>
+		let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+	Plug 'preservim/nerdtree', { 'on': ['NERDTree', 'NERDTreeVCS', 'NERDTreeToggle', 'NERDTreeToggleVCS'] }
 		nnoremap <F7> :NERDTreeToggle<CR>
 		let NERDTreeNodeDelimiter="\u00a0" " non-breaking space
 
 	" new/extended commands
-	Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
-		nmap <C-P> :CtrlP<CR>
-		let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-	Plug 'moll/vim-bbye'
+	Plug 'moll/vim-bbye', { 'on': ['Bdelete', 'Bwipeout'] }
 		nnoremap <Leader>q :Bdelete<CR>
-	Plug 'justinmk/vim-sneak'
+	Plug 'justinmk/vim-sneak', { 'on': ['<Plug>Sneak_s', '<Plug>Sneak_S', '<Plug>Sneak_f', '<Plug>Sneak_F', '<Plug>Sneak_t', '<Plug>Sneak_T'] }
 		map <Leader>s <Plug>Sneak_s
 		map <Leader>S <Plug>Sneak_S
 		map f <Plug>Sneak_f
@@ -221,7 +223,7 @@ if s:VimPlugIsInstalled()
 	Plug 'tpope/vim-speeddating'
 
 	" language support
-	Plug 'jceb/vim-orgmode'
+	Plug 'jceb/vim-orgmode', { 'for': ['org', 'orgagenda', 'orgtodo'] }
 		" default path for Emacs is /usr/bin/emacs
 		if filereadable('/usr/local/bin/emacs')
 			" FreeBSD path for Emacs
@@ -231,7 +233,7 @@ if s:VimPlugIsInstalled()
 			let g:org_export_emacs='/run/current-system/sw/bin/emacs'
 		endif
 	if executable('nix')
-		Plug 'LnL7/vim-nix'
+		Plug 'LnL7/vim-nix', { 'for': 'nix' }
 	endif
 	if executable('go')
 		Plug 'fatih/vim-go', { 'for': 'go' }
