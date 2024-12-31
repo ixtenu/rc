@@ -195,6 +195,9 @@ endfunc
 if s:VimPlugIsInstalled()
 	call plug#begin()
 
+	" colorscheme
+	Plug 'jaredgorski/fogbell.vim'
+
 	" general
 	Plug 'tpope/vim-commentary'
 	Plug 'editorconfig/editorconfig-vim'
@@ -260,5 +263,13 @@ if s:VimPlugIsInstalled()
 	call plug#end()
 endif
 
-" must be last: plug#end() executes `syntax on`
-syntax off
+if s:VimPlugIsInstalled()
+	" enable colorscheme added via plugin;
+	" this must be done after plug#end() has been called
+	silent! colorscheme fogbell
+else
+	" all the built-in colorschemes are too colorful so compensate by
+	" disabling syntax highlighting
+	colorscheme default
+	syntax off
+endif
