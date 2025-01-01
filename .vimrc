@@ -83,6 +83,9 @@ map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
 
+" mapping for what C-l (remapped above) does by default
+nmap <Leader>/ :nohl<CR>:mode<CR>
+
 " quicklist navigation
 nmap <F3> :cp<CR>
 nmap <F4> :cn<CR>
