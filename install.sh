@@ -4,7 +4,18 @@ set -eu
 scriptdir="$(cd -- "$(dirname "$0")" >/dev/null 2>&1 && pwd -P)"
 cd "$scriptdir"
 
+symlinks_supported='yes'
+if ! command -v ln >/dev/null 2>&1 || \
+   ! ln -sf "$(basename "$0")" test_lnk || \
+   [ ! -L test_lnk ]; then
+	symlinks_supported='no'
+	echo "warning: symbolic links aren't supported in this environment" 1>&2
+fi
+rm -f test_lnk
+
 installfile() {
+	[ "$symlinks_supported" = "no" ] && return
+
 	lnvopt='-v'
 	[ "$(uname)" = "OpenBSD" ] && lnvopt=''
 
@@ -85,31 +96,35 @@ cp_if_needed() {
 	fi
 }
 
-# If running from within the Windows Subsystem for Linux...
-if [ -d /mnt/c/Windows/System32 ]; then
+# If running from within the Windows Subsystem for Linux (which mounts C:\ at
+# /mnt/c) or Git Bash for Windows (which mounts C:\ at /c)...
+cdrive=
+[ -d /mnt/c/Windows/System32 ] && cdrive='/mnt/c'
+[ -d /c/Windows/System32 ] && cdrive='/c'
+if [ -n "$cdrive" ] && command -v powershell.exe >/dev/null 2>&1; then
 	# Windows username might differ from WSL username
-	WINUSER="$(powershell.exe '$env:UserName' | sed 's/\r//')"
-	WINHOME="/mnt/c/Users/$WINUSER"
+	winuser="$(powershell.exe '$env:UserName' | sed 's/\r//')"
+	winhome="$cdrive/Users/$winuser"
 
 	# Windows Neovim
-	if [ -d "$WINHOME/AppData/Local/nvim" ]; then
-		cp_if_needed .vimrc "$WINHOME/AppData/Local/nvim/init.vim"
-		cp_if_needed .gvimrc "$WINHOME/AppData/Local/nvim/ginit.vim"
+	if [ -d "$winhome/AppData/Local/nvim" ]; then
+		cp_if_needed .vimrc "$winhome/AppData/Local/nvim/init.vim"
+		cp_if_needed .gvimrc "$winhome/AppData/Local/nvim/ginit.vim"
 	fi
 	# Windows Vim
-	if [ -f "$WINHOME/_vimrc" ]; then
-		cp_if_needed .vimrc "$WINHOME/_vimrc"
-		cp_if_needed .gvimrc "$WINHOME/_gvimrc"
+	if [ -f "$winhome/_vimrc" ]; then
+		cp_if_needed .vimrc "$winhome/_vimrc"
+		cp_if_needed .gvimrc "$winhome/_gvimrc"
 	fi
 	# Git Bash Vim
-	if [ -f "$WINHOME/.vimrc" ]; then
-		cp_if_needed .vimrc "$WINHOME/.vimrc"
+	if [ -f "$winhome/.vimrc" ]; then
+		cp_if_needed .vimrc "$winhome/.vimrc"
 	fi
 	# GNU Emacs
-	if [ -d "$WINHOME/.emacs.d" ]; then
+	if [ -d "$winhome/.emacs.d" ]; then
 		find .emacs.d -type f |
 		while IFS= read -r fn; do
-			cp_if_needed "$fn" "$WINHOME/$fn"
+			cp_if_needed "$fn" "$winhome/$fn"
 		done
 	fi
 fi
