@@ -25,7 +25,18 @@ elif [ -d $HOME/plan9 ]; then
 fi
 [ ! -z "$PLAN9" ] && addtopath $PLAN9/bin
 
-for e in nvim vim vi nano-wrapper nano mg jmacs godit; do
+# vis text editor installs as vise in *BSD userlands because there's a vis(1)
+# utility in the base system
+vis_exe='vis'
+if [ "$(uname)" = "Darwin" ] || [ "$(uname)" = "FreeBSD" ] || [ "$(uname)" = "OpenBSD" ]; then
+	vis_exe='vise'
+	if iscmd $vis_exe; then
+		alias visu='/usr/bin/vis'
+		alias vis='vise'
+	fi
+fi
+
+for e in $vis_exe nvim vim vi nano-wrapper nano mg jmacs godit; do
 	if iscmd $e; then
 		export EDITOR=$e
 		export VISUAL=$e
