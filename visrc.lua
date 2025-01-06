@@ -68,10 +68,31 @@ vis.events.subscribe(vis.events.INIT, function()
 	plug.plugins.spellcheck.default_lang = "en_US"
 end)
 
+-- fix filetype for *.gpg files, since autodetection doesn't work
+local function gpgfixft(win)
+	if win.syntax ~= nil then return end
+	local file = win.file
+	if file == nil then return end
+	if file.name == nil then return end
+	if file.name:find('%.gpg$') == nil then return end
+	local extsyntax = {
+		-- in theory a *.gpg file could be anything, but typically it's prose
+		md = "markdown",
+		txt = "text",
+	}
+	for ext, syntax in pairs(extsyntax) do
+		if file.name:find('%.' .. ext .. '%.gpg$') then
+			win:set_syntax(syntax)
+			break
+		end
+	end
+end
+
 -- per-window configuration options
 vis.events.subscribe(vis.events.WIN_OPEN, function(win)
 	vis:command('set autoindent')
 	win.options.showtabs = win.options.expandtab
+	gpgfixft(win)
 end)
 
 -- file save hook to clean up the white space
