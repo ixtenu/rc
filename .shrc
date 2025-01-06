@@ -1,6 +1,8 @@
 # Generic shell initialization
 # Can be sourced from .zshrc, .bashrc, .kshrc, etc.
 
+kernel="$(uname)"
+
 iscmd() {
 	command -v "$1" >/dev/null 2>&1
 }
@@ -28,7 +30,7 @@ fi
 # vis text editor installs as vise in *BSD userlands because there's a vis(1)
 # utility in the base system
 vis_exe='vis'
-if [ "$(uname)" = "Darwin" ] || [ "$(uname)" = "FreeBSD" ] || [ "$(uname)" = "OpenBSD" ]; then
+if [ "$kernel" = "Darwin" ] || [ "$kernel" = "FreeBSD" ] || [ "$kernel" = "OpenBSD" ]; then
 	vis_exe='vise'
 	if iscmd $vis_exe; then
 		alias visu='/usr/bin/vis'
@@ -59,7 +61,7 @@ if iscmd fzf; then
 fi
 
 # Modified commands
-if [ "$(uname)" != "OpenBSD" ]; then
+if [ "$kernel" != "OpenBSD" ]; then
 	alias grep='grep --color=auto'
 fi
 alias df='df -h'
@@ -94,7 +96,7 @@ lk() {
 }
 
 # ls
-if [ "$(uname)" = "OpenBSD" ]; then
+if [ "$kernel" = "OpenBSD" ]; then
 	alias ls='ls -hF'
 else
 	alias ls='ls -hF --color=auto'
@@ -102,7 +104,7 @@ fi
 alias lr='ls -R' # recursive ls
 alias ll='ls -l' # detailed ls
 alias la='ll -A' # detailed ls, including dotfiles
-if [ "$(uname)" = "Linux" ]; then
+if [ "$kernel" = "Linux" ]; then
 	alias lx='ll -BX' # sort by extension
 fi
 alias lz='ll -rS' # sort by size
@@ -111,11 +113,11 @@ alias lt='ll -rt' # sort by date
 # Safety features
 alias cp='cp -i'
 alias mv='mv -i'
-if [ "$(uname)" != "OpenBSD" ]; then
+if [ "$kernel" != "OpenBSD" ]; then
 	alias rm='rm -I'
 	alias ln='ln -i'
 fi
-if [ "$(uname)" = "Linux" ]; then
+if [ "$kernel" = "Linux" ]; then
 	alias chown='chown --preserve-root'
 	alias chmod='chmod --preserve-root'
 	alias chgrp='chgrp --preserve-root'
