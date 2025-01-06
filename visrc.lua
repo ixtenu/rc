@@ -146,3 +146,37 @@ vis:map(vis.modes.VISUAL, '\\y', '"+y')
 vis:map(vis.modes.VISUAL, '\\p', '"+p')
 vis:map(vis.modes.VISUAL, '\\Y', '"*y')
 vis:map(vis.modes.VISUAL, '\\P', '"*p')
+
+-- option which defines a goal width for the gq operator
+--
+-- in vim, this is option is called "textwidth" (abbreviated "tw"), but in vis
+-- "tw" is an alias for "tabwidth"; instead, use "fc" (an abbreviation for
+-- "fill-column", the equivalent emacs variable).
+vis:option_register("fc", "number", function(fc)
+	if not vis.win then return false end
+	vis.win.fillcolumn = math.floor(fc)
+	return true
+end, "Goal width for paragraph filling (gq)")
+
+-- vim-like gq operator for wrapping text
+vis:operator_new("gq", function(file, range, pos)
+	-- use fillcolumn if set, otherwise default to 80
+	local fc = vis.win.fillcolumn
+	if fc == nil or fc <= 0 then
+		fc = 80
+	end
+	-- fmts is a fmt(1) wrapper script that knows about comments, lists, etc.
+	-- see: https://github.com/ixtenu/script/blob/master/fmts
+	local status, out, err = vis:pipe(file, range, "fmts -w" .. fc)
+	if status ~= 0 then
+		vis:info(err)
+	else
+		file:delete(range)
+		file:insert(range.start, out)
+	end
+	return range.start -- new cursor location
+end, "Formatting operator, filter range through fmt(1)")
+
+-- shortcuts for gq operator
+vis:map(vis.modes.NORMAL, 'Q', 'gqap')
+vis:map(vis.modes.INSERT, '<M-q>', '<Escape>gqap}ha')
