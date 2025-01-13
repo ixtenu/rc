@@ -12,7 +12,7 @@ autoload -Uz promptinit && promptinit
 prompt_custom_setup() {
 	PS1="%# "
 	if [ "$TERM" != "dumb" ] && [ -z "$INSIDE_EMACS" ]; then
-		RPS1="%F{${1:-green}}%~%f"
+		RPS1="%F{243}%~%f"
 	fi
 	prompt_opts=(cr percent)
 }
