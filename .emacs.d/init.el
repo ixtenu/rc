@@ -463,13 +463,6 @@
                                   (setq fill-column 72)
                                   (turn-on-auto-fill)))
 
-(use-package diff-hl
-  :config
-  (global-diff-hl-mode)
-  ;; diff-hl README says these are needed with Magit 2.4 or newer.
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
-
 (use-package git-modes)
 
 (use-package git-timemachine)
