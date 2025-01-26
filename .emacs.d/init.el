@@ -31,6 +31,7 @@
       (my-executables-found (cdr exec-list))
       nil)))
 
+
 ;;;; Package Manager:
 
 ;; Bootstrap straight.el
@@ -194,10 +195,11 @@
 
 (setq custom-safe-themes t)
 
-(use-package tao-theme
-  :config
-  (setq tao-theme-use-boxes nil)
-  (load-theme 'tao-yin))
+(straight-use-package
+ '(almost-mono-themes :type git :host github :repo "ixtenu/almost-mono-themes"))
+;;(load-theme 'almost-mono-white t)
+;;(load-theme 'almost-mono-gray t)
+(load-theme 'almost-mono-black t)
 
 ;; Make sure the mouse pointer can be seen when drawn atop the nearly black
 ;; background color.
