@@ -683,9 +683,6 @@ With a prefix argument, insert a newline above the current line."
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
-(use-package rainbow-delimiters
-  :config (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-
 (use-package company) ; completion
 
 (use-package lsp-mode
