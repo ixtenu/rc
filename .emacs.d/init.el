@@ -245,10 +245,10 @@
 (tool-bar-mode -1) ; Disable the tool bar (it's large and not that useful).
 
 (when (fboundp 'scroll-bar-mode)
-  (set-scroll-bar-mode 1)) ; Enable scroll bars.
+  (scroll-bar-mode -1)) ; Disable scroll bars.
 
-;; Enable the menu bar by default but make it easy to disable.
-(menu-bar-mode 1)
+;; Disable the menu bar by default but make it easy to enable.
+(menu-bar-mode -1)
 (defun my-menu-bar-toggle ()
   "Toggle the menu bar on or off."
   (interactive)
