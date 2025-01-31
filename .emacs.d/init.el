@@ -257,6 +257,11 @@
     (menu-bar-mode 1)))
 (global-set-key (kbd "C-c m") 'my-menu-bar-toggle)
 
+;; Add clock to modeline (GUI only).
+(setq display-time-format "%H:%M")
+(setq display-time-default-load-average nil)
+(when (display-graphic-p) (display-time-mode 1))
+
 ;; all-the-icons used for sidebar and dired (GUI only).
 (when (display-graphic-p) (use-package all-the-icons))
 
