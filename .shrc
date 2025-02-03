@@ -57,7 +57,13 @@ if iscmd fzf; then
 		"$program" "$@" $(fzf -m)
 	}
 
-	[ -n "$VISUAL" ] && fze() { fzp "$VISUAL" "$@" }
+	fze() {
+		if [ -z "$VISUAL" ]; then
+			echo "fze: cannot open editor when VISUAL is unset"
+			return 1
+		fi
+		fzp "$VISUAL" "$@"
+	}
 fi
 
 # Modified commands
