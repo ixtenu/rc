@@ -38,7 +38,7 @@ if [ "$kernel" = "Darwin" ] || [ "$kernel" = "FreeBSD" ] || [ "$kernel" = "OpenB
 	fi
 fi
 
-for e in $vis_exe nvim vim vi nano-wrapper nano mg jmacs godit; do
+for e in nano-wrapper nano $vis_exe nvim vim vi mg jmacs godit; do
 	if iscmd $e; then
 		export EDITOR=$e
 		export VISUAL=$e
