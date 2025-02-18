@@ -389,6 +389,14 @@
 (use-package zygospore
   :bind (("C-x 1" . zygospore-toggle-delete-other-windows)))
 
+;; Provides typo-mode minor mode.  Converts quotes to smart quotes and hyphens
+;; to various dash characters.
+(use-package typo
+  :config
+  ;; Global mode adds C-c 8 prefix for inserting certain Unicode characters,
+  ;; e.g., C-c 8 - for various dashes.
+  (typo-global-mode 1))
+
 ;; Easier window navigation
 (use-package ace-window
   :bind (("M-o" . ace-window)))
