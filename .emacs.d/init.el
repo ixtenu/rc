@@ -354,6 +354,11 @@
   :config
   (global-set-key [remap goto-line] 'goto-line-preview))
 
+;; Search shows current match # and total match # in the mode-line
+(use-package anzu
+  :config
+  (global-anzu-mode +1))
+
 
 ;;;; Project Management:
 
