@@ -350,10 +350,6 @@
               (when (and (display-graphic-p) (derived-mode-p 'prog-mode))
                 (display-line-numbers-mode 1)))))))
 
-(use-package goto-line-preview
-  :config
-  (global-set-key [remap goto-line] 'goto-line-preview))
-
 ;; Search shows current match # and total match # in the mode-line
 (use-package anzu
   :config
@@ -397,6 +393,16 @@
   ;; e.g., C-c 8 - for various dashes.
   (typo-global-mode 1))
 
+(use-package multiple-cursors
+  :init
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click))
+
+
+;;;; Navigation:
+
 ;; Easier window navigation
 (use-package ace-window
   :bind (("M-o" . ace-window)))
@@ -405,12 +411,16 @@
 (global-set-key (kbd "C-c <up>") 'windmove-up)
 (global-set-key (kbd "C-c <down>") 'windmove-down)
 
-(use-package multiple-cursors
-  :init
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-  (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click))
+;; Jump to things
+(use-package avy
+  :config
+  (global-set-key (kbd "C-:") 'avy-goto-char)
+  (global-set-key (kbd "C-'") 'avy-goto-char-2)
+  (global-set-key (kbd "M-g f") 'avy-goto-line))
+
+(use-package goto-line-preview
+  :config
+  (global-set-key [remap goto-line] 'goto-line-preview))
 
 
 ;;;; Completion:
