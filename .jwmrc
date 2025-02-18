@@ -46,7 +46,7 @@ https://joewing.net/projects/jwm/
     <Pager labeled="true"/>
     <TaskList maxwidth="256" labeled="true"/>
     <Dock/>
-    <Clock format="%m/%d %a %H:%M"/>
+    <Clock format="%d %a %H:%M"/>
   </Tray>
 
   <!-- Visual Styles -->
