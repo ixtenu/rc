@@ -170,6 +170,7 @@ https://joewing.net/projects/jwm/
 
   <!-- Application launcher -->
   <Key mask="4" key="space">exec:dmenu_run</Key>
+  <Key mask="4" key="r">exec:rofi -show drun -modes 'drun,run' -show-icons</Key>
 
   <!-- Window closing -->
   <Key mask="4" key="q">close</Key>
@@ -181,6 +182,7 @@ https://joewing.net/projects/jwm/
   <Key mask="4A" key="l">next</Key>
   <Key mask="4A" key="Left">prev</Key>
   <Key mask="4A" key="Right">next</Key>
+  <Key mask="4" key="Escape">exec:rofi -show window -modes 'window,drun' -show-icons</Key>
   <!-- For my laptop with the broken Tab key... -->
   <Key mask="4" key="grave">nextstacked</Key>
   <Key mask="A" key="grave">nextstacked</Key>
