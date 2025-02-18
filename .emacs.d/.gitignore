@@ -1,6 +1,7 @@
 .lsp-session-v1
 .mc-lists.el
 .persistent-scratch
+ac-comphist.dat
 auto-save-list
 eln-cache
 history

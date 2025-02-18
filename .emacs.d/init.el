@@ -717,7 +717,9 @@ With a prefix argument, insert a newline above the current line."
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
-(use-package company) ; completion
+(use-package auto-complete
+  :config
+  (ac-config-default))
 
 (use-package lsp-mode
   :init
