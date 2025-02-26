@@ -127,4 +127,18 @@ if [ -n "$cdrive" ] && command -v powershell.exe >/dev/null 2>&1; then
 			cp_if_needed "$fn" "$winhome/$fn"
 		done
 	fi
+	# GNU nano
+	if command -v nano.exe >/dev/null 2>&1; then
+		# Win32 nano has spellcheck disabled; comment out that line.
+		nanorc_tmp="$(mktemp)"
+		trap 'rm -f -- "$nanorc_tmp"' EXIT
+		sed 's/^\(set speller\)/#\1/' < nanorc > "$nanorc_tmp"
+		# Git Bash nano and okibcn/nano-for-windows read the nanorc from ~/.config,
+		# like the Unix versions.
+		cp_if_needed "$nanorc_tmp" "$winhome/.config/nano/nanorc"
+		# lhmouse/nano-win reads the nanorc from %USERPROFILE%\.nanorc
+		# (unprivileged) or %ALLUSERSPROFILE%\.nanorc (privileged)
+		cp_if_needed "$nanorc_tmp" "$winhome/.nanorc"
+		cp_if_needed "$nanorc_tmp" "$cdrive/ProgramData/.nanorc"
+	fi
 fi
