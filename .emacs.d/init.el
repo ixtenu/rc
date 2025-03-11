@@ -709,17 +709,9 @@ With a prefix argument, insert a newline above the current line."
 (if (display-graphic-p)
   (add-hook 'prog-mode-hook #'display-line-numbers-mode))
 
-(use-package auto-highlight-symbol
-  :config
-  (add-hook 'prog-mode-hook (lambda () (auto-highlight-symbol-mode 1))))
-
 (use-package highlight-numbers
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
-
-(use-package auto-complete
-  :config
-  (ac-config-default))
 
 (use-package lsp-mode
   :init
