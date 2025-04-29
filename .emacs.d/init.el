@@ -519,11 +519,18 @@
 (global-set-key (kbd "C-c q") 'auto-fill-mode)
 (global-set-key (kbd "C-c Q") 'refill-mode)
 
+(setq sentence-end-double-space t)
+(defun my-french-spacing-toggle ()
+  "Toggle `sentence-end-double-space' between t and nil."
+  (interactive)
+  (setq sentence-end-double-space (not sentence-end-double-space)))
+(global-set-key (kbd "C-c C-.") 'my-french-spacing-toggle)
+
 ;; refill-mode doesn't play nicely with org-mode, so use an alternative.
 (use-package aggressive-fill-paragraph
   :config
   (add-hook 'org-mode-hook
-            (lambda () (local-set-key (kbd "C-c Q") #'aggressive-fill-paragraph-mode))))
+    (lambda () (local-set-key (kbd "C-c Q") #'aggressive-fill-paragraph-mode))))
 
 ;; https://stackoverflow.com/a/207067
 (defun my-generalized-shell-command (command arg)
