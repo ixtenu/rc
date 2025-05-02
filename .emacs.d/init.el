@@ -708,6 +708,8 @@ With a prefix argument, insert a newline above the current line."
 
 (setq gdb-many-windows t)
 (setq gdb-show-main t)
+(setq gdb-restore-window-configuration-after-quit t)
+(setq gdb-debuginfod-enable-setting t)
 
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace 1)))
 
