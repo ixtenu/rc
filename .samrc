@@ -2,7 +2,7 @@
 # https://github.com/japanoise/sam
 
 # appearance
-font hack
+font cascadia mono
 foreground white
 background black
 border gray
