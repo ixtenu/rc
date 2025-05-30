@@ -72,15 +72,15 @@ installcmd zsh "$HOME/.zshrc"
 installcmd ksh "$HOME/.kshrc"
 
 if command -v sam >/dev/null 2>&1; then
-	# .samrc is for deadpixi/sam; don't install it for 9fans/plan9port sam
+	# .samrc is for japanoise/sam; don't install it for 9fans/plan9port sam
 	#
 	# On NixOS, plan9port only puts the 9 script in the PATH; so if sam is
-	# in the path, assume it's deadpixi/sam.
+	# in the path, assume it's japanoise/sam.
 	#
 	# For other Linux/*BSD, plan9port is typically at /usr/local/plan9;
-	# assume deadpixi/sam only if /usr/local/bin/sam exists.
+	# assume japanoise/sam only if /usr/local/bin/sam exists.
 	if [ -d /etc/nixos ] || [ -x /usr/local/bin/sam ]; then
-		installfile "$HOME/.samrc"
+		installfile "$HOME/.config/sam/samrc" .samrc
 	fi
 fi
 if command -v vis >/dev/null 2>&1 || command -v vise >/dev/null 2>&1; then
