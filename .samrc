@@ -86,9 +86,13 @@ bind C w command cut
 bind A w command snarf
 bind C y command paste
 
-# easier copy/paste from system clipboard
-bind CS c command send > xclip -i -selection c
-bind CS v command send < xclip -o -selection c
+# TODO: create scripts to abstract X11/Wayland utilities?
+# easier copy/paste from system clipboard (X11 version)
+#bind CS c command send > xclip -i -selection c
+#bind CS v command send < xclip -o -selection c
+# easier copy/paste from system clipboard (Wayland version)
+bind CS c command send > wl-copy
+bind CS v command send < wl-paste --no-newline
 
 # find literal string
 bind C l command look
