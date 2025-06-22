@@ -5,6 +5,8 @@ HISTFILE=~/.histfile
 HISTSIZE=32768
 SAVEHIST=32768
 
+setopt HIST_IGNORE_SPACE
+
 bindkey -e
 
 # Customize the prompt.  Based on the "walters" theme but with a simpler PS1.
