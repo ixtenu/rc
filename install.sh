@@ -96,6 +96,17 @@ cp_if_needed() {
 	fi
 }
 
+cpr_if_needed() {
+	if [ -d "$1" ]; then
+		mkdir -pv "$2"
+		for de in "$1"/*; do
+			cpr_if_needed "$1"/"$(basename $de)" "$2"/"$(basename $de)"
+		done
+	elif [ -e "$1" ]; then
+		cp_if_needed "$1" "$2"
+	fi
+}
+
 # If running from within the Windows Subsystem for Linux (which mounts C:\ at
 # /mnt/c) or Git Bash for Windows (which mounts C:\ at /c)...
 cdrive=
@@ -140,5 +151,9 @@ if [ -n "$cdrive" ] && command -v powershell.exe >/dev/null 2>&1; then
 		# (unprivileged) or %ALLUSERSPROFILE%\.nanorc (privileged)
 		cp_if_needed "$nanorc_tmp" "$winhome/.nanorc"
 		cp_if_needed "$nanorc_tmp" "$cdrive/ProgramData/.nanorc"
+	fi
+	# Textadept
+	if command -v textadept.exe >/dev/null 2>&1; then
+		cpr_if_needed .textadept "$winhome/.textadept"
 	fi
 fi
