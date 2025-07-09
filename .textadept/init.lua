@@ -5,7 +5,7 @@ local format = require('format')
 require('scratch')
 
 -- Font
-if not CURSES then view:set_theme{font = 'Hack', size = 13} end
+if not CURSES then view:set_theme{font = 'Cascadia Code', size = 13} end
 
 -- Highlight all instances of the current word
 textadept.editing.highlight_words = textadept.editing.HIGHLIGHT_CURRENT
