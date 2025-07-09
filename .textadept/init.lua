@@ -36,8 +36,8 @@ buffer.tab_width = 8
 
 -- Indentation settings for individual languages.
 events.connect(events.LEXER_LOADED, function(name)
-        if name == 'python' or name == 'yaml' or name == 'zig' then
-                buffer.use_tabs = false
-                buffer.tab_width = 4
-        end
+	if name == 'python' or name == 'yaml' or name == 'zig' then
+		buffer.use_tabs = false
+		buffer.tab_width = 4
+	end
 end)
