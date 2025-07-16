@@ -50,7 +50,7 @@ https://joewing.net/projects/jwm/
   </Tray>
 
   <!-- Visual Styles -->
-  <WindowStyle decorations="motif">
+  <WindowStyle decorations="flat">
     <Font>Sans-12:bold</Font>
     <Width>4</Width>
     <Corner>0</Corner>
@@ -63,7 +63,7 @@ https://joewing.net/projects/jwm/
       <Opacity>1.0</Opacity>
     </Active>
   </WindowStyle>
-  <TrayStyle decorations="motif">
+  <TrayStyle decorations="flat">
     <Font>Sans-12</Font>
     <Background>#333333</Background>
     <Foreground>#FFFFFF</Foreground>
@@ -87,7 +87,7 @@ https://joewing.net/projects/jwm/
       <Background>#004488</Background>
     </Active>
   </PagerStyle>
-  <MenuStyle decorations="motif">
+  <MenuStyle decorations="flat">
     <Font>Sans-12</Font>
     <Foreground>#FFFFFF</Foreground>
     <Background>#333333</Background>
