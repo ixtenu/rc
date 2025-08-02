@@ -76,8 +76,8 @@ bind-key S4-Tab window-rcycle
 bind-key M-Tab window-cycle
 bind-key MS-Tab window-rcycle
 # Cycle between windows for the current application.
-bind-key 4-grave window-cycle-inclass
-bind-key S4-grave window-rcycle-inclass
+#bind-key 4-grave window-cycle-inclass
+#bind-key S4-grave window-rcycle-inclass
 bind-key M-grave window-cycle-inclass
 bind-key MS-grave window-cycle-inclass
 
