@@ -880,6 +880,11 @@ With a prefix argument, insert a newline above the current line."
 (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-gmake-mode))
 
 
+;;;; Meson:
+
+(use-package meson-mode)
+
+
 ;;;; Shell:
 
 (setq sh-styles-alist
