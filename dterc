@@ -1,0 +1,55 @@
+# Defaults
+set case-sensitive-search auto
+set editorconfig true
+set scroll-margin 4
+set set-window-title true
+set text-width 80
+set ws-error "special,trailing"
+
+# Filetype-specific options
+option gitcommit text-width 72
+option json expand-tab true
+option json indent-width 2
+option meson expand-tab true
+option meson indent-width 2
+option zig expand-tab true
+option zig indent-width 4
+
+# Aliases
+alias mkexe "exec -s chmod 755 $FILE"
+alias cf 'bookmark; filter clang-format --style=file; bookmark -r; save'
+
+# Bindings
+bind C-M-q 'toggle -v text-width 72 80 100'
+bind C-S-down scroll-down
+bind C-S-up scroll-up
+bind C-[ 'tag -r'
+bind C-a bol
+bind C-d delete
+bind C-down blkdown
+bind C-e eol
+bind C-j join
+bind C-k delete-eol
+bind C-l 'center-view; refresh'
+bind C-p git-open
+bind C-up blkup
+bind F6 'macro toggle'
+bind F7 'macro play'
+bind F9 sort-lines
+bind M-! 'command filter\ '
+bind M-# 'toggle -v show-line-numbers'
+bind M-d delete-word
+bind M-g 'command line\ '
+bind M-h 'wsplit -h'
+bind M-i 'toggle -v auto-indent'
+bind M-j join
+bind M-l 'case -l'
+bind M-m match-bracket
+bind M-q wrap-paragraph
+bind M-u 'case -u'
+bind M-v wsplit
+bind M-w 'toggle -v display-special'
+bind M-y 'toggle -v syntax'
+bind M-{ 'shift -- -1'
+bind M-| 'command filter\ '
+bind M-} 'shift +1'

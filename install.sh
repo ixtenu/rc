@@ -59,6 +59,7 @@ installcmd jmacs "$HOME/.jmacsrc"
 installcmd joe "$HOME/.joerc"
 installcmd mg "$HOME/.mg"
 installcmd nano "$HOME/.config/nano/nanorc"
+installcmd dte "$HOME/.dte/rc" dterc
 installcmd nex "$HOME/.nexrc"
 installcmd nvim "$HOME/.config/nvim/ginit.vim" .gvimrc
 installcmd nvim "$HOME/.config/nvim/init.vim" .vimrc
