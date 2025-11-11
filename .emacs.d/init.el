@@ -918,6 +918,11 @@ With a prefix argument, insert a newline above the current line."
     :hook (python-mode . python-black-on-save-mode-enable-dwim)))
 
 
+;;;; Lua:
+
+(use-package lua-mode)
+
+
 ;;;; Go:
 
 (when (executable-find "go")
