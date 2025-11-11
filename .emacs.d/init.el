@@ -924,9 +924,9 @@ With a prefix argument, insert a newline above the current line."
   ;; Ensure that $GOPATH/bin is in the path.  If $GOPATH is undefined, $HOME/go
   ;; is the default.
   (let* ((GOPATH (getenv "GOPATH"))
-         (gopath (if GOPATH GOPATH
-                   (concat (getenv "HOME") "/go")))
-         (gobin (concat gopath "/bin")))
+          (gopath (if GOPATH GOPATH
+                    (concat (getenv "HOME") "/go")))
+          (gobin (concat gopath "/bin")))
     (my-add-to-path gobin))
 
   (use-package go-mode
