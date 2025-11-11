@@ -19,6 +19,7 @@ cd modules
 
 [ ! -d scratch ] && git clone https://github.com/orbitalquark/textadept-scratch.git scratch
 [ ! -d ctags ] && git clone https://github.com/orbitalquark/textadept-ctags.git ctags
+[ ! -d editorconfig-sc ] && git clone https://github.com/ixtenu/ta-editorconfig-sc editorconfig-sc
 
 find . -maxdepth 2 -name '\.git' |
 while IFS= read -r g; do

@@ -4,6 +4,9 @@ require('file_diff')
 local format = require('format')
 require('scratch')
 
+local editorconfig = require('editorconfig-sc')
+editorconfig.setup()
+
 -- Font
 if not CURSES then view:set_theme{font = 'Cascadia Code', size = 13} end
 
