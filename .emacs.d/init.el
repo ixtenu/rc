@@ -753,10 +753,7 @@ With a prefix argument, insert a newline above the current line."
 
 ;;;; Emacs Lisp:
 
-(add-hook #'emacs-lisp-mode-hook
-          (lambda ()
-            (setq indent-tabs-mode nil)
-            (paredit-mode 1)))
+(add-hook #'emacs-lisp-mode-hook (lambda () (setq indent-tabs-mode nil)))
 
 
 ;;;; Common Lisp:
@@ -770,7 +767,6 @@ With a prefix argument, insert a newline above the current line."
   (add-hook #'lisp-mode-hook
             (lambda ()
               (setq indent-tabs-mode nil)
-              (paredit-mode 1)
               (unless (featurep 'slime)
                 (require 'slime)
                 (normal-mode))))
