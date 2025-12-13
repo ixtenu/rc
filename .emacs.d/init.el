@@ -208,10 +208,12 @@
 
 ;; Font customization (GUI only).
 (when (display-graphic-p)
+  (setq my-frame-font nil) ; Keep track of the current font.
+
   (defun my-set-font (font)
     "Call `set-frame-font' and return t on success and nil on failure."
     (condition-case nil
-        (progn (set-frame-font font t t nil) t)
+      (progn (set-frame-font font t t nil) (setq my-frame-font font) t)
       (error nil)))
 
   (defun my-set-fonts (font-list)
