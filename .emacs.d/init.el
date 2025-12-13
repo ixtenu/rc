@@ -222,13 +222,25 @@
              (and font (not (my-set-font font))))))
 
   (my-set-fonts
-   (append
-    '("Cascadia Code 12" "GoMono Nerd Font 12" "Go Mono 12")
-    (cond
-     ((or *is-linux* *is-bsd*)
-      '("Hack 12" "DejaVu Sans Mono 11" "Inconsolata 12"))
-     (*is-macos* '("Menlo 13"))
-     (*is-windows* '("Consolas 12"))))))
+    (append
+      '( ;; One per line to make it easier to comment out options
+         "Cascadia Code 12"
+         "GoMono Nerd Font 12"
+         "Go Mono 12"
+         "Fixedsys Excelsior 3.01 12"
+         "Iosevka 12"
+         )
+      (cond
+        ((or *is-linux* *is-bsd*)
+          '("Hack 12" "DejaVu Sans Mono 11" "Inconsolata 12"))
+        (*is-macos* '("Menlo 13"))
+        (*is-windows* '("Consolas 12")))))
+
+  (use-package ligature
+    :config
+    (ligature-set-ligatures 'prog-mode
+      '("!=" "->" "<=" ">=" "<<" ">>" "<<=" ">>=" "||" "&&" "!!"))
+    (global-ligature-mode t)))
 
 ;; TODO: doom-modeline seem to be causing problems in Emacs 27.1.  Errors are
 ;; being thrown when opening Python files in a Git project.
