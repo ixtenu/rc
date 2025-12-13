@@ -76,7 +76,7 @@
 
 (setq ring-bell-function 'ignore)
 
-(setq custom-file null-device) ; Custom, not even once.
+(setq custom-file (my-emacs-d-path "custom.el"))
 
 ;; Run Emacs as a server so that emacsclient will work.
 (require 'server)
