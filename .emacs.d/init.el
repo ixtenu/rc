@@ -885,6 +885,11 @@ With a prefix argument, insert a newline above the current line."
 (add-hook 'c-mode-hook #'my-c-style-from-path)
 
 
+;;;; Just:
+
+(use-package just-mode)
+
+
 ;;;; Makefile:
 
 (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-gmake-mode))
