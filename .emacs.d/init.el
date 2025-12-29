@@ -346,12 +346,12 @@
   (use-package all-the-icons-dired)
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
-(blink-cursor-mode 1)
-(setq-default cursor-type 'bar)
+(blink-cursor-mode 0)
+(setq-default cursor-type 'box)
 ;; Switch to an underbar cursor while in overwrite mode.
 (add-hook 'overwrite-mode-hook
-          (lambda ()
-            (setq cursor-type (if overwrite-mode 'hbar 'bar))))
+  (lambda ()
+    (setq cursor-type (if overwrite-mode 'hbar 'box))))
 
 ;; Distraction-free writing mode.
 (use-package writeroom-mode
