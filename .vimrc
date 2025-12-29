@@ -99,9 +99,6 @@ noremap <Leader>p "+p
 noremap <Leader>Y "*y
 noremap <Leader>P "*p
 
-" copy/paste without indentation
-set pastetoggle=<F2>
-
 " disable the mouse by default (so that it can be used with the terminal
 " emulator) but make it easy to toggle
 set mouse=
