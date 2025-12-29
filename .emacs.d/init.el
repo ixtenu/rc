@@ -664,6 +664,9 @@ With a prefix argument, insert a newline above the current line."
 ;; that change, restore the default.
 (add-hook 'markdown-mode-hook (lambda () (setq tab-width 8)))
 
+;; Don't use a different font for code.
+(custom-set-faces
+  '(markdown-code-face ((t (:inherit default)))))
 
 ;;;; Org:
 
