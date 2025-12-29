@@ -975,7 +975,7 @@ With a prefix argument, insert a newline above the current line."
     :init
     (when (executable-find "rustfmt")
       (setq rust-format-on-save t))
-    (when (my-emacs-version>= "29")
+    (when (and nil (my-emacs-version>= "29")) ; TODO: seeing errors with this...
       (setq rust-mode-treesitter-derive t)))
   (add-hook 'rust-mode-hook
     (lambda () (setq indent-tabs-mode nil))))
