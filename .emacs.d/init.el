@@ -76,10 +76,6 @@
 
 (setq ring-bell-function 'ignore)
 
-(setq custom-file (my-emacs-d-path "custom.el"))
-(when (file-exists-p custom-file)
-  (load-file custom-file))
-
 ;; Run Emacs as a server so that emacsclient will work.
 (require 'server)
 (defconst *is-first-instance* (not (server-running-p)))
@@ -997,6 +993,10 @@ With a prefix argument, insert a newline above the current line."
 (let ((local-init (my-emacs-d-path "local-init.el")))
   (when (file-exists-p local-init)
     (load-file local-init)))
+
+(setq custom-file (my-emacs-d-path "custom.el"))
+(when (file-exists-p custom-file)
+  (load-file custom-file))
 
 
 ;;;; (Hopefully) Temporary Workarounds:
