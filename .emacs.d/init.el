@@ -732,12 +732,29 @@ With a prefix argument, insert a newline above the current line."
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
+;; Language server protocol
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
+  (setq lsp-completion-provider :capf)
   :hook ((lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp)
-(use-package lsp-ui :commands lsp-ui-mode)
+  :commands (lsp lsp-deferred)
+  :config
+  (setq
+   lsp-enable-xref t
+   lsp-eldoc-enable-hover t
+   lsp-signature-auto-activate t
+   lsp-headerline-breadcrumb-enable nil)
+  (define-key lsp-mode-map (kbd "C-c <f2>") #'lsp-rename))
+
+;; Better UI for xrefs/peek docs
+(use-package lsp-ui
+  :after lsp-mode
+  :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-enable t)
+  (lsp-ui-sideline-enable t))
 
 ;; Suppress "Keep current list of tags tables also?" prompts
 (setq tags-add-tables nil)
@@ -819,6 +836,9 @@ With a prefix argument, insert a newline above the current line."
   (define-key c-mode-base-map "\C-m" 'c-context-line-break))
 
 (add-hook #'c-mode-common-hook #'my-c-mode-common-hook)
+
+(when (executable-find "clangd")
+  (add-hook #'c-mode-hook #'lsp-deferred))
 
 ;; https://www.doof.me.uk/2021/01/03/changing-emacs-c-c-align-function-to-only-apply-once-per-line/
 (defun my-c-no-align-equals-in-vardecl ()
