@@ -756,6 +756,13 @@ With a prefix argument, insert a newline above the current line."
   (lsp-ui-doc-enable t)
   (lsp-ui-sideline-enable t))
 
+;; Code completion
+(use-package company
+  :hook (prog-mode . company-mode)
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.1))
+
 ;; Suppress "Keep current list of tags tables also?" prompts
 (setq tags-add-tables nil)
 ;; Suppress "Tags file path/to/TAGS has changed, read new contents? (y or n)"
