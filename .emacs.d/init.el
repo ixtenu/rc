@@ -741,6 +741,8 @@ With a prefix argument, insert a newline above the current line."
 
 ;; Suppress "Keep current list of tags tables also?" prompts
 (setq tags-add-tables nil)
+;; Suppress "Tags file path/to/TAGS has changed, read new contents? (y or n)"
+(setq tags-revert-without-query 1)
 
 (use-package editorconfig
   :config
