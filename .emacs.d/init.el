@@ -222,11 +222,11 @@
   (my-set-fonts
     (append
       '( ;; One per line to make it easier to comment out options
+         "CaskaydiaCove Nerd Font 12"
+         "Cascadia Code 12"
          "Fixedsys Excelsior 3.01 12"
          "Fixedsys Excelsior 12"
          "Fixedsys 12"
-         "Cascadia Code 12"
-         "CaskaydiaCove Nerd Font 12"
          "GoMono Nerd Font 12"
          "Go Mono 12"
          "Iosevka 12"
