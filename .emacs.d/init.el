@@ -958,6 +958,11 @@ With a prefix argument, insert a newline above the current line."
 (add-hook 'sh-set-shell-hook (lambda () (sh-load-style "my-sh")))
 
 
+;;;; Nushell:
+
+(use-package nushell-mode)
+
+
 ;;;; Python:
 
 (when (executable-find "black")
