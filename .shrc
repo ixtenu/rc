@@ -202,18 +202,8 @@ if iscmd sam; then
 	fi
 fi
 
-[ -f "$HOME/.qed/env" ] && . "$HOME/.qed/env"
-
-# Alias helix to hx on systems which install it as helix
-if iscmd helix && ! iscmd hx; then
-	alias hx='helix'
-fi
-
 # textadept is much too long
 iscmd textadept && ! iscmd ta && alias ta='textadept'
-
-# allow running SciTE without typing uppercase letters
-iscmd SciTE && ! iscmd scite && alias scite='SciTE'
 
 # Debian/Ubuntu renamed fd to fdfind due to a naming conflict.
 if iscmd fdfind && ! iscmd fd; then
