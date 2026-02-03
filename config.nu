@@ -109,6 +109,11 @@ def --env lk [...args] {
     cd $target
 }
 
+# Run command in background
+def bg [cmd: string, ...args] {
+    job spawn { ^$cmd ...$args }
+}
+
 def grep [...args] {
     if $is_openbsd { ^grep ...$args } else { ^grep --color=auto ...$args }
 }
