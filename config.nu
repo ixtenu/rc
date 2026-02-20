@@ -114,6 +114,8 @@ def bg [cmd: string, ...args] {
     job spawn { ^$cmd ...$args }
 }
 
+alias fg = job unfreeze
+
 def grep [...args] {
     if $is_openbsd { ^grep ...$args } else { ^grep --color=auto ...$args }
 }
