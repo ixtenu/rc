@@ -741,10 +741,11 @@ With a prefix argument, insert a newline above the current line."
   :commands (lsp lsp-deferred)
   :config
   (setq
-   lsp-enable-xref t
-   lsp-eldoc-enable-hover t
-   lsp-signature-auto-activate t
-   lsp-headerline-breadcrumb-enable nil)
+    lsp-enable-xref t
+    lsp-eldoc-enable-hover t
+    lsp-signature-auto-activate t
+    lsp-headerline-breadcrumb-enable nil
+    lsp-clients-clangd-args '("--header-insertion=never"))
   (define-key lsp-mode-map (kbd "C-c <f2>") #'lsp-rename))
 
 ;; Better UI for xrefs/peek docs
