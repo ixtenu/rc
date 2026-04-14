@@ -52,6 +52,7 @@ installcmd() {
 
 installcmd X "$HOME/.Xresources"
 installcmd alacritty "$HOME/.config/alacritty/alacritty.toml"
+installcmd foot "$HOME/.config/foot/foot.ini"
 installcmd cwm "$HOME/.cwmrc"
 installcmd jwm "$HOME/.jwmrc"
 installcmd emacs "$HOME/.emacs.d"
