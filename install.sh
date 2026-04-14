@@ -21,7 +21,8 @@ installfile() {
 
 	dst="$1"
 	dir="$(dirname "$dst")"
-	src="$(basename "$dst")"
+	src="${dst#"$HOME/"}"
+	[ "$src" = "$dst" ] && src="$(basename "$dst")"
 	[ $# -gt 1 ] && src="$2"
 	src="$scriptdir"/"$src"
 	if [ ! -r "$src" ]; then
@@ -61,13 +62,13 @@ installcmd mg "$HOME/.mg"
 installcmd nano "$HOME/.config/nano/nanorc"
 installcmd dte "$HOME/.dte/rc" dterc
 installcmd nex "$HOME/.nexrc"
-installcmd nvim "$HOME/.config/nvim/ginit.vim" .gvimrc
-installcmd nvim "$HOME/.config/nvim/init.vim" .vimrc
+installcmd nvim "$HOME/.config/nvim/ginit.vim"
+installcmd nvim "$HOME/.config/nvim/init.vim"
 installcmd rofi "$HOME/.config/rofi/config.rasi"
 installcmd textadept "$HOME/.textadept"
 installcmd tmux "$HOME/.tmux.conf"
-installcmd vim "$HOME/.gvimrc"
-installcmd vim "$HOME/.vimrc"
+installcmd vim "$HOME/.gvimrc" .config/nvim/ginit.vim
+installcmd vim "$HOME/.vimrc" .config/nvim/init.vim
 installcmd sh "$HOME/.shrc"
 installcmd zsh "$HOME/.zshrc"
 installcmd ksh "$HOME/.kshrc"
@@ -82,7 +83,7 @@ if command -v sam >/dev/null 2>&1; then
 	# For other Linux/*BSD, plan9port is typically at /usr/local/plan9;
 	# assume japanoise/sam only if /usr/local/bin/sam exists.
 	if [ -d /etc/nixos ] || [ -x /usr/local/bin/sam ]; then
-		installfile "$HOME/.config/sam/samrc" .samrc
+		installfile "$HOME/.config/sam/samrc"
 	fi
 fi
 if command -v vis >/dev/null 2>&1 || command -v vise >/dev/null 2>&1; then
@@ -121,17 +122,17 @@ if [ -n "$cdrive" ] && command -v powershell.exe >/dev/null 2>&1; then
 
 	# Windows Neovim
 	if [ -d "$winhome/AppData/Local/nvim" ]; then
-		cp_if_needed .vimrc "$winhome/AppData/Local/nvim/init.vim"
-		cp_if_needed .gvimrc "$winhome/AppData/Local/nvim/ginit.vim"
+		cp_if_needed .config/nvim/init.vim "$winhome/AppData/Local/nvim/init.vim"
+		cp_if_needed .config/nvim/ginit.vim "$winhome/AppData/Local/nvim/ginit.vim"
 	fi
 	# Windows Vim
 	if [ -f "$winhome/_vimrc" ]; then
-		cp_if_needed .vimrc "$winhome/_vimrc"
-		cp_if_needed .gvimrc "$winhome/_gvimrc"
+		cp_if_needed .config/nvim/init.vim "$winhome/_vimrc"
+		cp_if_needed .config/nvim/ginit.vim "$winhome/_gvimrc"
 	fi
 	# Git Bash Vim
 	if [ -f "$winhome/.vimrc" ]; then
-		cp_if_needed .vimrc "$winhome/.vimrc"
+		cp_if_needed .config/nvim/init.vim "$winhome/.vimrc"
 	fi
 	# GNU Emacs
 	if [ -d "$winhome/.emacs.d" ]; then
@@ -145,7 +146,7 @@ if [ -n "$cdrive" ] && command -v powershell.exe >/dev/null 2>&1; then
 		# Win32 nano has spellcheck disabled; comment out that line.
 		nanorc_tmp="$(mktemp)"
 		trap 'rm -f -- "$nanorc_tmp"' EXIT
-		sed 's/^\(set speller\)/#\1/' < nanorc > "$nanorc_tmp"
+		sed 's/^\(set speller\)/#\1/' < .config/nano/nanorc > "$nanorc_tmp"
 		# Git Bash nano and okibcn/nano-for-windows read the nanorc from ~/.config,
 		# like the Unix versions.
 		cp_if_needed "$nanorc_tmp" "$winhome/.config/nano/nanorc"
