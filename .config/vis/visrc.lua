@@ -163,9 +163,9 @@ vis:operator_new("gq", function(file, range, pos)
 	local fc = vis.win.fillcolumn
 	if fc == nil or fc <= 0 then fc = vis.win.options.colorcolumn end
 	if fc == nil or fc <= 0 then fc = 80 end
-	-- fmts is a fmt(1) wrapper script that knows about comments, lists, etc.
-	-- see: https://github.com/ixtenu/script/blob/master/fmts
-	local status, out, err = vis:pipe(file, range, "fmts -w" .. fc)
+	-- fp is like fmt(1) but better: it knows about comments, lists, etc.
+	-- see: https://github.com/ixtenu/fp
+	local status, out, err = vis:pipe(file, range, "fp -w" .. fc)
 	if status ~= 0 then
 		vis:info(err)
 	else
