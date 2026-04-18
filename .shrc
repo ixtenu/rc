@@ -46,6 +46,9 @@ for e in dte nano-wrapper nano $vis_exe nvim vim vi mg jmacs godit; do
 	fi
 done
 
+# Short-hand for the default editor
+alias e="$VISUAL"
+
 if iscmd fzf; then
 	fzp() {
 		if [ $# -lt 1 ]; then
