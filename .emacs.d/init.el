@@ -688,31 +688,74 @@ Returns the offset past the last character when N >= (length WV)."
           (when ss (setq offset (+ offset 1))))))  ; newline between lines
     offset))
 
+(defun my-kp-comment-line-p ()
+  "Return non-nil if this line begins with a comment.
+Checks `comment-start-skip' first, which correctly identifies comment
+openers (e.g. `// ...' or `;; ...') even though `syntax-ppss' at the
+delimiter characters themselves does not yet report being in a comment.
+Falls back to `syntax-ppss' for block-comment continuation lines
+\(e.g. ` * ...') where the first non-whitespace char is already inside
+an open comment and `comment-start-skip' does not match."
+  (save-excursion
+    (beginning-of-line)
+    (skip-chars-forward " \t")
+    (and (not (eolp))
+      (or (and comment-start-skip (looking-at comment-start-skip))
+        (nth 4 (syntax-ppss))))))
+
+(defun my-kp-prog-clamp-bounds (start end)
+  "In `prog-mode', shrink START..END to lines matching point's comment status.
+Prevents comment lines and code lines from being merged.  Returns a
+\(NEW-START . NEW-END) cons.  Outside `prog-mode' returns (START . END)."
+  (if (not (derived-mode-p 'prog-mode))
+    (cons start end)
+    (let ((target (my-kp-comment-line-p)))
+      ;; Walk start forward past lines that don't match.
+      (save-excursion
+        (goto-char start)
+        (while (and (< (line-end-position) end)
+                 (not (eq (my-kp-comment-line-p) target)))
+          (forward-line 1))
+        (setq start (line-beginning-position)))
+      ;; Walk end backward past lines that don't match.
+      (save-excursion
+        (goto-char end)
+        (beginning-of-line)
+        (while (and (> (point) start)
+                 (not (eq (my-kp-comment-line-p) target)))
+          (forward-line -1))
+        (setq end (line-end-position)))
+      (cons start end))))
+
 (defun my-fill-paragraph-kp (&optional _justify)
   "Fill the paragraph at point using the Knuth-Plass algorithm.
 Unlike \\[fill-paragraph] (greedy), this minimises total squared slack
 across all non-final lines.  The last line is never penalised for being
 short.  Wide characters (CJK etc.) count as 2 columns via `string-width'.
-Respects `sentence-end-double-space'.
+Respects `sentence-end-double-space'.  In `prog-mode', comment lines and
+code lines are never merged.
 
 Bound to \\[my-fill-paragraph-kp]."
   (interactive "P")
-  (let* ((orig   (point))
-          (start  (save-excursion
-                    (backward-paragraph 1)
-                    (skip-chars-forward " \t\n")
-                    (line-beginning-position)))
-          (end    (save-excursion
-                    (forward-paragraph 1)
-                    (skip-chars-backward " \t\n")
-                    (point)))
-          (prefix (or fill-prefix
-                    (and adaptive-fill-mode
-                      (let ((p (fill-context-prefix start end)))
-                        (and (stringp p) p)))
-                    ""))
-          (max-w  (max 1 (- fill-column (string-width prefix))))
-          (words  (my-kp-words-in-region start end prefix)))
+  (let* ((orig      (point))
+          (raw-start (save-excursion
+                       (backward-paragraph 1)
+                       (skip-chars-forward " \t\n")
+                       (line-beginning-position)))
+          (raw-end   (save-excursion
+                       (forward-paragraph 1)
+                       (skip-chars-backward " \t\n")
+                       (point)))
+          (bounds    (my-kp-prog-clamp-bounds raw-start raw-end))
+          (start     (car bounds))
+          (end       (cdr bounds))
+          (prefix    (or fill-prefix
+                       (and adaptive-fill-mode
+                         (let ((p (fill-context-prefix start end)))
+                           (and (stringp p) p)))
+                       ""))
+          (max-w     (max 1 (- fill-column (string-width prefix))))
+          (words     (my-kp-words-in-region start end prefix)))
     (when words
       (let* ((widths (vconcat (mapcar #'string-width words)))
               (gaps   (my-kp-compute-gaps words))
