@@ -539,6 +539,163 @@
   (add-hook 'org-mode-hook
     (lambda () (local-set-key (kbd "C-c Q") #'aggressive-fill-paragraph-mode))))
 
+;; Optimal (non-greedy) paragraph filler bound to M-j.
+;; Uses the Knuth-Plass DP algorithm: cost of a non-final line with s spare
+;; columns is s².  The last line is never penalised.
+;; Wide characters (e.g., CJK) count as 2 columns via `string-width'.
+;; Respects `sentence-end-double-space'.
+
+(defconst my-kp-abbreviations
+  '("Mr." "Ms." "Mrs." "Dr." "Prof." "St." "vs." "approx."
+     "fig." "Fig." "vol." "Vol." "e.g." "i.e." "viz.")
+  "English abbreviations ending with `.' that do not end a sentence.")
+
+(defun my-kp-sentence-end-p (word)
+  "Return non-nil if WORD ends a sentence.
+Strips trailing `\"', `'', `)', and `]' to find the base word, then
+returns nil if the base is in `my-kp-abbreviations', and otherwise
+returns non-nil when the base ends with `.', `?', or `!'."
+  (let ((i (1- (length word))))
+    (while (and (>= i 0) (memq (aref word i) '(?\" ?' ?\) ?\])))
+      (setq i (1- i)))
+    (when (>= i 0)
+      (let ((base (substring word 0 (1+ i))))
+        (and (memq (aref base (1- (length base))) '(?. ?? ?!))
+          (not (member base my-kp-abbreviations)))))))
+
+(defun my-kp-compute-gaps (words)
+  "Return a vector of inter-word gap widths for WORDS.
+Each gap is 1, except that when `sentence-end-double-space' is non-nil
+a gap following a sentence-ending word (see `my-kp-sentence-end-p') is 2.
+The vector has length (max 0 (1- (length WORDS)))."
+  (let* ((n  (length words))
+          (gv (make-vector (max 0 (1- n)) 1)))
+    (when sentence-end-double-space
+      (let ((wv (vconcat words))
+             (i  0))
+        (while (< i (1- n))
+          (when (my-kp-sentence-end-p (aref wv i))
+            (aset gv i 2))
+          (setq i (1+ i)))))
+    gv))
+
+(defun my-kp-compute-breaks (words widths gaps max-width)
+  "Return optimal line-break positions for WORDS at MAX-WIDTH columns.
+WIDTHS is a vector of per-word column counts (via `string-width').
+GAPS is a vector of inter-word spacings (typically 1 or 2).
+Non-final lines are penalised by the square of their slack; the final
+line incurs no penalty.  A word wider than MAX-WIDTH is forced onto its
+own line without penalty.  Returns a sorted list of 0-indexed word
+positions where new lines begin (the break before word 0 is implicit)."
+  (let* ((n    (length words))
+          (dp   (make-vector (1+ n) most-positive-fixnum))
+          (prev (make-vector (1+ n) 0)))
+    (aset dp 0 0)
+    (let ((i 0))
+      (while (< i n)
+        (when (< (aref dp i) most-positive-fixnum)
+          (let ((j i) (w 0) (stop nil))
+            (while (and (< j n) (not stop))
+              ;; Accumulate width: word widths + inter-word gaps.
+              ;; gaps[j-1] is the space between word j-1 and word j.
+              (setq w (if (= j i)
+                        (aref widths j)
+                        (+ w (aref gaps (1- j)) (aref widths j))))
+              (cond
+                ;; Words i..j fit on one line.
+                ((<= w max-width)
+                  (let* ((slack   (- max-width w))
+                          (penalty (if (= j (1- n)) 0 (* slack slack)))
+                          (cost    (+ (aref dp i) penalty)))
+                    (when (< cost (aref dp (1+ j)))
+                      (aset dp (1+ j) cost)
+                      (aset prev (1+ j) i)))
+                  (setq j (1+ j)))
+                ;; Single word wider than max-width: force it alone.
+                ((= j i)
+                  (when (< (aref dp i) (aref dp (1+ j)))
+                    (aset dp (1+ j) (aref dp i))
+                    (aset prev (1+ j) i))
+                  (setq stop t))
+                ;; Multiple words overflow: stop extending this line.
+                (t (setq stop t))))))
+        (setq i (1+ i))))
+    ;; Trace prev[] backwards to reconstruct line-start positions.
+    (let (breaks (pos n))
+      (while (> pos 0)
+        (let ((p (aref prev pos)))
+          (when (> p 0) (push p breaks))
+          (setq pos p)))
+      breaks)))
+
+(defun my-kp-words-in-region (start end prefix)
+  "Collect words from START..END, stripping PREFIX from each line start."
+  (let ((plen (length prefix)) words)
+    (dolist (line (split-string (buffer-substring-no-properties start end) "\n"))
+      (let* ((stripped (if (and (> plen 0) (string-prefix-p prefix line))
+                         (substring line plen) line))
+              (trimmed  (string-trim stripped)))
+        (unless (string-empty-p trimmed)
+          (dolist (w (split-string trimmed nil t))
+            (push w words)))))
+    (nreverse words)))
+
+(defun my-kp-join-lines (words gaps breaks prefix)
+  "Assemble WORDS into newline-separated lines each prefixed with PREFIX.
+GAPS is a vector of inter-word spacings.
+BREAKS is a sorted list of 0-indexed positions where new lines begin."
+  (let* ((wv (vconcat words))
+          (n  (length words))
+          (ss (cons 0 breaks))
+          (es (append breaks (list n)))
+          lines)
+    (while ss
+      (let ((s (pop ss)) (e (pop es)) parts)
+        (let ((k s))
+          (while (< k e)
+            (push (aref wv k) parts)
+            (when (< k (1- e))
+              (push (make-string (aref gaps k) ?\s) parts))
+            (setq k (1+ k))))
+        (push (concat prefix (mapconcat #'identity (nreverse parts) "")) lines)))
+    (mapconcat #'identity (nreverse lines) "\n")))
+
+(defun my-fill-paragraph-kp (&optional _justify)
+  "Fill the paragraph at point using the Knuth-Plass algorithm.
+Unlike \\[fill-paragraph] (greedy), this minimises total squared slack
+across all non-final lines.  The last line is never penalised for being
+short.  Wide characters (CJK etc.) count as 2 columns via `string-width'.
+Respects `sentence-end-double-space'.
+
+Bound to \\[my-fill-paragraph-kp]."
+  (interactive "P")
+  (save-excursion
+    (let* ((start  (save-excursion
+                     (backward-paragraph 1)
+                     (skip-chars-forward " \t\n")
+                     (point)))
+            (end    (save-excursion
+                      (forward-paragraph 1)
+                      (skip-chars-backward " \t\n")
+                      (point)))
+            (prefix (or fill-prefix
+                      (and adaptive-fill-mode
+                        (let ((p (fill-context-prefix start end)))
+                          (and (stringp p) p)))
+                      ""))
+            (max-w  (max 1 (- fill-column (string-width prefix))))
+            (words  (my-kp-words-in-region start end prefix)))
+      (when words
+        (let* ((widths (vconcat (mapcar #'string-width words)))
+                (gaps   (my-kp-compute-gaps words))
+                (breaks (my-kp-compute-breaks words widths gaps max-w))
+                (text   (my-kp-join-lines words gaps breaks prefix)))
+          (goto-char start)
+          (delete-region start end)
+          (insert text))))))
+
+(global-set-key (kbd "M-j") #'my-fill-paragraph-kp)
+
 ;; https://stackoverflow.com/a/207067
 (defun my-generalized-shell-command (command arg)
   "Unifies `shell-command' and `shell-command-on-region'.  If no region is
