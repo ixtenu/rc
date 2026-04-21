@@ -660,6 +660,34 @@ BREAKS is a sorted list of 0-indexed positions where new lines begin."
         (push (concat prefix (mapconcat #'identity (nreverse parts) "")) lines)))
     (mapconcat #'identity (nreverse lines) "\n")))
 
+(defun my-kp-word-offset (wv gaps breaks prefix n)
+  "Return byte offset in `my-kp-join-lines' output just before word N.
+WV is a vector of word strings, GAPS a gap-width vector, BREAKS the
+line-start index list, PREFIX the per-line prefix string.
+Returns the offset past the last character when N >= (length WV)."
+  (let* ((total (length wv))
+          (plen  (length prefix))
+          (ss    (cons 0 breaks))
+          (es    (append breaks (list total)))
+          (offset 0)
+          (word-idx 0)
+          done)
+    (while (and ss (not done))
+      (let ((s (pop ss)) (e (pop es)))
+        (setq offset (+ offset plen))
+        (let ((k s))
+          (while (and (< k e) (not done))
+            (when (= word-idx n) (setq done t))
+            (unless done
+              (setq offset (+ offset (length (aref wv k))))
+              (when (< k (1- e))
+                (setq offset (+ offset (aref gaps k))))
+              (setq word-idx (1+ word-idx))
+              (setq k (1+ k)))))
+        (unless done
+          (when ss (setq offset (+ offset 1))))))  ; newline between lines
+    offset))
+
 (defun my-fill-paragraph-kp (&optional _justify)
   "Fill the paragraph at point using the Knuth-Plass algorithm.
 Unlike \\[fill-paragraph] (greedy), this minimises total squared slack
@@ -669,30 +697,41 @@ Respects `sentence-end-double-space'.
 
 Bound to \\[my-fill-paragraph-kp]."
   (interactive "P")
-  (save-excursion
-    (let* ((start  (save-excursion
-                     (backward-paragraph 1)
-                     (skip-chars-forward " \t\n")
-                     (point)))
-            (end    (save-excursion
-                      (forward-paragraph 1)
-                      (skip-chars-backward " \t\n")
-                      (point)))
-            (prefix (or fill-prefix
-                      (and adaptive-fill-mode
-                        (let ((p (fill-context-prefix start end)))
-                          (and (stringp p) p)))
-                      ""))
-            (max-w  (max 1 (- fill-column (string-width prefix))))
-            (words  (my-kp-words-in-region start end prefix)))
-      (when words
-        (let* ((widths (vconcat (mapcar #'string-width words)))
-                (gaps   (my-kp-compute-gaps words))
-                (breaks (my-kp-compute-breaks words widths gaps max-w))
-                (text   (my-kp-join-lines words gaps breaks prefix)))
-          (goto-char start)
-          (delete-region start end)
-          (insert text))))))
+  (let* ((orig   (point))
+          (start  (save-excursion
+                    (backward-paragraph 1)
+                    (skip-chars-forward " \t\n")
+                    (point)))
+          (end    (save-excursion
+                    (forward-paragraph 1)
+                    (skip-chars-backward " \t\n")
+                    (point)))
+          (prefix (or fill-prefix
+                    (and adaptive-fill-mode
+                      (let ((p (fill-context-prefix start end)))
+                        (and (stringp p) p)))
+                    ""))
+          (max-w  (max 1 (- fill-column (string-width prefix))))
+          (words  (my-kp-words-in-region start end prefix)))
+    (when words
+      (let* ((widths (vconcat (mapcar #'string-width words)))
+              (gaps   (my-kp-compute-gaps words))
+              (breaks (my-kp-compute-breaks words widths gaps max-w))
+              (text   (my-kp-join-lines words gaps breaks prefix))
+              (in-par (and (>= orig start) (<= orig end)))
+              (n-bef  (when in-par
+                        (length (my-kp-words-in-region start orig prefix)))))
+        (if in-par
+          (progn
+            (goto-char start)
+            (delete-region start end)
+            (insert text)
+            (goto-char (+ start (my-kp-word-offset
+                                  (vconcat words) gaps breaks prefix n-bef))))
+          (save-excursion
+            (goto-char start)
+            (delete-region start end)
+            (insert text)))))))
 
 (global-set-key (kbd "M-j") #'my-fill-paragraph-kp)
 
