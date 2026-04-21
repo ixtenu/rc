@@ -701,7 +701,7 @@ Bound to \\[my-fill-paragraph-kp]."
           (start  (save-excursion
                     (backward-paragraph 1)
                     (skip-chars-forward " \t\n")
-                    (point)))
+                    (line-beginning-position)))
           (end    (save-excursion
                     (forward-paragraph 1)
                     (skip-chars-backward " \t\n")
