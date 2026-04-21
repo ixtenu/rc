@@ -704,28 +704,33 @@ an open comment and `comment-start-skip' does not match."
         (nth 4 (syntax-ppss))))))
 
 (defun my-kp-prog-clamp-bounds (start end)
-  "In `prog-mode', shrink START..END to lines matching point's comment status.
-Prevents comment lines and code lines from being merged.  Returns a
-\(NEW-START . NEW-END) cons.  Outside `prog-mode' returns (START . END)."
+  "In `prog-mode', shrink START..END to the contiguous block of lines
+matching point's comment status.  Starts from the line at point and
+expands outward, stopping when the adjacent line no longer matches.
+Returns a (NEW-START . NEW-END) cons.  Outside `prog-mode' returns
+\(START . END)."
   (if (not (derived-mode-p 'prog-mode))
     (cons start end)
     (let ((target (my-kp-comment-line-p)))
-      ;; Walk start forward past lines that don't match.
-      (save-excursion
-        (goto-char start)
-        (while (and (< (line-end-position) end)
-                 (not (eq (my-kp-comment-line-p) target)))
-          (forward-line 1))
-        (setq start (line-beginning-position)))
-      ;; Walk end backward past lines that don't match.
-      (save-excursion
-        (goto-char end)
-        (beginning-of-line)
-        (while (and (> (point) start)
-                 (not (eq (my-kp-comment-line-p) target)))
-          (forward-line -1))
-        (setq end (line-end-position)))
-      (cons start end))))
+      (cons
+        ;; Walk backward while the previous line also matches.
+        (save-excursion
+          (beginning-of-line)
+          (while (and (> (point) start)
+                   (save-excursion
+                     (forward-line -1)
+                     (eq (my-kp-comment-line-p) target)))
+            (forward-line -1))
+          (line-beginning-position))
+        ;; Walk forward while the next line also matches.
+        (save-excursion
+          (beginning-of-line)
+          (while (and (< (line-end-position) end)
+                   (save-excursion
+                     (forward-line 1)
+                     (eq (my-kp-comment-line-p) target)))
+            (forward-line 1))
+          (line-end-position))))))
 
 (defun my-fill-paragraph-kp (&optional _justify)
   "Fill the paragraph at point using the Knuth-Plass algorithm.
