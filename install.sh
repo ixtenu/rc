@@ -61,6 +61,8 @@ installcmd jmacs "$HOME/.jmacsrc"
 installcmd joe "$HOME/.joerc"
 installcmd mg "$HOME/.mg"
 installcmd nano "$HOME/.config/nano/nanorc"
+installcmd micro "$HOME/.config/micro/bindings.json"
+installcmd micro "$HOME/.config/micro/settings.json"
 installcmd dte "$HOME/.dte/rc" dterc
 installcmd nex "$HOME/.nexrc"
 installcmd nvim "$HOME/.config/nvim/ginit.vim"
@@ -155,6 +157,10 @@ if [ -n "$cdrive" ] && command -v powershell.exe >/dev/null 2>&1; then
 		# (unprivileged) or %ALLUSERSPROFILE%\.nanorc (privileged)
 		cp_if_needed "$nanorc_tmp" "$winhome/.nanorc"
 		cp_if_needed "$nanorc_tmp" "$cdrive/ProgramData/.nanorc"
+	fi
+	# micro
+	if command -v micro.exe >/dev/null 2>&1; then
+		cpr_if_needed .config/micro "$winhome/.config/micro"
 	fi
 	# Textadept
 	if command -v textadept.exe >/dev/null 2>&1; then

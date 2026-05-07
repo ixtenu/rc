@@ -1,0 +1,33 @@
+{
+    "autoclose": false,
+    "basename": true,
+    "hltaberrors": true,
+    "hltrailingws": true,
+    "mkparents": true,
+    "reload": "auto",
+    "rmtrailingws": true,
+    "savecursor": true,
+    "softwrap": true,
+    "tabmovement": true,
+    "tabsize": 8,
+    "wordwrap": true,
+    "ft:git-commit": {
+        "colorcolumn": 72,
+    },
+    "ft:meson": {
+        "tabsize": 2,
+        "tabstospaces": true,
+    },
+    "ft:nix": {
+        "tabsize": 2,
+        "tabstospaces": true,
+    },
+    "ft:rust": {
+        "tabsize": 4,
+        "tabstospaces": true,
+    },
+    "ft:zig": {
+        "tabsize": 4,
+        "tabstospaces": true,
+    },
+}

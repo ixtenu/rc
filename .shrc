@@ -196,6 +196,8 @@ if iscmd nano; then
 	! iscmd na && alias na='nano'
 fi
 
+iscmd micro && alias m='micro'
+
 if iscmd sam; then
 	# sam-wrapper isn't meant for plan9port sam.
 	if [ -z "$PLAN9" ] || [ "$(which sam)" != "$PLAN9/bin/sam" ]; then

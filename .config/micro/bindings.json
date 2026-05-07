@@ -1,0 +1,12 @@
+{
+    "Alt-/": "lua:comment.comment",
+    "Alt-\\": "command-edit:textfilter ",
+    "Alt-h": "command:hsplit",
+    "Alt-j": "lua:joinLines.joinLines",
+    "Alt-o": "command:fzf",
+    "Alt-q": "command-edit:textfilter fp ",
+    "Alt-v": "command:vsplit",
+    "CtrlUnderscore": "lua:comment.comment",
+    "F4": "command:jumptag",
+    "F6": "command-edit:gorename "
+}
