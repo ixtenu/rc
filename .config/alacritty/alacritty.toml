@@ -13,3 +13,8 @@ hide_when_typing = true
 action = "ToggleFullscreen"
 key = "F11"
 mods = "Control|Shift"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"
